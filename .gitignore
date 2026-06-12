@@ -1,0 +1,55 @@
+# Secrets & credentials — NEVER commit
+.env
+.env.*
+*.env
+credentials.json
+~/.memwal/
+memwal_credentials.json
+private_key.txt
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Walrus / memwal
+.memwal/
+
+# Sui keys & wallets
+sui.keystore
+sui_config/
+*.keystore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Node / MCP
+node_modules/
+.npm/
+*.log
+npm-debug.log*
+
+# Outputs & logs
+logs/
+*.log
+agent_outputs/
+*_report.md
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
