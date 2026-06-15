@@ -1,0 +1,25 @@
+{
+  "name": "exp-sui-walrus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milan2307/exp-sui-walrus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/milan2307/exp-sui-walrus/issues"
+  },
+  "homepage": "https://github.com/milan2307/exp-sui-walrus#readme",
+  "dependencies": {
+    "@mysten-incubation/memwal": "^0.0.7",
+    "dotenv": "^17.4.2"
+  }
+}
