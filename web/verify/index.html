@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TradeProof Verify — LogiOracle</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --ink: #17191d;
+      --muted: #667085;
+      --line: #d9dee7;
+      --blue: #1f5eff;
+      --green: #087443;
+      --green-bg: #ecfdf5;
+      --green-border: #6ce9a6;
+      --red: #b42318;
+      --red-bg: #fff4f2;
+      --red-border: #fda29b;
+      --yellow: #b54708;
+      --yellow-bg: #fffaeb;
+      --shadow: 0 12px 28px rgba(20,30,48,.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    .header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+    }
+    .header-inner {
+      width: min(860px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: var(--blue);
+      border-radius: 8px;
+      display: grid; place-items: center;
+      color: #fff; font-weight: 800; font-size: 15px;
+    }
+    .logo-text { font-weight: 700; font-size: 17px; }
+    .logo-sub { font-size: 13px; color: var(--muted); margin-top: 1px; }
+    .chain-badge {
+      font-size: 12px; font-weight: 600;
+      color: var(--green);
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      padding: 4px 10px; border-radius: 20px;
+    }
+
+    /* ── Main ── */
+    .main {
+      width: min(860px, calc(100% - 32px));
+      margin: 40px auto 80px;
+    }
+
+    /* ── Search ── */
+    .search-wrap {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 32px;
+    }
+    .search-label {
+      display: block;
+      font-size: 13px; font-weight: 700;
+      color: var(--muted); text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .search-row { display: flex; gap: 10px; }
+    .search-input {
+      flex: 1;
+      height: 44px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font: inherit; font-size: 14px;
+      color: var(--ink);
+      background: var(--bg);
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--blue); }
+    .search-btn {
+      height: 44px; padding: 0 20px;
+      background: var(--blue); color: #fff;
+      border: none; border-radius: 7px;
+      font: inherit; font-size: 14px; font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .search-btn:hover { opacity: .9; }
+    .search-hint { font-size: 12px; color: var(--muted); margin-top: 9px; }
+
+    /* ── Status banner ── */
+    .banner {
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .banner.verified { background: var(--green-bg); border: 1px solid var(--green-border); }
+    .banner.failed   { background: var(--red-bg);   border: 1px solid var(--red-border);   }
+    .banner.loading  { background: var(--panel);    border: 1px solid var(--line);          }
+    .banner-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
+    .banner-title { font-size: 18px; font-weight: 700; }
+    .banner.verified .banner-title { color: var(--green); }
+    .banner.failed   .banner-title { color: var(--red); }
+    .banner-sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+    /* ── Card grid ── */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px; font-weight: 700;
+      color: var(--muted); text-transform: uppercase;
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0;
+    }
+    .field {
+      padding: 16px 20px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .field:last-child, .field-grid > .field:nth-child(even) { border-right: none; }
+    .field-label {
+      font-size: 11px; font-weight: 700;
+      color: var(--muted); text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .field-value {
+      font-size: 14px; font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+    .field-value.mono {
+      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-size: 12px; font-weight: 400;
+    }
+    .field-value.link a { display: block; overflow-wrap: anywhere; }
+
+    /* Status pill */
+    .pill {
+      display: inline-block;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 12px; font-weight: 700;
+    }
+    .pill.DELIVERED  { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .pill.IN_TRANSIT { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #fec84b; }
+    .pill.CREATED    { background: #eff4ff; color: var(--blue); border: 1px solid #a4bcfd; }
+
+    /* Hash match row */
+    .hash-row {
+      padding: 16px 20px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .hash-check { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .hash-label { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .hash-detail { font-size: 12px; color: var(--muted); font-family: "Cascadia Mono", Consolas, monospace; overflow-wrap: anywhere; }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 40px;
+    }
+
+    /* Loading spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 22px; height: 22px;
+      border: 3px solid var(--line);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    #result { display: none; }
+    #searchBox { display: block; }
+
+    @media (max-width: 600px) {
+      .field-grid { grid-template-columns: 1fr; }
+      .field { border-right: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">L</div>
+      <div>
+        <div class="logo-text">LogiOracle</div>
+        <div class="logo-sub">TradeProof Verifier</div>
+      </div>
+    </div>
+    <span class="chain-badge">Sui Testnet</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="search-wrap" id="searchBox">
+    <label class="search-label" for="objectInput">Shipment Proof Object ID</label>
+    <div class="search-row">
+      <input
+        id="objectInput"
+        class="search-input"
+        type="text"
+        placeholder="0x…"
+        spellcheck="false"
+      />
+      <button class="search-btn" onclick="verify()">Verify</button>
+    </div>
+    <p class="search-hint">
+      Enter a Sui object ID to verify the on-chain trade proof and Walrus evidence.
+    </p>
+  </div>
+
+  <div id="result">
+    <div class="banner loading" id="banner">
+      <div class="spinner"></div>
+      <div>
+        <div class="banner-title">Verifying proof…</div>
+        <div class="banner-sub">Fetching from Sui testnet and Walrus</div>
+      </div>
+    </div>
+
+    <div class="card" id="shipmentCard" style="display:none">
+      <div class="card-head">Shipment Details</div>
+      <div class="field-grid">
+        <div class="field">
+          <div class="field-label">Shipment ID</div>
+          <div class="field-value" id="fShipmentId">—</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Status</div>
+          <div class="field-value" id="fStatus">—</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Origin</div>
+          <div class="field-value" id="fOrigin">—</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Destination</div>
+          <div class="field-value" id="fDestination">—</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Proof Type</div>
+          <div class="field-value" id="fProofType">—</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Owner</div>
+          <div class="field-value mono" id="fOwner">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="evidenceCard" style="display:none">
+      <div class="card-head">Evidence &amp; Storage</div>
+      <div class="field-grid">
+        <div class="field">
+          <div class="field-label">Walrus Blob ID</div>
+          <div class="field-value mono" id="fBlobId">—</div>
+        </div>
+        <div class="field">
+          <div class="field-label">On-chain Evidence Hash</div>
+          <div class="field-value mono" id="fEvidenceHash">—</div>
+        </div>
+      </div>
+      <div class="hash-row" id="hashRow" style="display:none">
+        <div class="hash-check" id="hashIcon">⏳</div>
+        <div>
+          <div class="hash-label" id="hashLabel">Checking Walrus blob…</div>
+          <div class="hash-detail" id="hashDetail"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="chainCard" style="display:none">
+      <div class="card-head">On-chain Record</div>
+      <div class="field-grid">
+        <div class="field">
+          <div class="field-label">Object ID</div>
+          <div class="field-value link mono" id="fObjectId">—</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Package</div>
+          <div class="field-value link mono" id="fPackageId">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  LogiOracle · TradeProof v0.1 · Powered by Sui + Walrus
+</footer>
+
+<script type="module">
+  const SUI_RPC = "https://fullnode.testnet.sui.io:443";
+  const WALRUS_AGGREGATOR = "https://aggregator.walrus-testnet.walrus.space";
+  const EXPLORER_BASE = "https://testnet.suivision.xyz";
+
+  const params = new URLSearchParams(location.search);
+  const objectParam = params.get("object");
+  if (objectParam) {
+    document.querySelector("#objectInput").value = objectParam;
+    document.querySelector("#searchBox").style.display = "none";
+    document.querySelector("#result").style.display = "block";
+    run(objectParam);
+  }
+
+  window.verify = function () {
+    const id = document.querySelector("#objectInput").value.trim();
+    if (!id) return;
+    const url = new URL(location.href);
+    url.searchParams.set("object", id);
+    history.pushState({}, "", url);
+    document.querySelector("#searchBox").style.display = "none";
+    document.querySelector("#result").style.display = "block";
+    run(id);
+  };
+
+  document.querySelector("#objectInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") window.verify();
+  });
+
+  async function suiGetObject(id) {
+    const res = await fetch(SUI_RPC, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0", id: 1,
+        method: "sui_getObject",
+        params: [id, { showContent: true, showOwner: true }],
+      }),
+    });
+    if (!res.ok) throw new Error(`Sui RPC error: ${res.status}`);
+    const json = await res.json();
+    if (json.error) throw new Error(json.error.message ?? JSON.stringify(json.error));
+    return json.result;
+  }
+
+  async function sha256hex(arrayBuffer) {
+    const digest = await crypto.subtle.digest("SHA-256", arrayBuffer);
+    return Array.from(new Uint8Array(digest))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  function setBanner(type, icon, title, sub) {
+    const el = document.querySelector("#banner");
+    el.className = `banner ${type}`;
+    el.innerHTML = `<div class="banner-icon">${icon}</div><div><div class="banner-title">${title}</div><div class="banner-sub">${sub}</div></div>`;
+  }
+
+  function explorerObjectUrl(id) {
+    return `${EXPLORER_BASE}/object/${id}`;
+  }
+
+  function explorerPackageUrl(id) {
+    return `${EXPLORER_BASE}/package/${id}`;
+  }
+
+  function elText(id, value) {
+    document.querySelector(id).textContent = value || "—";
+  }
+
+  function elHtml(id, html) {
+    document.querySelector(id).innerHTML = html;
+  }
+
+  function statusPill(status) {
+    return `<span class="pill ${status}">${status}</span>`;
+  }
+
+  async function run(objectId) {
+    setBanner("loading",
+      `<div class="spinner"></div>`,
+      "Verifying proof…",
+      "Fetching from Sui testnet and Walrus");
+
+    try {
+      // 1 — fetch Sui object
+      const result = await suiGetObject(objectId);
+      if (!result?.data) throw new Error("Object not found on Sui testnet");
+
+      const content = result.data?.content;
+      if (!content?.fields) throw new Error("Object found but has no content fields — it may not be a Shipment");
+
+      const f = content.fields;
+      const packageId = content.type?.split("::")[0] ?? "—";
+
+      // Show shipment card
+      elText("#fShipmentId", f.shipment_id);
+      elHtml("#fStatus", statusPill(f.status));
+      elText("#fOrigin", f.origin);
+      elText("#fDestination", f.destination);
+      elText("#fProofType", f.proof_type);
+      elText("#fOwner", f.owner);
+      document.querySelector("#shipmentCard").style.display = "block";
+
+      // Show evidence card
+      elText("#fBlobId", f.walrus_blob_id);
+      elText("#fEvidenceHash", f.evidence_hash);
+      document.querySelector("#evidenceCard").style.display = "block";
+
+      // Show chain card
+      const objUrl = explorerObjectUrl(objectId);
+      const pkgUrl = explorerPackageUrl(packageId);
+      elHtml("#fObjectId", `<a href="${objUrl}" target="_blank" rel="noopener">${objectId}</a>`);
+      elHtml("#fPackageId", `<a href="${pkgUrl}" target="_blank" rel="noopener">${packageId}</a>`);
+      document.querySelector("#chainCard").style.display = "block";
+
+      // 2 — verify Walrus blob hash
+      const hashRow = document.querySelector("#hashRow");
+      hashRow.style.display = "flex";
+      document.querySelector("#hashLabel").textContent = "Fetching evidence from Walrus…";
+
+      const blobId = f.walrus_blob_id;
+      const onChainHash = (f.evidence_hash ?? "").replace(/^sha256:/, "");
+
+      let hashMatch = null;
+      let computedHash = null;
+
+      if (blobId && blobId !== "pending-walrus-upload" && !blobId.startsWith("pending")) {
+        try {
+          const walrusRes = await fetch(`${WALRUS_AGGREGATOR}/v1/blobs/${encodeURIComponent(blobId)}`);
+          if (!walrusRes.ok) throw new Error(`Walrus returned ${walrusRes.status}`);
+          const bytes = await walrusRes.arrayBuffer();
+          computedHash = await sha256hex(bytes);
+          hashMatch = computedHash === onChainHash;
+        } catch (walrusErr) {
+          document.querySelector("#hashIcon").textContent = "⚠️";
+          document.querySelector("#hashLabel").textContent = "Could not fetch Walrus blob";
+          document.querySelector("#hashDetail").textContent = walrusErr.message;
+        }
+      } else {
+        document.querySelector("#hashIcon").textContent = "⚠️";
+        document.querySelector("#hashLabel").textContent = "No Walrus blob uploaded yet";
+        document.querySelector("#hashDetail").textContent = `blob_id: ${blobId || "none"}`;
+      }
+
+      if (hashMatch === true) {
+        document.querySelector("#hashIcon").textContent = "✅";
+        document.querySelector("#hashLabel").textContent = "Evidence hash matches on-chain record";
+        document.querySelector("#hashDetail").textContent = `sha256:${computedHash}`;
+        setBanner("verified", "✅",
+          "Proof Verified",
+          `Shipment ${f.shipment_id} · ${f.origin} → ${f.destination} · Evidence hash confirmed on Sui Testnet`);
+      } else if (hashMatch === false) {
+        document.querySelector("#hashIcon").textContent = "❌";
+        document.querySelector("#hashLabel").textContent = "Hash mismatch — evidence may have been altered";
+        document.querySelector("#hashDetail").textContent = `expected: sha256:${onChainHash}\ncomputed: sha256:${computedHash}`;
+        setBanner("failed", "❌",
+          "Hash Mismatch",
+          "The Walrus blob does not match the on-chain evidence hash.");
+      } else {
+        // Walrus check skipped but Sui object is valid
+        setBanner("verified", "✓",
+          "On-chain Record Found",
+          `Shipment ${f.shipment_id} is recorded on Sui Testnet. Walrus evidence check skipped.`);
+      }
+
+    } catch (err) {
+      setBanner("failed", "❌", "Verification Failed", err.message);
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -2,8 +2,19 @@
 
 Generated at: 2026-06-16
 
+## Testnet Deploy
+
+**Published to Sui Testnet — 2026-06-16**
+
+```text
+PackageID: 0x00cd2e5357027bc9e1210c790f842503c2eda56e5237bf046698e176a1bc7f61
+Tx Digest: 83PsGZMKS8r6HYgejkutqNw45Camg67CBmH8H6AdyXp5
+Publisher: 0xedc98afbb6a8bc2aa8197e76d37d0da2f30df2244741756cf1782ba3bc2d7305
+Explorer: https://testnet.suivision.xyz/package/0x00cd2e5357027bc9e1210c790f842503c2eda56e5237bf046698e176a1bc7f61
+```
+
 ## State
-LogiOracle now has a working TradeProof v0.1 harness: a Sui Move proof object, tested lifecycle updates, tested evidence-reference replacement, a repo-level `npm test` gate, an offline-first evidence/hash generator, and a verified live MemWal upload path.
+LogiOracle is deployed on Sui Testnet. The TradeProof v0.1 harness is complete: a Sui Move proof object, tested lifecycle updates, tested evidence-reference replacement, a repo-level `npm test` gate, an offline-first evidence/hash generator, a verified live Walrus HTTP upload path, and a public testnet package.
 
 ## Verified Tooling
 Sui CLI:

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const webRoot = join(repoRoot, "web", "dashboard");
+const webRootAll = join(repoRoot, "web");
 const tradeproofDir = join(repoRoot, "artifacts", "tradeproof");
 const port = Number(process.env.TRADEPROOF_DASHBOARD_PORT ?? 4173);
 
@@ -104,9 +105,20 @@ function runCommand(name, response) {
 
 function serveStatic(request, response) {
   const rawPath = new URL(request.url, `http://${request.headers.host}`).pathname;
-  const relativePath = rawPath === "/" ? "index.html" : rawPath.slice(1);
-  const filePath = normalize(join(webRoot, relativePath));
+  const rel = rawPath === "/" ? "index.html"
+    : rawPath.endsWith("/") ? rawPath.slice(1) + "index.html"
+    : rawPath.slice(1);
 
+  // Try web/<path> first (covers /verify/, future pages)
+  const allPath = normalize(join(webRootAll, rel));
+  if (allPath.startsWith(webRootAll) && existsSync(allPath)) {
+    response.writeHead(200, { "content-type": contentTypes[extname(allPath)] ?? "application/octet-stream" });
+    createReadStream(allPath).pipe(response);
+    return;
+  }
+
+  // Fall back to web/dashboard/<path> (existing dashboard assets)
+  const filePath = normalize(join(webRoot, rel));
   if (!filePath.startsWith(webRoot) || !existsSync(filePath)) {
     response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
     response.end("Not found\n");
