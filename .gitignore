@@ -39,6 +39,7 @@ node_modules/
 npm-debug.log*
 
 # Outputs & logs
+artifacts/
 logs/
 *.log
 agent_outputs/

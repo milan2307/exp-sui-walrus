@@ -15,6 +15,9 @@ This project supports Milan's goal to earn 100,000 SUI and 100,000 WAL by buildi
 - Do not install or build Rust/Cargo toolchains unless Milan explicitly asks.
 - Use the local Sui CLI from MilanGPT OS when needed:
   `C:\Users\milan\Documents\MilanGPT-OS\.tools\sui\sui.exe`
+- Use Walrus Memory (`memwal`) whenever available to recall durable project context and
+  remember stable decisions or preferences that should survive future sessions.
+- Never read, print, commit, or expose `~/.memwal/credentials.json` or any delegate key.
 - Do not build wallets, DEXs, custody flows, money transmission, or regulated escrow in v0.1.
 - Do not add placeholder code, TODO-only implementations, or fake tests.
 - Keep every change tied to a working terminal proof.

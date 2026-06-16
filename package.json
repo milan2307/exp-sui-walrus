@@ -4,7 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "demo:evidence": "node scripts/create-tradeproof-evidence.js",
+    "demo:local": "node scripts/run-local-demo.js",
+    "demo:memwal": "node scripts/upload-tradeproof-memwal.js",
+    "local:sui": "node scripts/start-local-sui.js",
+    "publish:logioracle": "node scripts/publish-logioracle.js",
+    "tx:shipment": "node scripts/create-shipment-tx.js",
+    "tx:status": "node scripts/update-shipment-status.js",
+    "verify:shipment": "node scripts/verify-shipment-object.js",
+    "test": "node scripts/verify-logioracle.js",
+    "move:test": "node scripts/verify-logioracle.js"
   },
   "repository": {
     "type": "git",
