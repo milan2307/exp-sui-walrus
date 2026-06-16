@@ -13,6 +13,9 @@
     "tx:status": "node scripts/update-shipment-status.js",
     "verify:events": "node scripts/verify-shipment-events.js",
     "verify:shipment": "node scripts/verify-shipment-object.js",
+    "walrus:read": "node scripts/walrus-http-read.js",
+    "walrus:upload": "node scripts/walrus-http-upload.js",
+    "walrus:verify": "node scripts/walrus-http-verify.js",
     "test": "node scripts/verify-logioracle.js",
     "move:test": "node scripts/verify-logioracle.js"
   },

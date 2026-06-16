@@ -50,7 +50,7 @@ runStep("Generate evidence", ["scripts/create-tradeproof-evidence.js"]);
 const manifestBeforeUpload = readManifest();
 let memwalRan = false;
 if (!manifestBeforeUpload.walrus_blob_id.startsWith("pending-walrus-upload:")) {
-  console.log("\n== MemWal upload ==");
+  console.log("\n== Evidence blob ==");
   console.log(`Using existing walrus_blob_id=${manifestBeforeUpload.walrus_blob_id}`);
 } else {
   runStep("MemWal upload", ["scripts/upload-tradeproof-memwal.js"]);
@@ -169,7 +169,7 @@ runStep("Verify lifecycle events", [
 ]);
 
 console.log("\nTradeProof local demo completed");
-console.log(`memwal_upload=${memwalRan ? "ran" : "reused-existing-blob"}`);
+console.log(`memwal_upload=${memwalRan ? "ran" : "not-needed"}`);
 console.log(`package=${packageId}`);
 console.log(`shipment_object=${objectId}`);
 console.log(`create_tx=${createDigest}`);

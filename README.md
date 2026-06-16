@@ -118,6 +118,9 @@ Individual harness commands:
 ```powershell
 npm run demo:evidence
 npm run demo:memwal
+npm run walrus:upload
+npm run walrus:read
+npm run walrus:verify
 npm run local:sui
 npm run publish:logioracle -- --env local --execute
 npm run tx:shipment -- --package <published-package-id> --env local --recipient <sui-address> --execute
@@ -159,6 +162,24 @@ artifacts/tradeproof/memwal-receipt.json
 ```
 
 After a successful upload, the manifest is updated with the real returned `walrus_blob_id`. Later `npm run demo:evidence` runs preserve that value when `artifacts/tradeproof/memwal-receipt.json` exists.
+
+Official Walrus HTTP path:
+
+```powershell
+npm run walrus:upload
+npm run walrus:verify
+```
+
+By default these commands use the Walrus testnet HTTP endpoints:
+
+```text
+https://publisher.walrus-testnet.walrus.space
+https://aggregator.walrus-testnet.walrus.space
+```
+
+`npm run walrus:upload` uploads `artifacts/tradeproof/evidence.json`, updates `artifacts/tradeproof/manifest.json` with the returned `walrus_blob_id`, and writes `artifacts/tradeproof/walrus-http-receipt.json`.
+
+`npm run walrus:verify` reads the blob back through the aggregator, writes `artifacts/tradeproof/walrus-readback.json`, hashes the retrieved bytes, and checks that the hash equals the manifest `evidence_hash`.
 
 To move from local harness to Sui transaction:
 

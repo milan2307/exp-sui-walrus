@@ -3,7 +3,7 @@
 Generated at: 2026-06-16
 
 ## Current Objective
-Complete the safest next product increment: a Localnet event readback proof for TradeProof lifecycle events.
+Complete the next highest-value experiment-success increment: official Walrus HTTP upload/read/verify commands for TradeProof evidence.
 
 ## Already Completed
 - Installed the official prebuilt Sui Windows CLI locally under MilanGPT OS `.tools/sui`.
@@ -16,16 +16,15 @@ Complete the safest next product increment: a Localnet event readback proof for 
 - Added a repo-level `npm test` harness that runs the real Sui Move test.
 
 ## Next Practical Change
-Option A from `NOTES_FOR_NEXT_SESSION.md` is implemented and verified:
-- `scripts/verify-shipment-events.js` reads Localnet transaction blocks and verifies `ShipmentCreated` and `ShipmentStatusUpdated`.
-- `npm run verify:events` verifies lifecycle event proof.
-- `npm run demo:local` now runs event verification after object verification.
-- `artifacts/tradeproof/events-proof.json` is written as a local ignored proof artifact when the Localnet query succeeds.
+Option B is implemented and verified:
+- `npm run walrus:upload` uploads deterministic evidence to the Walrus testnet HTTP publisher.
+- `npm run walrus:read` retrieves the current manifest blob through the Walrus testnet aggregator.
+- `npm run walrus:verify` hashes the retrieved bytes and compares them to the manifest `evidence_hash`.
+- `npm run demo:local` now preserves and stores the official Walrus HTTP blob ID on the local Sui `Shipment` object.
 
-Next build choice:
-- Option B: add official Walrus upload/retrieve/verify commands.
-- Option C: fix the Windows Sui CLI `NativeCertsNotFound` testnet blocker.
-- Option D: build a simple UI dashboard.
+Next practical change:
+- Build a small dashboard only after it shells out to or mirrors the verified CLI flow.
+- Keep `npm test`, `npm run walrus:verify`, and `npm run demo:local` as the acceptance gates.
 
 ## Verification Command
 From `C:\Users\milan\Documents\exp-sui-walrus\logioracle`:

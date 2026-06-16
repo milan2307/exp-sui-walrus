@@ -547,3 +547,70 @@ proof_source=C:\Users\milan\Documents\exp-sui-walrus\artifacts\tradeproof\events
 old_status=CREATED
 new_status=DELIVERED
 ```
+
+## Verified Official Walrus HTTP Evidence Path
+
+Added:
+
+```text
+BUILD_PRIORITIES.md
+scripts/walrus-http-upload.js
+scripts/walrus-http-read.js
+scripts/walrus-http-verify.js
+npm run walrus:upload
+npm run walrus:read
+npm run walrus:verify
+```
+
+Priority decision:
+
+```text
+The UI should not be the primary testing surface yet. The highest-value next step was official Walrus upload/read/verify, because the product claim depends on proving that the blob referenced on Sui can be retrieved from Walrus and hashed back to the on-chain evidence_hash.
+```
+
+Walrus docs alignment:
+
+```text
+Upload: PUT $PUBLISHER/v1/blobs
+Read: GET $AGGREGATOR/v1/blobs/<BLOB_ID>
+Default publisher: https://publisher.walrus-testnet.walrus.space
+Default aggregator: https://aggregator.walrus-testnet.walrus.space
+```
+
+Verification:
+
+```text
+npm run walrus:upload
+
+Walrus HTTP upload completed
+walrus_blob_id=I8621DDJDxpOiuaqMV_ZnMmVJx3Zc42EtdoQx4v7ux8
+evidence_hash=sha256:8de30975b8e0d213f68411d254a568ce45842813a0e5bf09e2372d88bc3c3039
+```
+
+```text
+npm run walrus:verify
+
+Walrus HTTP evidence verified
+aggregator=https://aggregator.walrus-testnet.walrus.space
+walrus_blob_id=I8621DDJDxpOiuaqMV_ZnMmVJx3Zc42EtdoQx4v7ux8
+bytes=381
+evidence_hash=sha256:8de30975b8e0d213f68411d254a568ce45842813a0e5bf09e2372d88bc3c3039
+```
+
+`scripts/create-tradeproof-evidence.js` now preserves an existing official Walrus HTTP receipt before falling back to a MemWal receipt. This keeps `npm run demo:local` from replacing the official Walrus blob ID with an older MemWal blob ID.
+
+Latest local demo with official Walrus blob ID:
+
+```text
+npm run demo:local
+
+TradeProof local demo completed
+memwal_upload=not-needed
+package=0xc9129f3ffc48d02ff4c4fd8cc86d1f4c686444f211da1ebb8f18eac70a9c0c26
+shipment_object=0x161298debff75568521219b283f14361421f87cdce83364a28ca9556bb62d0d4
+create_tx=A7k8ZzSiYJF9xeCn2zBnxUKL6daVPRz6z7TXJmaCL8Xe
+status_tx=DZjzGdji4Ksmz3jrnMfW8F2pe11aambmUL2op1N9eVCP
+final_status=DELIVERED
+walrus_blob_id=I8621DDJDxpOiuaqMV_ZnMmVJx3Zc42EtdoQx4v7ux8
+evidence_hash=sha256:8de30975b8e0d213f68411d254a568ce45842813a0e5bf09e2372d88bc3c3039
+```

@@ -8,6 +8,7 @@ const outputDir = join(repoRoot, "artifacts", "tradeproof");
 const evidencePath = join(outputDir, "evidence.json");
 const manifestPath = join(outputDir, "manifest.json");
 const receiptPath = join(outputDir, "memwal-receipt.json");
+const walrusHttpReceiptPath = join(outputDir, "walrus-http-receipt.json");
 
 const evidence = {
   proof_type: "SHIPMENT",
@@ -54,8 +55,12 @@ const evidenceHash = createHash("sha256").update(evidenceBytes).digest("hex");
 const existingReceipt = existsSync(receiptPath)
   ? JSON.parse(readFileSync(receiptPath, "utf8"))
   : undefined;
+const existingWalrusHttpReceipt = existsSync(walrusHttpReceiptPath)
+  ? JSON.parse(readFileSync(walrusHttpReceiptPath, "utf8"))
+  : undefined;
 const walrusBlobId =
   process.env.WALRUS_BLOB_ID ??
+  existingWalrusHttpReceipt?.blob_id ??
   existingReceipt?.walrus_blob_id ??
   `pending-walrus-upload:${evidenceHash.slice(0, 16)}`;
 
@@ -71,6 +76,10 @@ const manifest = {
 
 if (existingReceipt?.walrus_blob_id === walrusBlobId) {
   manifest.memwal_receipt_path = "artifacts/tradeproof/memwal-receipt.json";
+}
+
+if (existingWalrusHttpReceipt?.blob_id === walrusBlobId) {
+  manifest.walrus_http_receipt_path = "artifacts/tradeproof/walrus-http-receipt.json";
 }
 
 writeFileSync(evidencePath, evidenceBytes);

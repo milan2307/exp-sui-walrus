@@ -55,6 +55,12 @@ npm run demo:evidence
 
 npm run demo:memwal
 
+npm run walrus:upload
+
+npm run walrus:read
+
+npm run walrus:verify
+
 npm run local:sui
 
 npm run publish:logioracle -- --env local --execute
@@ -151,6 +157,7 @@ Current state:
 - Hash stored on-chain: yes
 - Local verification: yes
 - MemWal/Walrus Memory path: yes/partial
+- Official Walrus HTTP upload/read/verify path: in progress
 - Official raw Walrus CLI/SDK production integration: not fully done yet
 - Testnet deployment: blocked
 - Mainnet deployment: not done
@@ -174,8 +181,8 @@ Pick only one next increment.
 Option A - completed:
 An event read script now fetches emitted lifecycle events from Localnet transaction blocks and proves ShipmentCreated and ShipmentStatusUpdated can be observed.
 
-Option B - stronger Walrus alignment:
-Add official Walrus upload/retrieve/verify commands based on docs.wal.app, preferably TypeScript SDK or HTTP API, so the project is less dependent on MemWal-only flow.
+Option B - completed:
+Official Walrus HTTP upload/read/verify commands now upload deterministic evidence to the Walrus testnet publisher, read it through the testnet aggregator, hash the retrieved bytes, and confirm the hash matches the manifest.
 
 Suggested commands:
 
