@@ -7,6 +7,7 @@
     "demo:evidence": "node scripts/create-tradeproof-evidence.js",
     "demo:local": "node scripts/run-local-demo.js",
     "demo:memwal": "node scripts/upload-tradeproof-memwal.js",
+    "verify": "node scripts/serve-verify.js",
     "dashboard": "node scripts/dashboard-server.js",
     "local:sui": "node scripts/start-local-sui.js",
     "publish:logioracle": "node scripts/publish-logioracle.js",
