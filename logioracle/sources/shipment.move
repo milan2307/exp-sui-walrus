@@ -13,6 +13,29 @@ module logioracle::shipment {
         owner: address,
     }
 
+    public struct ShipmentCreated has copy, drop {
+        shipment_id: String,
+        proof_type: String,
+        walrus_blob_id: String,
+        evidence_hash: String,
+        status: String,
+        owner: address,
+    }
+
+    public struct ShipmentStatusUpdated has copy, drop {
+        shipment_id: String,
+        old_status: String,
+        new_status: String,
+        owner: address,
+    }
+
+    public struct ShipmentEvidenceUpdated has copy, drop {
+        shipment_id: String,
+        walrus_blob_id: String,
+        evidence_hash: String,
+        owner: address,
+    }
+
     public fun create(
         shipment_id: String,
         proof_type: String,
@@ -22,7 +45,7 @@ module logioracle::shipment {
         evidence_hash: String,
         ctx: &mut sui::tx_context::TxContext
     ): Shipment {
-        Shipment {
+        let shipment = Shipment {
             id: sui::object::new(ctx),
             shipment_id,
             proof_type,
@@ -32,7 +55,18 @@ module logioracle::shipment {
             evidence_hash,
             status: b"CREATED".to_string(),
             owner: sui::tx_context::sender(ctx),
-        }
+        };
+
+        sui::event::emit(ShipmentCreated {
+            shipment_id: shipment.shipment_id,
+            proof_type: shipment.proof_type,
+            walrus_blob_id: shipment.walrus_blob_id,
+            evidence_hash: shipment.evidence_hash,
+            status: shipment.status,
+            owner: shipment.owner,
+        });
+
+        shipment
     }
 
     public fun create_and_transfer(
@@ -58,7 +92,14 @@ module logioracle::shipment {
     }
 
     public fun update_status(shipment: &mut Shipment, new_status: String) {
+        let old_status = shipment.status;
         shipment.status = new_status;
+        sui::event::emit(ShipmentStatusUpdated {
+            shipment_id: shipment.shipment_id,
+            old_status,
+            new_status: shipment.status,
+            owner: shipment.owner,
+        });
     }
 
     public fun update_evidence(
@@ -68,6 +109,12 @@ module logioracle::shipment {
     ) {
         shipment.walrus_blob_id = walrus_blob_id;
         shipment.evidence_hash = evidence_hash;
+        sui::event::emit(ShipmentEvidenceUpdated {
+            shipment_id: shipment.shipment_id,
+            walrus_blob_id: shipment.walrus_blob_id,
+            evidence_hash: shipment.evidence_hash,
+            owner: shipment.owner,
+        });
     }
 
     public fun get_proof_type(shipment: &Shipment): String {

@@ -75,6 +75,14 @@ That command runs the full local loop:
 8. Update the object status to `DELIVERED`.
 9. Verify the updated object state.
 
+The Move module emits Sui events for:
+
+```text
+ShipmentCreated
+ShipmentStatusUpdated
+ShipmentEvidenceUpdated
+```
+
 Expected final summary:
 
 ```text

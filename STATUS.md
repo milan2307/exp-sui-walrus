@@ -153,7 +153,7 @@ Caused by: no native certs found
 ```
 
 ## Next Action
-Local Sui transaction proof, readback verification, lifecycle status update, the single-command local demo, and README usage docs are now working. Next, choose the next v0.1 product-facing increment: event emission, stricter Move status values, or fixing the Windows testnet certificate blocker.
+Local Sui transaction proof, readback verification, lifecycle status update, event emission, the single-command local demo, and README usage docs are now working. Next, choose whether to add stricter Move status values or fix the Windows testnet certificate blocker.
 
 ## Verified Local Sui Publish And Transaction
 
@@ -346,4 +346,33 @@ final_status=DELIVERED
 npm run tx:status -- --package <published-package-id> --object <shipment-object-id> --status DELIVERED --env local --execute
 NativeCertsNotFound
 ## Current Next Action
+```
+
+## Verified Sui Event Emission
+
+Added event structs in `logioracle::shipment`:
+
+```text
+ShipmentCreated
+ShipmentStatusUpdated
+ShipmentEvidenceUpdated
+```
+
+`npm run demo:local` verified Localnet event emission during the lifecycle update:
+
+```text
+EventType: 0xc3ca738dbcbd0d62ff20075e42374c1b45cdd9864030db714cfdb4dbd1552816::shipment::ShipmentStatusUpdated
+new_status=DELIVERED
+old_status=CREATED
+shipment_id=SHIP-001
+```
+
+Final demo summary:
+
+```text
+TradeProof local demo completed
+package=0xc3ca738dbcbd0d62ff20075e42374c1b45cdd9864030db714cfdb4dbd1552816
+shipment_object=0x8697f2f738cef3cf4082f321f1c0e9204176935392835705cbc023f3ea8c6408
+final_status=DELIVERED
+walrus_blob_id=W0WM4uNIsWH-bUnAknVAcaysaNd6qH2I1K44STn0b6s
 ```
