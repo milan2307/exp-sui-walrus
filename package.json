@@ -11,6 +11,7 @@
     "publish:logioracle": "node scripts/publish-logioracle.js",
     "tx:shipment": "node scripts/create-shipment-tx.js",
     "tx:status": "node scripts/update-shipment-status.js",
+    "verify:events": "node scripts/verify-shipment-events.js",
     "verify:shipment": "node scripts/verify-shipment-object.js",
     "test": "node scripts/verify-logioracle.js",
     "move:test": "node scripts/verify-logioracle.js"

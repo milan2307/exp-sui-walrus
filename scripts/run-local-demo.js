@@ -104,6 +104,11 @@ const objectId = matchRequired(
   txOutput,
   /ObjectID:\s*(0x[a-fA-F0-9]+)[\s\S]*?ObjectType:\s*0x[a-fA-F0-9]+::shipment::Shipment/
 );
+const createDigest = matchRequired(
+  "create transaction digest",
+  txOutput,
+  /Transaction Digest:\s*([A-Za-z0-9]+)/
+);
 
 runStep("Verify shipment object", [
   "scripts/verify-shipment-object.js",
@@ -116,7 +121,7 @@ runStep("Verify shipment object", [
 ]);
 
 const finalStatus = "DELIVERED";
-runStep("Update shipment status", [
+const statusOutput = runStep("Update shipment status", [
   "scripts/update-shipment-status.js",
   "--object",
   objectId,
@@ -128,6 +133,11 @@ runStep("Update shipment status", [
   "local",
   "--execute",
 ]);
+const statusDigest = matchRequired(
+  "status transaction digest",
+  statusOutput,
+  /Transaction Digest:\s*([A-Za-z0-9]+)/
+);
 
 runStep("Verify updated shipment object", [
   "scripts/verify-shipment-object.js",
@@ -142,10 +152,28 @@ runStep("Verify updated shipment object", [
 ]);
 
 const manifest = readManifest();
+runStep("Verify lifecycle events", [
+  "scripts/verify-shipment-events.js",
+  "--package",
+  packageId,
+  "--create-digest",
+  createDigest,
+  "--status-digest",
+  statusDigest,
+  "--shipment-id",
+  manifest.shipment_id,
+  "--status",
+  finalStatus,
+  "--env",
+  "local",
+]);
+
 console.log("\nTradeProof local demo completed");
 console.log(`memwal_upload=${memwalRan ? "ran" : "reused-existing-blob"}`);
 console.log(`package=${packageId}`);
 console.log(`shipment_object=${objectId}`);
+console.log(`create_tx=${createDigest}`);
+console.log(`status_tx=${statusDigest}`);
 console.log(`final_status=${finalStatus}`);
 console.log(`walrus_blob_id=${manifest.walrus_blob_id}`);
 console.log(`evidence_hash=${manifest.evidence_hash}`);

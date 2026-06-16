@@ -47,6 +47,8 @@ Current tests:
 ```text
 logioracle::logioracle_tests::creates_and_updates_shipment_proof
 logioracle::logioracle_tests::entry_creates_and_transfers_shipment_proof
+logioracle::logioracle_tests::rejects_unknown_status
+logioracle::logioracle_tests::rejects_backwards_status_transition
 ```
 
 ## Verification
@@ -74,6 +76,7 @@ That command runs the full local loop:
 7. Verify the created object against the manifest.
 8. Update the object status to `DELIVERED`.
 9. Verify the updated object state.
+10. Verify emitted lifecycle events from the Localnet transaction blocks.
 
 The Move module emits Sui events for:
 
@@ -103,6 +106,8 @@ Expected final summary:
 
 ```text
 TradeProof local demo completed
+create_tx=<create-transaction-digest>
+status_tx=<status-update-transaction-digest>
 final_status=DELIVERED
 walrus_blob_id=<walrus-or-memwal-blob-id>
 evidence_hash=<sha256:...>
@@ -118,6 +123,7 @@ npm run publish:logioracle -- --env local --execute
 npm run tx:shipment -- --package <published-package-id> --env local --recipient <sui-address> --execute
 npm run tx:status -- --package <published-package-id> --object <shipment-object-id> --status DELIVERED --env local --execute
 npm run verify:shipment -- --object <shipment-object-id> --package <published-package-id> --env local --status DELIVERED
+npm run verify:events -- --package <published-package-id> --create-digest <create-tx-digest> --status-digest <status-tx-digest> --env local
 npm run publish:logioracle -- --print
 npm run tx:shipment -- --package <published-package-id> --recipient <sui-address> --print
 ```
@@ -127,6 +133,8 @@ npm run tx:shipment -- --package <published-package-id> --recipient <sui-address
 ```text
 artifacts/tradeproof/
 ```
+
+`npm run demo:local` also writes `artifacts/tradeproof/events-proof.json` after it verifies lifecycle events from Localnet transaction blocks. `npm run verify:events` can validate that saved proof if the ephemeral Localnet no longer serves an older transaction digest.
 
 The generated manifest emits the exact values that map to the Move object:
 

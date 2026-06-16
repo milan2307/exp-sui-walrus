@@ -3,7 +3,7 @@
 Generated at: 2026-06-16
 
 ## Current Objective
-Continue the fastest useful TradeProof v0.1 harness on top of the existing LogiOracle package.
+Complete the safest next product increment: a Localnet event readback proof for TradeProof lifecycle events.
 
 ## Already Completed
 - Installed the official prebuilt Sui Windows CLI locally under MilanGPT OS `.tools/sui`.
@@ -16,12 +16,16 @@ Continue the fastest useful TradeProof v0.1 harness on top of the existing LogiO
 - Added a repo-level `npm test` harness that runs the real Sui Move test.
 
 ## Next Practical Change
-Choose the next post-v0.1 hardening target:
-- Keep the Move test harness green.
-- Option A: fix the Windows testnet native certificate blocker and publish to testnet.
-- Option B: add a query/indexer-facing demo for emitted Sui events.
-- Option C: add invoice proof shape after the shipment loop remains stable.
-- Keep local-first proof commands working regardless of the chosen increment.
+Option A from `NOTES_FOR_NEXT_SESSION.md` is implemented and verified:
+- `scripts/verify-shipment-events.js` reads Localnet transaction blocks and verifies `ShipmentCreated` and `ShipmentStatusUpdated`.
+- `npm run verify:events` verifies lifecycle event proof.
+- `npm run demo:local` now runs event verification after object verification.
+- `artifacts/tradeproof/events-proof.json` is written as a local ignored proof artifact when the Localnet query succeeds.
+
+Next build choice:
+- Option B: add official Walrus upload/retrieve/verify commands.
+- Option C: fix the Windows Sui CLI `NativeCertsNotFound` testnet blocker.
+- Option D: build a simple UI dashboard.
 
 ## Verification Command
 From `C:\Users\milan\Documents\exp-sui-walrus\logioracle`:

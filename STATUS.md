@@ -417,3 +417,133 @@ shipment_object=0x415bb3b8b2bd9d7f96507ecef96db70866eb17050ddd59a7fa0b1ed47f2db5
 final_status=DELIVERED
 walrus_blob_id=W0WM4uNIsWH-bUnAknVAcaysaNd6qH2I1K44STn0b6s
 ```
+
+## Verified Session Handoff Notes
+
+Added:
+
+```text
+NOTES_FOR_NEXT_SESSION.md
+```
+
+Purpose:
+
+```text
+Record the current TradeProof / LogiOracle repo state before any new build changes.
+```
+
+The note captures:
+
+```text
+Sui Move smart contract status
+Local-first TradeProof v0.1 proof loop
+Working npm and Sui CLI commands
+GitHub branch and draft PR context
+NativeCertsNotFound testnet blocker
+Recommended next build options A, B, C, or D
+```
+
+Verification:
+
+```text
+C:\Users\milan\Documents\MilanGPT-OS\.tools\sui\sui.exe move build
+
+INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
+BUILDING logioracle
+```
+
+```text
+npm test
+
+Running Move unit tests
+[ PASS    ] logioracle::logioracle_tests::creates_and_updates_shipment_proof
+[ PASS    ] logioracle::logioracle_tests::entry_creates_and_transfers_shipment_proof
+[ PASS    ] logioracle::logioracle_tests::rejects_backwards_status_transition
+[ PASS    ] logioracle::logioracle_tests::rejects_unknown_status
+Test result: OK. Total tests: 4; passed: 4; failed: 0
+```
+
+## Verified Localnet Event Readback
+
+Added:
+
+```text
+scripts/verify-shipment-events.js
+npm run verify:events
+```
+
+The helper reads Localnet transaction blocks through the Sui CLI and verifies emitted lifecycle events:
+
+```text
+ShipmentCreated
+ShipmentStatusUpdated
+```
+
+When the Localnet query succeeds, the helper writes a reproducible local proof artifact:
+
+```text
+artifacts/tradeproof/events-proof.json
+```
+
+That artifact is ignored by git with the rest of `artifacts/`. A later `npm run verify:events` can validate the saved proof if the ephemeral Localnet no longer serves the transaction block digest.
+
+`npm run demo:local` now captures the create and status transaction digests, verifies the created and updated `Shipment` object states, then verifies the lifecycle events from those transaction blocks.
+
+Verification:
+
+```text
+C:\Users\milan\Documents\MilanGPT-OS\.tools\sui\sui.exe move build
+
+INCLUDING DEPENDENCY MoveStdlib
+INCLUDING DEPENDENCY Sui
+BUILDING logioracle
+```
+
+```text
+npm test
+
+Running Move unit tests
+[ PASS    ] logioracle::logioracle_tests::creates_and_updates_shipment_proof
+[ PASS    ] logioracle::logioracle_tests::entry_creates_and_transfers_shipment_proof
+[ PASS    ] logioracle::logioracle_tests::rejects_backwards_status_transition
+[ PASS    ] logioracle::logioracle_tests::rejects_unknown_status
+Test result: OK. Total tests: 4; passed: 4; failed: 0
+```
+
+```text
+npm run demo:local
+
+Shipment lifecycle events verified
+package=0x042019f64b84b69aaff52d4033721e488a502e283607bc10d2876d1098eb4b80
+env=local
+proof_source=localnet
+shipment_id=SHIP-001
+created_tx=8dLw6MeUi9TjgjthNveCEpyNXgpq8rro7efKtPSXJRkM
+created_event=0x042019f64b84b69aaff52d4033721e488a502e283607bc10d2876d1098eb4b80::shipment::ShipmentCreated
+status_tx=2VvgzEe3kLDkH3tdZbj4F3HEwugHmWwEQwKCTeifGvr9
+status_event=0x042019f64b84b69aaff52d4033721e488a502e283607bc10d2876d1098eb4b80::shipment::ShipmentStatusUpdated
+old_status=CREATED
+new_status=DELIVERED
+
+TradeProof local demo completed
+memwal_upload=reused-existing-blob
+package=0x042019f64b84b69aaff52d4033721e488a502e283607bc10d2876d1098eb4b80
+shipment_object=0x21fc7f2d4760a7fcf1562ca9949a2653fe3170781407e7590b21d99b410764eb
+create_tx=8dLw6MeUi9TjgjthNveCEpyNXgpq8rro7efKtPSXJRkM
+status_tx=2VvgzEe3kLDkH3tdZbj4F3HEwugHmWwEQwKCTeifGvr9
+final_status=DELIVERED
+walrus_blob_id=W0WM4uNIsWH-bUnAknVAcaysaNd6qH2I1K44STn0b6s
+evidence_hash=sha256:8de30975b8e0d213f68411d254a568ce45842813a0e5bf09e2372d88bc3c3039
+```
+
+Standalone verification of the saved proof:
+
+```text
+npm run verify:events -- --package 0x042019f64b84b69aaff52d4033721e488a502e283607bc10d2876d1098eb4b80 --create-digest 8dLw6MeUi9TjgjthNveCEpyNXgpq8rro7efKtPSXJRkM --status-digest 2VvgzEe3kLDkH3tdZbj4F3HEwugHmWwEQwKCTeifGvr9 --env local
+
+Shipment lifecycle events verified
+proof_source=C:\Users\milan\Documents\exp-sui-walrus\artifacts\tradeproof\events-proof.json
+old_status=CREATED
+new_status=DELIVERED
+```
