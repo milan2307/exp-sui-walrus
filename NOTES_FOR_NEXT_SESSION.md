@@ -225,3 +225,11 @@ Before writing code:
 Do not make large changes immediately.
 Do not expose or commit private keys, credentials.json, .env files, or delegate private keys.
 Keep local-first proof commands working, and later push to GitHub.
+
+## Tomorrow Prompt File
+
+Use this file for alignment and sharing prompts:
+
+```text
+TOMORROW_PROMPTS.md
+```

@@ -3,7 +3,7 @@
 Generated at: 2026-06-16
 
 ## Current Objective
-Build the next highest-priority experiment success surface: a small dashboard over the verified TradeProof harness.
+Save tomorrow alignment/share prompts and keep the pushed TradeProof dashboard harness ready for handoff.
 
 ## Already Completed
 - Installed the official prebuilt Sui Windows CLI locally under MilanGPT OS `.tools/sui`.
@@ -16,12 +16,17 @@ Build the next highest-priority experiment success surface: a small dashboard ov
 - Added a repo-level `npm test` harness that runs the real Sui Move test.
 
 ## Next Practical Change
-Implement the UI as harness engineering:
-- Add a local dashboard server using built-in Node APIs, not a new frontend framework.
-- Add a compact dashboard with actions for evidence generation, Walrus verification, local proof execution, and state refresh.
-- Make dashboard actions call the existing verified scripts instead of duplicating Sui/Walrus logic in frontend code.
-- Persist the latest local demo summary to `artifacts/tradeproof/demo-summary.json`.
-- Verify with `sui move build`, `npm test`, `npm run walrus:verify`, `npm run demo:local`, and browser inspection.
+Added `TOMORROW_PROMPTS.md` with:
+- Alignment notes.
+- Share copy.
+- Hands-on test prompt for Milan.
+- Tomorrow start prompt for Codex.
+- Next priority candidates.
+
+Next session should start by running:
+- `git status -sb`
+- `npm test`
+- `npm run walrus:verify`
 
 ## Verification Command
 From `C:\Users\milan\Documents\exp-sui-walrus\logioracle`:
