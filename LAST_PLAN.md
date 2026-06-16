@@ -3,7 +3,7 @@
 Generated at: 2026-06-16
 
 ## Current Objective
-Complete the next highest-value experiment-success increment: official Walrus HTTP upload/read/verify commands for TradeProof evidence.
+Build the next highest-priority experiment success surface: a small dashboard over the verified TradeProof harness.
 
 ## Already Completed
 - Installed the official prebuilt Sui Windows CLI locally under MilanGPT OS `.tools/sui`.
@@ -16,15 +16,12 @@ Complete the next highest-value experiment-success increment: official Walrus HT
 - Added a repo-level `npm test` harness that runs the real Sui Move test.
 
 ## Next Practical Change
-Option B is implemented and verified:
-- `npm run walrus:upload` uploads deterministic evidence to the Walrus testnet HTTP publisher.
-- `npm run walrus:read` retrieves the current manifest blob through the Walrus testnet aggregator.
-- `npm run walrus:verify` hashes the retrieved bytes and compares them to the manifest `evidence_hash`.
-- `npm run demo:local` now preserves and stores the official Walrus HTTP blob ID on the local Sui `Shipment` object.
-
-Next practical change:
-- Build a small dashboard only after it shells out to or mirrors the verified CLI flow.
-- Keep `npm test`, `npm run walrus:verify`, and `npm run demo:local` as the acceptance gates.
+Implement the UI as harness engineering:
+- Add a local dashboard server using built-in Node APIs, not a new frontend framework.
+- Add a compact dashboard with actions for evidence generation, Walrus verification, local proof execution, and state refresh.
+- Make dashboard actions call the existing verified scripts instead of duplicating Sui/Walrus logic in frontend code.
+- Persist the latest local demo summary to `artifacts/tradeproof/demo-summary.json`.
+- Verify with `sui move build`, `npm test`, `npm run walrus:verify`, `npm run demo:local`, and browser inspection.
 
 ## Verification Command
 From `C:\Users\milan\Documents\exp-sui-walrus\logioracle`:

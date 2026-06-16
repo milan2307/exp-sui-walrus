@@ -1,11 +1,12 @@
 import "dotenv/config";
 import { spawnSync } from "node:child_process";
-import { mkdirSync, readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const manifestPath = join(repoRoot, "artifacts", "tradeproof", "manifest.json");
+const demoSummaryPath = join(repoRoot, "artifacts", "tradeproof", "demo-summary.json");
 const localSuiDir = join(repoRoot, "artifacts", "local-sui");
 
 function runStep(label, args, options = {}) {
@@ -40,8 +41,41 @@ function matchRequired(label, text, pattern) {
   return match[1];
 }
 
+function parseJsonOutput(text) {
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start < 0 || end <= start) {
+    throw new Error("Could not parse JSON from command output.");
+  }
+
+  return JSON.parse(text.slice(start, end + 1));
+}
+
+function eventType(packageId, name) {
+  return `${packageId}::shipment::${name}`;
+}
+
+function findEvent(tx, type) {
+  return tx.events?.find((event) => event.type === type);
+}
+
 function readManifest() {
   return JSON.parse(readFileSync(manifestPath, "utf8"));
+}
+
+function stableStringify(value) {
+  if (Array.isArray(value)) {
+    return `[${value.map(stableStringify).join(",")}]`;
+  }
+
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
+      .join(",")}}`;
+  }
+
+  return JSON.stringify(value);
 }
 
 runStep("Move tests", ["scripts/verify-logioracle.js"]);
@@ -98,17 +132,19 @@ const txOutput = runStep("Create shipment proof", [
   "--recipient",
   recipient,
   "--execute",
+  "--json",
 ]);
-const objectId = matchRequired(
-  "shipment object ID",
-  txOutput,
-  /ObjectID:\s*(0x[a-fA-F0-9]+)[\s\S]*?ObjectType:\s*0x[a-fA-F0-9]+::shipment::Shipment/
-);
-const createDigest = matchRequired(
-  "create transaction digest",
-  txOutput,
-  /Transaction Digest:\s*([A-Za-z0-9]+)/
-);
+const createTx = parseJsonOutput(txOutput);
+const objectId = createTx.objectChanges?.find((change) =>
+  change.type === "created" && change.objectType === `${packageId}::shipment::Shipment`
+)?.objectId;
+if (!objectId) {
+  throw new Error("Could not parse created Shipment object ID from transaction JSON.");
+}
+const createDigest = createTx.digest;
+if (!createDigest) {
+  throw new Error("Could not parse create transaction digest from transaction JSON.");
+}
 
 runStep("Verify shipment object", [
   "scripts/verify-shipment-object.js",
@@ -132,12 +168,13 @@ const statusOutput = runStep("Update shipment status", [
   "--env",
   "local",
   "--execute",
+  "--json",
 ]);
-const statusDigest = matchRequired(
-  "status transaction digest",
-  statusOutput,
-  /Transaction Digest:\s*([A-Za-z0-9]+)/
-);
+const statusTx = parseJsonOutput(statusOutput);
+const statusDigest = statusTx.digest;
+if (!statusDigest) {
+  throw new Error("Could not parse status transaction digest from transaction JSON.");
+}
 
 runStep("Verify updated shipment object", [
   "scripts/verify-shipment-object.js",
@@ -152,6 +189,25 @@ runStep("Verify updated shipment object", [
 ]);
 
 const manifest = readManifest();
+const createdEvent = findEvent(createTx, eventType(packageId, "ShipmentCreated"));
+const statusEvent = findEvent(statusTx, eventType(packageId, "ShipmentStatusUpdated"));
+if (!createdEvent || !statusEvent) {
+  throw new Error("Could not find lifecycle events in transaction JSON.");
+}
+
+writeFileSync(
+  join(repoRoot, "artifacts", "tradeproof", "events-proof.json"),
+  `${stableStringify({
+    create_digest: createDigest,
+    created_event: createdEvent,
+    env: "local",
+    package_id: packageId,
+    shipment_id: manifest.shipment_id,
+    status_digest: statusDigest,
+    status_event: statusEvent,
+  })}\n`
+);
+
 runStep("Verify lifecycle events", [
   "scripts/verify-shipment-events.js",
   "--package",
@@ -168,12 +224,24 @@ runStep("Verify lifecycle events", [
   "local",
 ]);
 
+const demoSummary = {
+  create_tx: createDigest,
+  evidence_hash: manifest.evidence_hash,
+  final_status: finalStatus,
+  memwal_upload: memwalRan ? "ran" : "not-needed",
+  package: packageId,
+  shipment_object: objectId,
+  status_tx: statusDigest,
+  walrus_blob_id: manifest.walrus_blob_id,
+};
+writeFileSync(demoSummaryPath, `${stableStringify(demoSummary)}\n`);
+
 console.log("\nTradeProof local demo completed");
-console.log(`memwal_upload=${memwalRan ? "ran" : "not-needed"}`);
-console.log(`package=${packageId}`);
-console.log(`shipment_object=${objectId}`);
-console.log(`create_tx=${createDigest}`);
-console.log(`status_tx=${statusDigest}`);
-console.log(`final_status=${finalStatus}`);
-console.log(`walrus_blob_id=${manifest.walrus_blob_id}`);
-console.log(`evidence_hash=${manifest.evidence_hash}`);
+console.log(`memwal_upload=${demoSummary.memwal_upload}`);
+console.log(`package=${demoSummary.package}`);
+console.log(`shipment_object=${demoSummary.shipment_object}`);
+console.log(`create_tx=${demoSummary.create_tx}`);
+console.log(`status_tx=${demoSummary.status_tx}`);
+console.log(`final_status=${demoSummary.final_status}`);
+console.log(`walrus_blob_id=${demoSummary.walrus_blob_id}`);
+console.log(`evidence_hash=${demoSummary.evidence_hash}`);

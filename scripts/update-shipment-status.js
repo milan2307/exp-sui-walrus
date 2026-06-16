@@ -38,6 +38,8 @@ function parseArgs(argv) {
       parsed.execute = false;
     } else if (arg === "--print") {
       parsed.printOnly = true;
+    } else if (arg === "--json") {
+      parsed.json = true;
     } else {
       throw new Error(`Unknown argument: ${arg}`);
     }
@@ -85,6 +87,10 @@ callArgs.push(
 
 if (args.dryRun) {
   callArgs.push("--dry-run");
+}
+
+if (args.json) {
+  callArgs.push("--json");
 }
 
 const commandText = [suiCli, ...callArgs]

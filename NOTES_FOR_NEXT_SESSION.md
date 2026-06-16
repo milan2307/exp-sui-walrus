@@ -61,6 +61,8 @@ npm run walrus:read
 
 npm run walrus:verify
 
+npm run dashboard
+
 npm run local:sui
 
 npm run publish:logioracle -- --env local --execute
@@ -157,8 +159,9 @@ Current state:
 - Hash stored on-chain: yes
 - Local verification: yes
 - MemWal/Walrus Memory path: yes/partial
-- Official Walrus HTTP upload/read/verify path: in progress
+- Official Walrus HTTP upload/read/verify path: yes
 - Official raw Walrus CLI/SDK production integration: not fully done yet
+- Local dashboard harness: yes
 - Testnet deployment: blocked
 - Mainnet deployment: not done
 
@@ -205,6 +208,9 @@ Build a simple UI dashboard:
 - View Shipment Proof
 - Verify Evidence
 - Update Status
+
+Current dashboard status:
+`npm run dashboard` serves `http://127.0.0.1:4173`. The dashboard runs the verified local scripts through a local Node server and reads `artifacts/tradeproof/*.json` proof artifacts.
 
 ## Instruction for Codex
 

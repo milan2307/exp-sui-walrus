@@ -26,9 +26,10 @@ A UI is useful soon, but it should not become the main testing surface yet. Mila
    - Why: The Move object currently stores a blob reference as a string. A later version should check Walrus blob object availability/lifetime where possible.
    - Success proof: Move code can reason about a Walrus object or a verified availability marker without storing the full file.
 
-3. Small operator/user dashboard.
+3. Small operator/user dashboard. Implemented as a local harness.
    - Why: Once the CLI proof is strong, a simple dashboard makes the workflow testable by hand.
    - Scope: Create Shipment Proof, View Shipment Proof, Verify Evidence, Update Status.
+   - Current implementation: `npm run dashboard` serves `http://127.0.0.1:4173` and runs the existing proof scripts through local API endpoints.
 
 4. Testnet deployment blocker.
    - Why: Public network proof matters, but the current Windows Sui CLI `NativeCertsNotFound` issue is external to the product loop.
@@ -42,4 +43,4 @@ A UI is useful soon, but it should not become the main testing surface yet. Mila
 
 ## Current Top Priority
 
-Next priority is a small operator/user dashboard only if it sits on top of the verified CLI commands. The UI should expose the existing proof loop rather than replace it.
+Next priority is to harden the dashboard into separate step-by-step flows only where that improves proof clarity. The dashboard must remain a harness over verified commands, not a separate implementation.

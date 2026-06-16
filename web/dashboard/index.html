@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TradeProof Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">LogiOracle</p>
+          <h1>TradeProof</h1>
+        </div>
+        <div class="network">
+          <span class="dot"></span>
+          <span>Localnet + Walrus Testnet</span>
+        </div>
+      </header>
+
+      <section class="status-grid" aria-label="Proof status">
+        <article class="metric">
+          <span>Shipment</span>
+          <strong id="shipmentId">-</strong>
+        </article>
+        <article class="metric">
+          <span>Status</span>
+          <strong id="shipmentStatus">-</strong>
+        </article>
+        <article class="metric wide">
+          <span>Walrus Blob</span>
+          <strong id="blobId">-</strong>
+        </article>
+        <article class="metric wide">
+          <span>Evidence Hash</span>
+          <strong id="evidenceHash">-</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <nav class="actions" aria-label="TradeProof actions">
+          <button data-command="evidence"><span class="icon">G</span><span>Evidence</span></button>
+          <button data-command="walrusUpload"><span class="icon">U</span><span>Upload</span></button>
+          <button data-command="walrusVerify"><span class="icon">V</span><span>Verify</span></button>
+          <button data-command="localDemo"><span class="icon">C</span><span>Create</span></button>
+          <button data-command="moveTest"><span class="icon">T</span><span>Tests</span></button>
+          <button id="refresh"><span class="icon">R</span><span>Refresh</span></button>
+        </nav>
+
+        <section class="maincol">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Proof State</h2>
+              <span id="runState">Idle</span>
+            </div>
+            <div class="details">
+              <div><span>Package</span><code id="packageId">-</code></div>
+              <div><span>Object</span><code id="objectId">-</code></div>
+              <div><span>Create Tx</span><code id="createTx">-</code></div>
+              <div><span>Status Tx</span><code id="statusTx">-</code></div>
+            </div>
+          </section>
+
+          <section class="panel terminal-panel">
+            <div class="panel-head">
+              <h2>Run Output</h2>
+              <span id="lastCommand">No command</span>
+            </div>
+            <pre id="output"></pre>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

@@ -121,6 +121,7 @@ npm run demo:memwal
 npm run walrus:upload
 npm run walrus:read
 npm run walrus:verify
+npm run dashboard
 npm run local:sui
 npm run publish:logioracle -- --env local --execute
 npm run tx:shipment -- --package <published-package-id> --env local --recipient <sui-address> --execute
@@ -180,6 +181,36 @@ https://aggregator.walrus-testnet.walrus.space
 `npm run walrus:upload` uploads `artifacts/tradeproof/evidence.json`, updates `artifacts/tradeproof/manifest.json` with the returned `walrus_blob_id`, and writes `artifacts/tradeproof/walrus-http-receipt.json`.
 
 `npm run walrus:verify` reads the blob back through the aggregator, writes `artifacts/tradeproof/walrus-readback.json`, hashes the retrieved bytes, and checks that the hash equals the manifest `evidence_hash`.
+
+Local dashboard:
+
+```powershell
+npm run dashboard
+```
+
+Open:
+
+```text
+http://127.0.0.1:4173
+```
+
+The dashboard is a harness surface over the existing proof commands. It does not replace the terminal gates. It reads local artifacts and runs the same scripts used by the CLI:
+
+```text
+Evidence -> scripts/create-tradeproof-evidence.js
+Upload -> scripts/walrus-http-upload.js
+Verify -> scripts/walrus-http-verify.js
+Create -> scripts/run-local-demo.js
+Tests -> scripts/verify-logioracle.js
+```
+
+`npm run demo:local` writes:
+
+```text
+artifacts/tradeproof/demo-summary.json
+```
+
+The dashboard uses that file to display the latest local package, shipment object, create transaction, status transaction, and final lifecycle status.
 
 To move from local harness to Sui transaction:
 

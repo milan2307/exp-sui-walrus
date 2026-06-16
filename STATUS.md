@@ -587,6 +587,69 @@ walrus_blob_id=I8621DDJDxpOiuaqMV_ZnMmVJx3Zc42EtdoQx4v7ux8
 evidence_hash=sha256:8de30975b8e0d213f68411d254a568ce45842813a0e5bf09e2372d88bc3c3039
 ```
 
+## Verified Local Dashboard Harness
+
+Added:
+
+```text
+scripts/dashboard-server.js
+web/dashboard/index.html
+web/dashboard/app.js
+web/dashboard/styles.css
+npm run dashboard
+```
+
+The dashboard is intentionally a harness UI over the verified commands. It does not reimplement Sui or Walrus logic in the browser.
+
+Action mapping:
+
+```text
+Evidence -> scripts/create-tradeproof-evidence.js
+Upload -> scripts/walrus-http-upload.js
+Verify -> scripts/walrus-http-verify.js
+Create -> scripts/run-local-demo.js
+Tests -> scripts/verify-logioracle.js
+Refresh -> GET /api/state
+```
+
+Important harness fix:
+
+```text
+scripts/run-local-demo.js now requests JSON output from create/update transaction helpers, extracts object IDs, digests, and events from the actual transaction responses, and writes artifacts/tradeproof/events-proof.json plus artifacts/tradeproof/demo-summary.json.
+```
+
+This removed the weaker dependency on `sui client tx-block`, which was not reliably returning fresh Localnet transaction blocks after execution.
+
+Dashboard verification:
+
+```text
+npm run dashboard
+GET http://127.0.0.1:4173/ -> 200
+GET http://127.0.0.1:4173/api/state -> returned manifest, Walrus receipt, verification, event proof, and demo summary
+POST http://127.0.0.1:4173/api/run/walrusVerify -> ok=true
+POST http://127.0.0.1:4173/api/run/moveTest -> ok=true
+```
+
+Latest local demo summary:
+
+```text
+package=0x354135b65b39f2e09c8f89a5066567632cb413ac9c8ff8d8aee11ddc8e3e5760
+shipment_object=0xdc692c6a496bed65893970a05b5999c1f14974b5a0892943beb432d6b0a3c232
+create_tx=G35J7Tcwd3Hp9YY3vewpe3i9xaNrX7554NGFKLV53sgh
+status_tx=6U5vdL3F5WY59XyZUuUgqDDtCbZuE91C4xUXUZaXBRFL
+final_status=DELIVERED
+walrus_blob_id=I8621DDJDxpOiuaqMV_ZnMmVJx3Zc42EtdoQx4v7ux8
+evidence_hash=sha256:8de30975b8e0d213f68411d254a568ce45842813a0e5bf09e2372d88bc3c3039
+```
+
+Verification:
+
+```text
+npm test
+npm run walrus:verify
+npm run demo:local
+```
+
 ```text
 npm run walrus:verify
 
