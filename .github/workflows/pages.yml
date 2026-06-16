@@ -2,7 +2,9 @@ name: Deploy verify page to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - codex/tradeproof-v0.1-local-demo
     paths:
       - "web/verify/**"
 
