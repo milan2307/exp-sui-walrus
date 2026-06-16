@@ -83,6 +83,22 @@ ShipmentStatusUpdated
 ShipmentEvidenceUpdated
 ```
 
+Lifecycle status values are validated in Move:
+
+```text
+CREATED
+IN_TRANSIT
+DELIVERED
+```
+
+Allowed transitions are forward-only:
+
+```text
+CREATED -> IN_TRANSIT
+CREATED -> DELIVERED
+IN_TRANSIT -> DELIVERED
+```
+
 Expected final summary:
 
 ```text

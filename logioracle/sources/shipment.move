@@ -1,6 +1,9 @@
 module logioracle::shipment {
     use std::string::String;
 
+    const EInvalidStatus: u64 = 0;
+    const EInvalidStatusTransition: u64 = 1;
+
     public struct Shipment has key, store {
         id: sui::object::UID,
         shipment_id: String,
@@ -93,6 +96,9 @@ module logioracle::shipment {
 
     public fun update_status(shipment: &mut Shipment, new_status: String) {
         let old_status = shipment.status;
+        assert!(is_valid_status(&new_status), EInvalidStatus);
+        assert!(is_valid_status_transition(&old_status, &new_status), EInvalidStatusTransition);
+
         shipment.status = new_status;
         sui::event::emit(ShipmentStatusUpdated {
             shipment_id: shipment.shipment_id,
@@ -100,6 +106,38 @@ module logioracle::shipment {
             new_status: shipment.status,
             owner: shipment.owner,
         });
+    }
+
+    public fun is_valid_status(status: &String): bool {
+        *status == b"CREATED".to_string()
+            || *status == b"IN_TRANSIT".to_string()
+            || *status == b"DELIVERED".to_string()
+    }
+
+    fun is_valid_status_transition(old_status: &String, new_status: &String): bool {
+        if (*old_status == *new_status) {
+            true
+        } else if (*old_status == b"CREATED".to_string()) {
+            *new_status == b"IN_TRANSIT".to_string()
+                || *new_status == b"DELIVERED".to_string()
+        } else if (*old_status == b"IN_TRANSIT".to_string()) {
+            *new_status == b"DELIVERED".to_string()
+        } else {
+            false
+        }
+    }
+
+    #[test_only]
+    public fun assert_valid_status_for_testing(status: String) {
+        assert!(is_valid_status(&status), EInvalidStatus);
+    }
+
+    #[test_only]
+    public fun assert_valid_status_transition_for_testing(
+        old_status: String,
+        new_status: String
+    ) {
+        assert!(is_valid_status_transition(&old_status, &new_status), EInvalidStatusTransition);
     }
 
     public fun update_evidence(

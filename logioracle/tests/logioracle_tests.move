@@ -60,3 +60,16 @@ fun entry_creates_and_transfers_shipment_proof() {
     shipment::destroy_for_testing(shipment);
     sui::test_scenario::end(ctx);
 }
+
+#[test, expected_failure(abort_code = 0)]
+fun rejects_unknown_status() {
+    shipment::assert_valid_status_for_testing(b"CANCELLED".to_string());
+}
+
+#[test, expected_failure(abort_code = 1)]
+fun rejects_backwards_status_transition() {
+    shipment::assert_valid_status_transition_for_testing(
+        b"DELIVERED".to_string(),
+        b"IN_TRANSIT".to_string()
+    );
+}

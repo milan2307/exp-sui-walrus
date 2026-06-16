@@ -16,11 +16,11 @@ Continue the fastest useful TradeProof v0.1 harness on top of the existing LogiO
 - Added a repo-level `npm test` harness that runs the real Sui Move test.
 
 ## Next Practical Change
-Add stricter lifecycle status handling:
+Choose the next post-v0.1 hardening target:
 - Keep the Move test harness green.
-- Replace arbitrary status strings with validated lifecycle values.
-- Keep the public CLI helper ergonomic for `CREATED`, `IN_TRANSIT`, and `DELIVERED`.
-- Add tests for accepted and rejected status transitions.
+- Option A: fix the Windows testnet native certificate blocker and publish to testnet.
+- Option B: add a query/indexer-facing demo for emitted Sui events.
+- Option C: add invoice proof shape after the shipment loop remains stable.
 - Keep local-first proof commands working regardless of the chosen increment.
 
 ## Verification Command

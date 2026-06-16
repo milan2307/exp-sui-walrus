@@ -153,7 +153,7 @@ Caused by: no native certs found
 ```
 
 ## Next Action
-Local Sui transaction proof, readback verification, lifecycle status update, event emission, the single-command local demo, and README usage docs are now working. Next, choose whether to add stricter Move status values or fix the Windows testnet certificate blocker.
+Local Sui transaction proof, readback verification, lifecycle status update, event emission, stricter Move status validation, the single-command local demo, and README usage docs are now working. Next, decide whether to fix the Windows testnet certificate blocker or add a query/indexer-facing demo for emitted events.
 
 ## Verified Local Sui Publish And Transaction
 
@@ -373,6 +373,47 @@ Final demo summary:
 TradeProof local demo completed
 package=0xc3ca738dbcbd0d62ff20075e42374c1b45cdd9864030db714cfdb4dbd1552816
 shipment_object=0x8697f2f738cef3cf4082f321f1c0e9204176935392835705cbc023f3ea8c6408
+final_status=DELIVERED
+walrus_blob_id=W0WM4uNIsWH-bUnAknVAcaysaNd6qH2I1K44STn0b6s
+```
+
+## Verified Status Validation
+
+Move now accepts only these lifecycle statuses:
+
+```text
+CREATED
+IN_TRANSIT
+DELIVERED
+```
+
+Allowed transitions are:
+
+```text
+CREATED -> IN_TRANSIT
+CREATED -> DELIVERED
+IN_TRANSIT -> DELIVERED
+```
+
+Rejected cases are covered by Move tests:
+
+```text
+logioracle::logioracle_tests::rejects_unknown_status
+logioracle::logioracle_tests::rejects_backwards_status_transition
+```
+
+Verification:
+
+```text
+Test result: OK. Total tests: 4; passed: 4; failed: 0
+```
+
+Latest local demo proof:
+
+```text
+TradeProof local demo completed
+package=0xb8374231bada9c6d15bc4dc6cbf1cb20c89dbea9f4253ea99b86fa019d384a40
+shipment_object=0x415bb3b8b2bd9d7f96507ecef96db70866eb17050ddd59a7fa0b1ed47f2db5d2
 final_status=DELIVERED
 walrus_blob_id=W0WM4uNIsWH-bUnAknVAcaysaNd6qH2I1K44STn0b6s
 ```
