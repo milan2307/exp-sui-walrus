@@ -2,6 +2,29 @@
 
 Generated at: 2026-06-17
 
+## Demurrage Pilot — Live on Testnet (2026-06-17)
+
+Container MSCU9876543 registered and gate_in recorded on Sui Testnet.
+Both parties can verify the same demurrage number from the on-chain timestamp.
+
+```text
+Container object: 0x52071cbb1f4e10eb9ba80c3f36006ec5e95fa31a4c2f28d2652290b6dfc47ecc
+Register tx:      9nbWnSFHRYhLqBMgV2DxBUX2YpCnfvDbSiWjZjCoQgpA
+Gate-in tx:       6LLFtvfJjc5ZLUKhAAczdh8dghVLhWkCioRw37s3Kqgj
+Gate-in time:     2026-06-17T10:50:44.550Z (ms: 1781693444550)
+Free days:        14
+Rate:             $150/container/day
+At day 20:        5 days overdue × $150 = $750 (both parties, same number)
+```
+
+Explorer:
+https://testnet.suivision.xyz/object/0x52071cbb1f4e10eb9ba80c3f36006ec5e95fa31a4c2f28d2652290b6dfc47ecc
+
+Replicate the calculation:
+```
+node scripts/demurrage-demo.js --gate-in-ms 1781693444550 --free-days 14 --rate 150 --current 2026-07-07 --iso-id MSCU9876543
+```
+
 ## Testnet Deploy — DCSA eBL 3.0 (current, 2026-06-17)
 
 **9 modules, 26/26 tests, DCSA-compliant BillOfLading (21 fields)**
