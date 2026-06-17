@@ -1,6 +1,15 @@
 {
-  "outputDirectory": "web",
   "buildCommand": null,
+  "outputDirectory": "web",
   "installCommand": null,
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    { "source": "/trade",       "destination": "/trade/index.html" },
+    { "source": "/authority",   "destination": "/authority/index.html" },
+    { "source": "/dashboard",   "destination": "/dashboard/index.html" },
+    { "source": "/track",       "destination": "/track/index.html" },
+    { "source": "/verify",      "destination": "/verify/index.html" },
+    { "source": "/speedex-pitch","destination": "/speedex-pitch.html" },
+    { "source": "/",            "destination": "/index.html" }
+  ]
 }

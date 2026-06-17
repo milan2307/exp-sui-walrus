@@ -425,6 +425,27 @@
 
   <div class="content">
 
+    <!-- ── Role Selector ── -->
+    <div id="role-bar" style="display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+      <span style="font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap">I am a:</span>
+      <button class="role-btn active" data-role="importer" onclick="setRole('importer',this)">Importer / Buyer</button>
+      <button class="role-btn" data-role="exporter" onclick="setRole('exporter',this)">Exporter / Seller</button>
+      <button class="role-btn" data-role="agent" onclick="setRole('agent',this)">Clearing Agent</button>
+      <button class="role-btn" data-role="bank" onclick="setRole('bank',this)">Bank / Financier</button>
+    </div>
+
+    <div id="role-card" style="border-radius:10px;padding:14px 18px;margin-bottom:20px;border:1px solid;font-size:13px;line-height:1.6"></div>
+
+    <style>
+      .role-btn {
+        padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;
+        border:1.5px solid var(--line);background:var(--panel);color:var(--muted);
+        transition:all .12s;font-family:inherit;
+      }
+      .role-btn:hover { border-color:var(--blue);color:var(--blue); }
+      .role-btn.active { background:var(--blue);color:#fff;border-color:var(--blue); }
+    </style>
+
     <!-- ── DASHBOARD TAB ── -->
     <div class="tab-pane active" id="pane-dashboard">
 
@@ -1106,6 +1127,47 @@
   window.hideConnect = function() {
     document.getElementById('connect-modal-mount').innerHTML = '';
   };
+
+  // ── Role selector ────────────────────────────────────────────────────────────
+
+  const ROLE_CONTENT = {
+    importer: {
+      bg: '#eff4ff', border: '#dce8ff', color: '#1a4fff',
+      html: `<strong>Welcome, Importer.</strong> Your primary concern is demurrage — every day your container sits at port beyond the free period costs you money, and the calculation is opaque. On TradeProof, the gate-in timestamp is written to the Sui blockchain by the port the moment the container arrives. You and the shipping line calculate demurrage from the <em>exact same on-chain number</em> — no dispute is possible. <strong>Your most important action: fund a demurrage escrow before the free period ends.</strong>`
+    },
+    exporter: {
+      bg: '#ecfdf5', border: '#a7f3d0', color: '#087443',
+      html: `<strong>Welcome, Exporter / Seller.</strong> You need the Bill of Lading (BL) to be transferred to the buyer the moment payment clears — and you need proof that the transfer happened. On TradeProof, your BL is a Sui NFT. Endorsing it to the buyer creates a permanent, timestamped <code>EndorsementRecord</code> on-chain that neither party can deny. <strong>Your most important action: view your active BLs and endorse to the consignee.</strong>`
+    },
+    agent: {
+      bg: '#fffbeb', border: '#fde68a', color: '#92400e',
+      html: `<strong>Welcome, Clearing Agent.</strong> Your job is to coordinate between the importer, shipping line, and customs — and you spend most of that time chasing paper documents and phone confirmations. On TradeProof, every event (gate-in, customs clearance, gate-out) is written to the blockchain with a timestamp. You can present any document to customs as a QR-verified on-chain object. <strong>Your most important action: use the Verify tab to check document status, or use the Authority Portal to write clearance events.</strong>`
+    },
+    bank: {
+      bg: '#f5f3ff', border: '#c4b5fd', color: '#5b21b6',
+      html: `<strong>Welcome, Bank / Financier.</strong> You need to verify the BL is authentic and that you have been granted access before you release an LC or advance invoice financing. On TradeProof, the BL on-chain is the single source of truth. You can be added to the Seal AllowList for the encrypted document, verify the holder address, and confirm the cargo fields match the LC terms — all without calling anyone. <strong>Your most important action: use the Verify tab to authenticate the BL object, then request AllowList access for the encrypted document.</strong>`
+    },
+  };
+
+  window.setRole = function(role, btn) {
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const cfg = ROLE_CONTENT[role];
+    if (!cfg) return;
+    const card = document.getElementById('role-card');
+    card.style.background = cfg.bg;
+    card.style.borderColor = cfg.border;
+    card.style.color       = cfg.color;
+    card.innerHTML         = cfg.html;
+    localStorage.setItem('tp-role', role);
+  };
+
+  // Initialise role from localStorage or default to importer
+  (function() {
+    const saved = localStorage.getItem('tp-role') || 'importer';
+    const btn = document.querySelector(`.role-btn[data-role="${saved}"]`);
+    setRole(saved, btn);
+  })();
 
   // ── Escrow modal ─────────────────────────────────────────────────────────────
 

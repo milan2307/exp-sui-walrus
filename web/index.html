@@ -276,10 +276,11 @@
   <div class="hdr-inner">
     <div class="logo"><div class="logo-mark">T</div> TradeProof</div>
     <nav class="hdr-nav">
+      <a href="/trade/" style="color:var(--blue);font-weight:700">Trade Portal</a>
+      <a href="/authority/">Authority Portal</a>
       <a href="/track/">Track</a>
       <a href="/verify/">Verify</a>
-      <a href="/speedex-pitch">Pitch Deck</a>
-      <a href="/dashboard/">Build Dashboard</a>
+      <a href="/dashboard/">Dashboard</a>
     </nav>
     <span class="hdr-badge">Sui Testnet Â· Live</span>
   </div>
@@ -299,15 +300,15 @@
       <span class="hero-pill hi">Seal encrypted</span>
       <span class="hero-pill hi">Confidential Transactions</span>
       <span class="hero-pill hi">zkLogin</span>
-      <span class="hero-pill">9 Move modules</span>
-      <span class="hero-pill">26 tests</span>
+      <span class="hero-pill">13 Move modules</span>
+      <span class="hero-pill">30 tests passing</span>
       <span class="hero-pill">DCSA eBL 3.0</span>
       <span class="hero-pill">Open source</span>
     </div>
     <div class="hero-ctas">
-      <a href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" class="cta-btn cta-primary">ðŸ“¦ Track Live Container</a>
-      <a href="/verify/" class="cta-btn cta-secondary">ðŸ” Verify Object</a>
-      <a href="/speedex-pitch" class="cta-btn cta-secondary">ðŸ“‹ View Pitch Deck</a>
+      <a href="/trade/" class="cta-btn cta-primary">Open Trade Portal</a>
+      <a href="/authority/" class="cta-btn cta-secondary">Authority Portal</a>
+      <a href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" class="cta-btn cta-secondary">Track Live Container</a>
     </div>
   </div>
 </section>
@@ -398,8 +399,8 @@
   <div class="wrap">
     <div class="stats-row">
       <div class="stat"><div class="stat-num">$20â€“30B</div><div class="stat-label">Disputed demurrage per year</div></div>
-      <div class="stat"><div class="stat-num">9</div><div class="stat-label">Open-source Move modules</div></div>
-      <div class="stat"><div class="stat-num">26</div><div class="stat-label">Tests passing</div></div>
+      <div class="stat"><div class="stat-num">13</div><div class="stat-label">Open-source Move modules</div></div>
+      <div class="stat"><div class="stat-num">30</div><div class="stat-label">Tests passing</div></div>
       <div class="stat"><div class="stat-num">0</div><div class="stat-label">Parties to trust</div></div>
     </div>
   </div>
@@ -457,7 +458,7 @@
         </div>
         <div class="live-cell">
           <div class="live-label">Gate-in (on-chain)</div>
-          <div class="live-val">17 Jun 2026 12:45 UTC</div>
+          <div class="live-val" id="lp-gate-in">Loading from Sui…</div>
         </div>
         <div class="live-cell">
           <div class="live-label">Free Days</div>
@@ -472,7 +473,6 @@
         <a href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" class="live-btn primary">Track Container</a>
         <a href="/verify/?object=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" class="live-btn">Verify Object</a>
         <a href="https://testnet.suivision.xyz/object/0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" target="_blank" rel="noopener" class="live-btn">Sui Explorer</a>
-        <a href="https://www.msc.com/en/search-a-schedule-and-a-tariff/tracking?trackingNumber=MSCU9876543" target="_blank" rel="noopener" class="live-btn">MSC Tracking</a>
       </div>
     </div>
   </div>
@@ -489,7 +489,7 @@
       <div class="eco-card">
         <div class="eco-icon">âš¡</div>
         <div class="eco-name">Sui Move</div>
-        <div class="eco-desc">Smart contracts for 9 trade document types. Owned objects model enforces holder rights â€” only the BL holder can endorse or surrender.</div>
+        <div class="eco-desc">Smart contracts for 13 trade finance modules. Owned objects model enforces holder rights â€” only the BL holder can endorse or surrender.</div>
         <span class="eco-tag live">Mainnet + Testnet</span>
       </div>
       <div class="eco-card">
@@ -529,7 +529,7 @@
   <div class="wrap">
     <div class="section-eyebrow">Protocol Modules</div>
     <h2 class="section-title">Open source. Anyone can deploy.</h2>
-    <p class="section-sub">9 trade finance modules live on Sui Testnet. Seal-encrypted where marked. All DCSA-aligned.</p>
+    <p class="section-sub">13 trade finance modules live on Sui Testnet. Seal-encrypted where marked. All DCSA-aligned.</p>
 
     <div class="mods-grid">
       <div class="mod-card live enc">
@@ -581,6 +581,25 @@
     </div>
   </div>
 </section>
+
+<script>
+(async () => {
+  try {
+    const r = await fetch('https://fullnode.testnet.sui.io:443', {
+      method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({jsonrpc:'2.0',id:1,method:'sui_getObject',
+        params:['0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0',{showContent:true}]})
+    });
+    const j = await r.json();
+    const ms = j?.result?.data?.content?.fields?.last_event_ms;
+    if (ms) {
+      const d = new Date(Number(ms));
+      document.getElementById('lp-gate-in').textContent =
+        d.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC'}) + ' UTC';
+    }
+  } catch {}
+})();
+</script>
 
 <footer>
   TradeProof Â· Built on the Sui ecosystem (Sui Move Â· Walrus Â· Seal Â· Confidential Transactions Â· zkLogin)<br>
