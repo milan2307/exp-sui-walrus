@@ -24,17 +24,21 @@ const DAY_MS = 86_400_000n;
 
 const { values } = parseArgs({
     options: {
-        'gate-in':   { type: 'string', default: '2026-06-01' },
-        'free-days': { type: 'string', default: '14' },
-        'rate':      { type: 'string', default: '150' },    // USD per container per day
-        'current':   { type: 'string', default: '' },       // defaults to today
-        'containers':{ type: 'string', default: '1' },
-        'iso-id':    { type: 'string', default: 'MSCU1234567' },
+        'gate-in':    { type: 'string', default: '2026-06-01' },
+        'gate-in-ms': { type: 'string', default: '' },  // on-chain ms timestamp (overrides --gate-in)
+        'free-days':  { type: 'string', default: '14' },
+        'rate':       { type: 'string', default: '150' },    // USD per container per day
+        'current':    { type: 'string', default: '' },       // defaults to today
+        'containers': { type: 'string', default: '1' },
+        'iso-id':     { type: 'string', default: 'MSCU1234567' },
+        'object-id':  { type: 'string', default: '' },  // on-chain container object ID for reference
     },
     allowPositionals: false,
 });
 
-const gateInDate  = new Date(values['gate-in']);
+const gateInDate  = values['gate-in-ms']
+    ? new Date(Number(values['gate-in-ms']))
+    : new Date(values['gate-in']);
 const currentDate = values['current'] ? new Date(values['current']) : new Date();
 const freeDays    = BigInt(values['free-days']);
 const rateUsd     = BigInt(values['rate']);
@@ -136,6 +140,7 @@ mkdirSync(artifactsDir, { recursive: true });
 const record = {
     generated_at:      new Date().toISOString(),
     container_iso_id:  isoId,
+    ...(values['object-id'] ? { container_object_id: values['object-id'] } : {}),
     gate_in_date:      gateInDate.toISOString(),
     current_date:      currentDate.toISOString(),
     gate_in_ms:        gateInMs.toString(),
