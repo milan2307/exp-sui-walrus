@@ -156,20 +156,16 @@ fun rejects_sender_self_confirming_delivery() {
 fun issues_bl_to_consignee() {
     let mut ctx = sui::test_scenario::begin(@0xA);
 
-    bill_of_lading::issue(
+    let bl = bill_of_lading::issue_for_testing(
         b"MSCU-2026-001".to_string(),
-        b"MSC AURORA".to_string(),
-        b"AW216N".to_string(),
-        b"Mombasa".to_string(),
-        b"Felixstowe".to_string(),
         @0xB,
-        b"Standard Chartered Bank London".to_string(),
-        b"500 x 50kg bags of green coffee".to_string(),
-        2u64,
+        b"KE MBA".to_string(),
+        b"GB FXT".to_string(),
         b"walrus-blob-bl-001".to_string(),
         b"sha256:bl-evidence-001".to_string(),
         sui::test_scenario::ctx(&mut ctx)
     );
+    sui::transfer::public_transfer(bl, @0xB);
 
     sui::test_scenario::next_tx(&mut ctx, @0xB);
     let bl = sui::test_scenario::take_from_sender<bill_of_lading::BillOfLading>(&ctx);
@@ -178,7 +174,7 @@ fun issues_bl_to_consignee() {
     assert!(bill_of_lading::get_vessel(&bl) == b"MSC AURORA".to_string());
     assert!(bill_of_lading::get_shipper(&bl) == @0xA);
     assert!(bill_of_lading::get_status(&bl) == bill_of_lading::status_issued());
-    assert!(bill_of_lading::get_container_count(&bl) == 2u64);
+    assert!(bill_of_lading::get_container_count(&bl) == 1u64);
 
     bill_of_lading::destroy_for_testing(bl);
     sui::test_scenario::end(ctx);
@@ -194,20 +190,16 @@ fun issues_bl_to_consignee() {
 fun bl_full_lifecycle_issue_endorse_surrender() {
     let mut ctx = sui::test_scenario::begin(@0xA);
 
-    bill_of_lading::issue(
+    let bl = bill_of_lading::issue_for_testing(
         b"MSCU-2026-002".to_string(),
-        b"EVER GIVEN".to_string(),
-        b"EG301W".to_string(),
-        b"Nairobi ICD".to_string(),
-        b"Hamburg".to_string(),
         @0xB,
-        b"Hamburg Port Agent".to_string(),
-        b"200 x electronics cartons".to_string(),
-        1u64,
+        b"KE NBO".to_string(),
+        b"DE HAM".to_string(),
         b"walrus-blob-bl-002".to_string(),
         b"sha256:bl-evidence-002".to_string(),
         sui::test_scenario::ctx(&mut ctx)
     );
+    sui::transfer::public_transfer(bl, @0xB);
 
     // Consignee endorses BL to bank for LC settlement
     sui::test_scenario::next_tx(&mut ctx, @0xB);
@@ -234,20 +226,16 @@ fun bl_full_lifecycle_issue_endorse_surrender() {
 fun bl_bank_holds_title_then_releases_to_consignee() {
     let mut ctx = sui::test_scenario::begin(@0xA);
 
-    bill_of_lading::issue(
+    let bl = bill_of_lading::issue_for_testing(
         b"MSCU-2026-003".to_string(),
-        b"MAERSK EINDHOVEN".to_string(),
-        b"ME422E".to_string(),
-        b"Mombasa".to_string(),
-        b"Rotterdam".to_string(),
-        @0xC, // bank as first holder
-        b"KCB Bank Mombasa".to_string(),
-        b"1000 x sisal bales".to_string(),
-        4u64,
+        @0xC,
+        b"KE MBA".to_string(),
+        b"NL RTM".to_string(),
         b"walrus-blob-bl-003".to_string(),
         b"sha256:bl-evidence-003".to_string(),
         sui::test_scenario::ctx(&mut ctx)
     );
+    sui::transfer::public_transfer(bl, @0xC);
 
     // Bank releases title to consignee once LC settled
     sui::test_scenario::next_tx(&mut ctx, @0xC);

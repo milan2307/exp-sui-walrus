@@ -1,6 +1,22 @@
 ﻿# STATUS
 
-Generated at: 2026-06-16
+Generated at: 2026-06-17
+
+## Testnet Deploy — DCSA eBL 3.0 (current, 2026-06-17)
+
+**9 modules, 26/26 tests, DCSA-compliant BillOfLading (21 fields)**
+
+```text
+PackageID:      0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7
+Tx Digest:      8zuX7JbDrPyWhveWvLmwZtzRVcX2tRkJ4jsxaJRnow8d
+Upgrade Cap:    0xbc7fc152024b85a347f50ee7414fc409daff34fc19d4c71d86cba6c1ab692025
+Publisher:      0xedc98afbb6a8bc2aa8197e76d37d0da2f30df2244741756cf1782ba3bc2d7305
+Explorer:       https://testnet.suivision.xyz/package/0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7
+```
+
+BillOfLading struct now includes full DCSA eBL 3.0 fields: bl_type, carrier_scac, vessel, voyage,
+place_of_receipt, place_of_delivery, shipped_on_board_date_ms, freight_terms, hs_code, gross_weight_kg.
+Walrus blob + evidence_hash are TradeProof's unique addition — no existing DCSA platform has this.
 
 ## Testnet Deploy
 

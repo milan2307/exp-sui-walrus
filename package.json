@@ -20,7 +20,9 @@
     "walrus:upload": "node scripts/walrus-http-upload.js",
     "walrus:verify": "node scripts/walrus-http-verify.js",
     "test": "node scripts/verify-logioracle.js",
-    "move:test": "node scripts/verify-logioracle.js"
+    "move:test": "node scripts/verify-logioracle.js",
+    "demurrage": "node scripts/demurrage-demo.js",
+    "demurrage:scenario": "node scripts/demurrage-demo.js --gate-in 2026-06-01 --free-days 14 --rate 150 --current 2026-06-20 --containers 3 --iso-id MSCU1234567"
   },
   "repository": {
     "type": "git",

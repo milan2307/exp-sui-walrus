@@ -30,10 +30,15 @@ Last updated: 2026-06-17
 | `phytosanitary` | Government health/pest cert |
 
 **Live on Sui Testnet:**
-- Package (v2): `0x0c18d6a33f794d9e265029a6f1d9ddbf42a44fbc3239737486a4aaaef2c70f1e`
-- Live two-party shared object: `0xc60b8192f9ccd6c5cbb59272d09062b361e14812f3cf9ba4f9b38093778d7c0d`
-- Explorer: https://testnet.suivision.xyz/object/0xc60b8192f9ccd6c5cbb59272d09062b361e14812f3cf9ba4f9b38093778d7c0d
+- Package (DCSA v1 — current): `0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7`
+- Upgrade cap: `0xbc7fc152024b85a347f50ee7414fc409daff34fc19d4c71d86cba6c1ab692025`
+- Tx digest: `8zuX7JbDrPyWhveWvLmwZtzRVcX2tRkJ4jsxaJRnow8d`
+- Explorer: https://testnet.suivision.xyz/package/0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7
 - GitHub: https://github.com/milan2307/exp-sui-walrus (public, branch: codex/tradeproof-v0.1-local-demo)
+
+Note: Republished from scratch (not upgrade) because the DCSA BL struct changed from 13 → 21 fields,
+which is not a compatible upgrade. The previous package `0x0c18d6a33f794d9e265029a6f1d9ddbf42a44fbc3239737486a4aaaef2c70f1e` is obsolete.
+The BL struct is now DCSA eBL 3.0 compliant — do NOT restructure it again as it will break future upgrades.
 
 ---
 
@@ -86,10 +91,9 @@ Build a simple end-to-end demo of the demurrage dispute resolution:
 Get `client_config.yaml` for testnet Walrus CLI.
 Currently using HTTP API workaround. Ask Walrus Discord team for the config.
 
-### Priority 4: Redeploy to testnet
-Deploy the full 9-module package to testnet.
-Currently only `shipment` module is deployed (v2 package).
-The other 8 modules exist in code but are not yet deployed.
+### Priority 4: ~~Redeploy to testnet~~ DONE (2026-06-17)
+All 9 modules deployed to testnet in package `0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7`.
+BillOfLading struct is now DCSA eBL 3.0 compliant with 21 fields.
 
 ### Priority 5: 1-page verifier
 Update `web/verify/index.html` to handle all object types
