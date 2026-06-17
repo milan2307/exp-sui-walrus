@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TradeProof — Container Track & Trace</title>
+  <style>
+    :root {
+      --blue:      #1a4fff;
+      --ink:       #0f1117;
+      --muted:     #5a6072;
+      --line:      #dde1ea;
+      --bg:        #f6f8fc;
+      --panel:     #ffffff;
+      --green:     #087443;
+      --green-bg:  #ecfdf5;
+      --green-bd:  #6ce9a6;
+      --amber:     #92400e;
+      --amber-bg:  #fffbeb;
+      --amber-bd:  #fcd34d;
+      --red:       #b91c1c;
+      --red-bg:    #fff5f5;
+      --red-bd:    #fca5a5;
+      --purple:    #6d28d9;
+      --purple-bg: #f5f3ff;
+      --teal:      #0e7490;
+      --teal-bg:   #ecfeff;
+      --shadow:    0 8px 24px rgba(15,17,23,.07);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    .hdr {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+    }
+    .hdr-inner {
+      max-width: 960px; margin: 0 auto;
+      padding: 0 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+    .logo-mark {
+      width: 34px; height: 34px;
+      background: var(--blue); color: #fff;
+      border-radius: 8px;
+      display: grid; place-items: center;
+      font-weight: 900; font-size: 14px;
+    }
+    .nav { display: flex; gap: 20px; }
+    .nav a { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .nav a.active { color: var(--blue); }
+    .badge {
+      font-size: 11px; font-weight: 700;
+      background: var(--green-bg); color: var(--green);
+      border: 1px solid var(--green-bd);
+      border-radius: 20px; padding: 3px 10px;
+    }
+
+    /* ── Main ── */
+    .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* ── Search ── */
+    .search-box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+    .search-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .search-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+    .search-row { display: flex; gap: 10px; }
+    .search-input {
+      flex: 1; height: 46px;
+      border: 1px solid var(--line); border-radius: 8px;
+      padding: 0 16px;
+      font: inherit; font-size: 14px;
+      background: var(--bg);
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--blue); }
+    .search-btn {
+      height: 46px; padding: 0 24px;
+      background: var(--blue); color: #fff;
+      border: none; border-radius: 8px;
+      font: 600 14px/1 inherit;
+      cursor: pointer; white-space: nowrap;
+    }
+    .search-btn:hover { opacity: .9; }
+    .search-hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+    /* ── Main grid ── */
+    .grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+    /* ── Card ── */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .card-head {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--muted);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-body { padding: 20px; }
+
+    /* ── Status banner ── */
+    .status-banner {
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .status-banner.gate-in    { background: var(--amber-bg); border: 1px solid var(--amber-bd); }
+    .status-banner.on-vessel  { background: #eff6ff;         border: 1px solid #93c5fd; }
+    .status-banner.discharged { background: var(--purple-bg);border: 1px solid #c4b5fd; }
+    .status-banner.cleared    { background: var(--teal-bg);  border: 1px solid #67e8f9; }
+    .status-banner.gate-out   { background: var(--green-bg); border: 1px solid var(--green-bd); }
+    .status-banner.empty      { background: var(--bg);       border: 1px solid var(--line); }
+    .status-banner.error      { background: var(--red-bg);   border: 1px solid var(--red-bd); }
+
+    .banner-iso { font-size: 22px; font-weight: 800; }
+    .banner-status { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+    .banner-status.gate-in    { color: var(--amber); }
+    .banner-status.on-vessel  { color: #1d4ed8; }
+    .banner-status.discharged { color: var(--purple); }
+    .banner-status.cleared    { color: var(--teal); }
+    .banner-status.gate-out   { color: var(--green); }
+    .banner-loc { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* ── Container info grid ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .info-cell {
+      padding: 14px 16px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .info-cell:nth-child(3n) { border-right: none; }
+    .info-cell:nth-last-child(-n+3) { border-bottom: none; }
+    .info-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+    .info-val   { font-size: 14px; font-weight: 600; }
+    @media (max-width: 500px) {
+      .info-grid { grid-template-columns: 1fr 1fr; }
+      .info-cell:nth-child(3n) { border-right: 1px solid var(--line); }
+      .info-cell:nth-child(2n) { border-right: none; }
+    }
+
+    /* ── Timeline ── */
+    .timeline { list-style: none; padding: 0; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 17px; top: 10px; bottom: 10px;
+      width: 2px; background: var(--line);
+    }
+    .tl-item { display: flex; gap: 16px; padding: 10px 0; position: relative; }
+    .tl-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      flex-shrink: 0; margin-top: 3px;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px currentColor;
+      z-index: 1;
+    }
+    .tl-dot.gate-in    { color: var(--amber);  background: var(--amber-bg); }
+    .tl-dot.on-vessel  { color: #3b82f6; background: #eff6ff; }
+    .tl-dot.discharged { color: var(--purple); background: var(--purple-bg); }
+    .tl-dot.cleared    { color: var(--teal);   background: var(--teal-bg); }
+    .tl-dot.gate-out   { color: var(--green);  background: var(--green-bg); }
+    .tl-dot.stuffed    { color: #64748b; background: #f1f5f9; }
+    .tl-dot.returned   { color: #64748b; background: #f1f5f9; }
+
+    .tl-content { flex: 1; }
+    .tl-event { font-size: 13px; font-weight: 700; }
+    .tl-loc   { font-size: 12px; color: var(--muted); }
+    .tl-time  { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: monospace; }
+    .tl-tx    { font-size: 11px; margin-top: 3px; }
+
+    /* ── Demurrage box ── */
+    .dem-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .dem-row:last-child { border-bottom: none; }
+    .dem-label { color: var(--muted); }
+    .dem-val   { font-weight: 600; }
+    .dem-total { font-size: 22px; font-weight: 800; }
+    .dem-total.red    { color: var(--red); }
+    .dem-total.green  { color: var(--green); }
+    .dem-status {
+      border-radius: 8px; padding: 10px 14px;
+      margin: 14px 0; font-size: 13px; font-weight: 700;
+    }
+    .dem-status.accruing { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-bd); }
+    .dem-status.clear    { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
+
+    /* ── Carrier link ── */
+    .carrier-link {
+      display: flex; align-items: center; gap: 10px;
+      border: 1px solid var(--line); border-radius: 8px;
+      padding: 12px 14px; margin-bottom: 10px;
+      font-size: 13px; font-weight: 600;
+      color: var(--ink); background: var(--bg);
+    }
+    .carrier-link:hover { background: #f0f4ff; border-color: var(--blue); text-decoration: none; }
+    .carrier-icon { font-size: 18px; }
+    .carrier-sub  { font-size: 11px; font-weight: 400; color: var(--muted); }
+
+    /* ── Explorer link ── */
+    .explorer-btn {
+      display: block; text-align: center;
+      border: 1px solid var(--blue); color: var(--blue);
+      border-radius: 8px; padding: 10px;
+      font-size: 13px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .explorer-btn:hover { background: #eff4ff; text-decoration: none; }
+
+    /* ── Stage progress bar ── */
+    .stages {
+      display: flex; gap: 0;
+      border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+      margin: 16px 0; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .stage {
+      flex: 1; padding: 8px 4px; text-align: center;
+      color: var(--muted); background: var(--bg);
+      border-right: 1px solid var(--line);
+    }
+    .stage:last-child { border-right: none; }
+    .stage.done    { background: var(--green-bg); color: var(--green); }
+    .stage.current { background: var(--amber-bg); color: var(--amber); }
+
+    /* ── Spinner ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 3px solid var(--line); border-top-color: var(--blue);
+      border-radius: 50%; animation: spin .7s linear infinite;
+      display: inline-block; vertical-align: middle;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; font-size: 12px;
+      color: var(--muted); padding: 40px 0 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="logo">
+      <div class="logo-mark">T</div>
+      TradeProof
+    </div>
+    <nav class="nav">
+      <a href="../verify/index.html">Verify</a>
+      <a href="index.html" class="active">Track &amp; Trace</a>
+      <a href="../speedex-pitch.html">About</a>
+    </nav>
+    <span class="badge">Sui Testnet</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Search -->
+  <div class="search-box">
+    <div class="search-title">Container Track &amp; Trace</div>
+    <div class="search-sub">
+      Enter a container number (e.g. MSCU9876543) or a Sui object ID to see the on-chain event history and live demurrage calculation.
+    </div>
+    <div class="search-row">
+      <input id="trackInput" class="search-input" type="text"
+        placeholder="MSCU9876543  or  0x52071c…"
+        spellcheck="false" autocomplete="off" />
+      <button class="search-btn" onclick="doTrack()">Track</button>
+    </div>
+    <p class="search-hint">
+      Timestamps are recorded by the Sui blockchain — not by any shipping line or operator.
+      Both parties read the same immutable record.
+    </p>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="hidden" style="text-align:center;padding:40px 0;color:var(--muted)">
+    <span class="spinner"></span>&nbsp; Fetching from Sui Testnet…
+  </div>
+
+  <!-- Error -->
+  <div id="errorBox" class="hidden">
+    <div class="status-banner error">
+      <div>
+        <div class="banner-iso" style="font-size:16px">Not found</div>
+        <div id="errorMsg" class="banner-loc"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="results" class="hidden">
+
+    <!-- Status banner -->
+    <div id="statusBanner" class="status-banner empty">
+      <div>
+        <div class="banner-iso" id="rIsoId">—</div>
+        <div class="banner-status" id="rStatusLabel">—</div>
+        <div class="banner-loc" id="rLocation">—</div>
+      </div>
+    </div>
+
+    <!-- Stage bar -->
+    <div class="stages" id="stageBar">
+      <div class="stage" id="s0">Empty</div>
+      <div class="stage" id="s1">Stuffed</div>
+      <div class="stage" id="s2">Gate In</div>
+      <div class="stage" id="s3">On Vessel</div>
+      <div class="stage" id="s4">Discharged</div>
+      <div class="stage" id="s5">Cleared</div>
+      <div class="stage" id="s6">Gate Out</div>
+      <div class="stage" id="s7">Returned</div>
+    </div>
+
+    <!-- Main grid -->
+    <div class="grid">
+
+      <!-- Left col -->
+      <div>
+
+        <!-- Container info -->
+        <div class="card">
+          <div class="card-head">Container Details <span id="rObjectLink"></span></div>
+          <div class="info-grid">
+            <div class="info-cell"><div class="info-label">ISO ID</div><div class="info-val" id="rIsoId2">—</div></div>
+            <div class="info-cell"><div class="info-label">Size / Type</div><div class="info-val" id="rSizeType">—</div></div>
+            <div class="info-cell"><div class="info-label">Status</div><div class="info-val" id="rStatus">—</div></div>
+            <div class="info-cell"><div class="info-label">Operator</div><div class="info-val" id="rOperator">—</div></div>
+            <div class="info-cell"><div class="info-label">Port of Registration</div><div class="info-val" id="rPortReg">—</div></div>
+            <div class="info-cell"><div class="info-label">Current Location</div><div class="info-val" id="rCurrLoc">—</div></div>
+            <div class="info-cell"><div class="info-label">Last Event</div><div class="info-val" id="rLastEvent">—</div></div>
+            <div class="info-cell"><div class="info-label">Manufactured</div><div class="info-val" id="rYear">—</div></div>
+            <div class="info-cell"><div class="info-label">Blockchain Object</div><div class="info-val" style="font-size:11px;font-family:monospace" id="rObjId">—</div></div>
+          </div>
+        </div>
+
+        <!-- Event timeline -->
+        <div class="card">
+          <div class="card-head">On-Chain Event History</div>
+          <div class="card-body">
+            <ul class="timeline" id="timeline">
+              <li style="color:var(--muted);font-size:13px;padding:10px 0 10px 32px">No events recorded yet.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right col -->
+      <div>
+
+        <!-- Demurrage -->
+        <div class="card" id="demCard" style="display:none">
+          <div class="card-head">Live Demurrage Calculator</div>
+          <div class="card-body">
+            <div id="demStatus" class="dem-status clear">Within free period</div>
+            <div class="dem-total" id="demTotal">$0</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:16px">total demurrage owed</div>
+            <div class="dem-row"><span class="dem-label">Gate-in date</span><span class="dem-val" id="dGateIn">—</span></div>
+            <div class="dem-row"><span class="dem-label">Today</span><span class="dem-val" id="dToday">—</span></div>
+            <div class="dem-row"><span class="dem-label">Days at port</span><span class="dem-val" id="dElapsed">—</span></div>
+            <div class="dem-row"><span class="dem-label">Free days</span><span class="dem-val" id="dFree">14</span></div>
+            <div class="dem-row"><span class="dem-label">Days overdue</span><span class="dem-val" id="dOverdue">0</span></div>
+            <div class="dem-row"><span class="dem-label">Rate per day</span><span class="dem-val" id="dRate">$150</span></div>
+            <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:monospace;line-height:1.8" id="dFormula"></div>
+            <div style="margin-top:12px;font-size:11px;color:var(--muted)">
+              Both parties read the same gate-in timestamp from the blockchain. The calculation is identical — no dispute possible.
+            </div>
+          </div>
+        </div>
+
+        <!-- Carrier tracking -->
+        <div class="card" id="carrierCard" style="display:none">
+          <div class="card-head">Carrier Tracking</div>
+          <div class="card-body">
+            <a id="carrierLink" class="carrier-link" href="#" target="_blank" rel="noopener">
+              <span class="carrier-icon">🚢</span>
+              <div>
+                <div id="carrierName">Carrier Website</div>
+                <div class="carrier-sub">View tracking on the carrier's official site</div>
+              </div>
+            </a>
+            <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
+              The carrier's tracking data is the source. TradeProof records it immutably on Sui — so the carrier cannot later dispute their own timestamps.
+            </div>
+          </div>
+        </div>
+
+        <!-- Blockchain links -->
+        <div class="card" id="chainCard" style="display:none">
+          <div class="card-head">Blockchain Verification</div>
+          <div class="card-body">
+            <a id="explorerObj" class="explorer-btn" href="#" target="_blank" rel="noopener">
+              View Object on Sui Explorer
+            </a>
+            <a id="explorerPkg" class="explorer-btn" href="https://testnet.suivision.xyz/package/0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7" target="_blank" rel="noopener">
+              View Package on Sui Explorer
+            </a>
+            <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
+              Package:
+              <span style="font-family:monospace;overflow-wrap:anywhere;display:block;margin-top:4px">
+                0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /results -->
+
+</main>
+
+<footer>
+  TradeProof · Built on Sui + Walrus · EAC Corridor Demurrage Pilot · Mombasa Port
+</footer>
+
+<script type="module">
+const SUI_RPC  = 'https://fullnode.testnet.sui.io:443';
+const PACKAGE  = '0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7';
+const EXPLORER = 'https://testnet.suivision.xyz';
+const DAY_MS   = 86_400_000;
+
+// ── Carrier map ──────────────────────────────────────────────────────────────
+
+const CARRIERS = {
+  MSCU: { name: 'MSC',          url: id => `https://www.msc.com/en/search-a-schedule-and-a-tariff/tracking?trackingNumber=${id}` },
+  MAEU: { name: 'Maersk',       url: id => `https://www.maersk.com/tracking/${id}` },
+  MARU: { name: 'Maersk',       url: id => `https://www.maersk.com/tracking/${id}` },
+  CMDU: { name: 'CMA CGM',      url: id => `https://www.cma-cgm.com/ebusiness/tracking/search?reference=${id}` },
+  CLHU: { name: 'CMA CGM',      url: id => `https://www.cma-cgm.com/ebusiness/tracking/search?reference=${id}` },
+  EGLV: { name: 'Evergreen',    url: id => `https://www.evergreen-line.com/timetable/containerSearch.do?searchCriteria.criteriaContainerNo=${id}` },
+  HLCU: { name: 'Hapag-Lloyd',  url: id => `https://www.hapag-lloyd.com/en/online-business/track/track-by-container-solution.html?container=${id}` },
+  ONEY: { name: 'ONE Line',     url: id => `https://ecomm.one-line.com/ecom/CUP_HOM_3301.do?blNo=${id}` },
+  YMLU: { name: 'Yang Ming',    url: id => `https://www.yangming.com/e-service/Track_Trace/Track_Trace_Search.aspx?type=1&number=${id}` },
+  HMMU: { name: 'HMM',          url: id => `https://www.hmm21.com/e-service/containerTrack/main.do` },
+  ZIMU: { name: 'ZIM',          url: id => `https://www.zim.com/tools/track-a-shipment#anchor?containerNo=${id}` },
+  COSU: { name: 'COSCO',        url: id => `https://elines.coscoshipping.com/ebusiness/cargotracking` },
+  TCKU: { name: 'Trident',      url: id => `https://www.track-trace.com/container#${id}` },
+};
+
+// ── Status config ────────────────────────────────────────────────────────────
+
+const STATUS_NAMES  = ['EMPTY','STUFFED','GATE_IN','ON_VESSEL','DISCHARGED','CUSTOMS_CLEARED','GATE_OUT','RETURNED'];
+const STATUS_CLASS  = ['empty','stuffed','gate-in','on-vessel','discharged','cleared','gate-out','returned'];
+const STATUS_LABELS = [
+  'Empty — at depot',
+  'Stuffed — cargo loaded',
+  'Gate In — at port terminal',
+  'On Vessel — at sea',
+  'Discharged — unloaded from vessel',
+  'Customs Cleared',
+  'Gate Out — released to consignee',
+  'Returned — empty, back at depot',
+];
+
+const EVENT_TYPES = {
+  ContainerStuffed:       { cls: 'stuffed',    label: 'Cargo Stuffed' },
+  ContainerGateIn:        { cls: 'gate-in',    label: 'Gate In — entered port terminal' },
+  ContainerLoadedOnVessel:{ cls: 'on-vessel',  label: 'Loaded on Vessel' },
+  ContainerDischarged:    { cls: 'discharged', label: 'Discharged from Vessel' },
+  ContainerCustomsCleared:{ cls: 'cleared',    label: 'Customs Cleared' },
+  ContainerGateOut:       { cls: 'gate-out',   label: 'Gate Out — released to consignee' },
+  ContainerReturned:      { cls: 'returned',   label: 'Returned Empty' },
+};
+
+// ── RPC helpers ──────────────────────────────────────────────────────────────
+
+async function rpc(method, params) {
+  const r = await fetch(SUI_RPC, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+  });
+  const j = await r.json();
+  if (j.error) throw new Error(j.error.message ?? JSON.stringify(j.error));
+  return j.result;
+}
+
+async function getObject(id) {
+  return rpc('sui_getObject', [id, { showContent: true, showOwner: true }]);
+}
+
+async function getEvents(isoId) {
+  // query all container module events, client-filter by iso_id
+  const result = await rpc('suix_queryEvents', [
+    { MoveEventModule: { package: PACKAGE, module: 'container' } },
+    null, 50, false,
+  ]);
+  return (result?.data ?? []).filter(e => e.parsedJson?.iso_id === isoId);
+}
+
+// ── UI helpers ───────────────────────────────────────────────────────────────
+
+const $  = id => document.getElementById(id);
+const tx = (id, val) => { const el = $(id); if (el) el.textContent = val ?? '—'; };
+const ih = (id, val) => { const el = $(id); if (el) el.innerHTML = val; };
+
+function show(id)  { $(id)?.classList.remove('hidden'); $(id) && ($(id).style.display = ''); }
+function hide(id)  { $(id)?.classList.add('hidden'); }
+
+function fmtDate(ms) {
+  return new Date(Number(ms)).toLocaleString('en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short',
+  });
+}
+function fmtShort(ms) {
+  return new Date(Number(ms)).toLocaleDateString('en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC',
+  });
+}
+
+// ── Demurrage ────────────────────────────────────────────────────────────────
+
+function calcDemurrage(gateInMs, freeDays, ratePerDay, currentMs) {
+  const freePeriodMs = freeDays * DAY_MS;
+  if (currentMs <= gateInMs + freePeriodMs) return 0;
+  const overdueMs = currentMs - gateInMs - freePeriodMs;
+  const days = Math.floor(overdueMs / DAY_MS);
+  return days * ratePerDay;
+}
+
+function renderDemurrage(gateInMs) {
+  const FREE_DAYS = 14;
+  const RATE      = 150;
+
+  const now       = Date.now();
+  const elapsed   = Math.floor((now - gateInMs) / DAY_MS);
+  const overdue   = Math.max(0, elapsed - FREE_DAYS);
+  const amount    = calcDemurrage(gateInMs, FREE_DAYS, RATE, now);
+
+  tx('dGateIn',  fmtShort(gateInMs));
+  tx('dToday',   fmtShort(now));
+  tx('dElapsed', `${elapsed} days`);
+  tx('dFree',    `${FREE_DAYS} days`);
+  tx('dOverdue', `${overdue} days`);
+  tx('dRate',    `$${RATE}/container/day`);
+  ih('dFormula', `(${elapsed} − ${FREE_DAYS}) × $${RATE}/day`);
+
+  if (overdue > 0) {
+    $('demStatus').className = 'dem-status accruing';
+    $('demStatus').textContent = 'Demurrage accruing';
+    $('demTotal').className = 'dem-total red';
+    $('demTotal').textContent = `$${amount.toLocaleString()}`;
+  } else {
+    const remaining = FREE_DAYS - elapsed;
+    $('demStatus').className = 'dem-status clear';
+    $('demStatus').textContent = `Within free period — ${remaining} days remaining`;
+    $('demTotal').className = 'dem-total green';
+    $('demTotal').textContent = '$0';
+  }
+
+  $('demCard').style.display = '';
+}
+
+// ── Stage bar ────────────────────────────────────────────────────────────────
+
+function renderStages(statusCode) {
+  for (let i = 0; i <= 7; i++) {
+    const el = $(`s${i}`);
+    if (!el) continue;
+    el.className = 'stage ' + (i < statusCode ? 'done' : i === statusCode ? 'current' : '');
+  }
+}
+
+// ── Timeline ─────────────────────────────────────────────────────────────────
+
+function renderTimeline(events) {
+  const tl = $('timeline');
+  if (!events.length) { tl.innerHTML = '<li style="color:var(--muted);font-size:13px;padding:10px 0 10px 32px">No events recorded on-chain yet.</li>'; return; }
+
+  const sorted = [...events].sort((a, b) =>
+    Number(a.parsedJson?.timestamp_ms ?? 0) - Number(b.parsedJson?.timestamp_ms ?? 0)
+  );
+
+  tl.innerHTML = sorted.map(ev => {
+    const shortType = ev.type.split('::').pop();
+    const cfg       = EVENT_TYPES[shortType] ?? { cls: 'empty', label: shortType };
+    const pj        = ev.parsedJson ?? {};
+    const ts        = pj.timestamp_ms;
+
+    let detail = '';
+    if (pj.port)              detail = pj.port;
+    if (pj.vessel)            detail = `${pj.vessel}${pj.port_of_loading ? ' · ' + pj.port_of_loading : ''}`;
+    if (pj.port_of_discharge) detail = pj.vessel + ' at ' + pj.port_of_discharge;
+
+    const txUrl = `${EXPLORER}/txblock/${ev.id.txDigest}`;
+
+    return `<li class="tl-item">
+      <div class="tl-dot ${cfg.cls}"></div>
+      <div class="tl-content">
+        <div class="tl-event">${cfg.label}</div>
+        ${detail ? `<div class="tl-loc">${detail}</div>` : ''}
+        <div class="tl-time">${ts ? fmtDate(ts) : '—'}</div>
+        <div class="tl-tx"><a href="${txUrl}" target="_blank" rel="noopener" style="font-size:11px;font-family:monospace">tx: ${ev.id.txDigest.slice(0,16)}…</a></div>
+      </div>
+    </li>`;
+  }).join('');
+}
+
+// ── Carrier link ─────────────────────────────────────────────────────────────
+
+function renderCarrier(isoId) {
+  const prefix = (isoId ?? '').slice(0, 4).toUpperCase();
+  const c = CARRIERS[prefix];
+  const el = $('carrierCard');
+  if (!c || !el) return;
+  const link = $('carrierLink');
+  if (link) {
+    link.href = typeof c.url === 'function' ? c.url(isoId) : c.url;
+    $('carrierName').textContent = `${c.name} Tracking`;
+  }
+  el.style.display = '';
+}
+
+// ── Main track function ───────────────────────────────────────────────────────
+
+async function track(input) {
+  hide('errorBox');
+  hide('results');
+  show('loading');
+
+  try {
+    const isObjId = /^0x[0-9a-f]{64}$/i.test(input.trim());
+    let objId  = null;
+    let fields = null;
+    let isoId  = null;
+    let events = [];
+
+    if (isObjId) {
+      // Direct object ID lookup
+      objId  = input.trim();
+      const obj = await getObject(objId);
+      if (!obj?.data?.content?.fields)
+        throw new Error('Object not found or not a Container');
+      fields = obj.data.content.fields;
+      isoId  = fields.iso_id;
+      events = await getEvents(isoId);
+
+    } else {
+      // ISO ID — search events
+      isoId  = input.trim().toUpperCase();
+      events = await getEvents(isoId);
+      if (!events.length)
+        throw new Error(`No on-chain events found for container ${isoId}. Check the container number or enter the Sui object ID.`);
+      // find the register tx to get object ID — use Explorer link without object ID for now
+      objId = null;
+    }
+
+    // Render status banner
+    const statusCode = fields ? Number(fields.status) : -1;
+    const statusName = statusCode >= 0 ? STATUS_NAMES[statusCode] : 'EVENTS FOUND';
+    const statusCls  = statusCode >= 0 ? STATUS_CLASS[statusCode] : 'empty';
+
+    const banner = $('statusBanner');
+    banner.className = `status-banner ${statusCls}`;
+    tx('rIsoId',       isoId ?? '—');
+    ih('rStatusLabel', `<span class="banner-status ${statusCls}">${statusName}</span>`);
+    tx('rLocation',    fields?.current_location ?? (events[events.length-1]?.parsedJson?.port ?? '—'));
+
+    // Stage bar
+    if (statusCode >= 0) renderStages(statusCode);
+
+    // Container info card
+    if (fields) {
+      tx('rIsoId2',   fields.iso_id);
+      tx('rSizeType', fields.size_type);
+      tx('rStatus',   statusCode >= 0 ? STATUS_LABELS[statusCode] : '—');
+      tx('rOperator', fields.operator_name);
+      tx('rPortReg',  fields.port_of_registration);
+      tx('rCurrLoc',  fields.current_location);
+      tx('rLastEvent',fields.last_event_ms ? fmtDate(fields.last_event_ms) : '—');
+      tx('rYear',     fields.manufactured_year);
+      tx('rObjId',    objId ?? '—');
+    } else {
+      tx('rIsoId2',   isoId);
+      tx('rStatus',   'Events found — object ID needed for full details');
+    }
+
+    // Explorer link
+    if (objId) {
+      const el = $('explorerObj');
+      if (el) {
+        el.href = `${EXPLORER}/object/${objId}`;
+        ih('rObjectLink', `<a href="${EXPLORER}/object/${objId}" target="_blank" rel="noopener" style="font-size:11px;font-family:monospace">View on Explorer</a>`);
+      }
+      $('chainCard').style.display = '';
+    }
+
+    // Demurrage (only if gate_in or later)
+    if (statusCode >= 2 || events.some(e => e.type.includes('ContainerGateIn'))) {
+      const gateInEv = events.find(e => e.type.includes('ContainerGateIn'));
+      const gateInMs = gateInEv?.parsedJson?.timestamp_ms
+                    ?? (statusCode >= 2 ? fields?.last_event_ms : null);
+      if (gateInMs) renderDemurrage(Number(gateInMs));
+    }
+
+    // Timeline
+    renderTimeline(events);
+
+    // Carrier
+    renderCarrier(isoId);
+
+    hide('loading');
+    show('results');
+
+  } catch (err) {
+    hide('loading');
+    ih('errorMsg', err.message);
+    show('errorBox');
+  }
+}
+
+// ── Entry ────────────────────────────────────────────────────────────────────
+
+window.doTrack = () => {
+  const val = $('trackInput').value.trim();
+  if (!val) return;
+  const url = new URL(location.href);
+  url.searchParams.set('id', val);
+  history.pushState({}, '', url);
+  track(val);
+};
+
+$('trackInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.doTrack();
+});
+
+// Auto-load from URL param
+const params = new URLSearchParams(location.search);
+const initId = params.get('id') || params.get('object');
+if (initId) {
+  $('trackInput').value = initId;
+  track(initId);
+}
+</script>
+
+</body>
+</html>

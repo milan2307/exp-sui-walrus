@@ -26,7 +26,9 @@
     "container:testnet": "node scripts/container-testnet.js",
     "container:pilot": "node scripts/container-testnet.js --iso-id MSCU9876543 --free-days 14 --rate 150",
     "demo:speedex": "node scripts/speedex-demo.js",
-    "pitch": "node scripts/serve-verify.js --file web/speedex-pitch.html"
+    "pitch": "node scripts/serve-verify.js --file web/speedex-pitch.html",
+    "track": "node scripts/track-container.js",
+    "track:mscu": "node scripts/track-container.js MSCU9876543"
   },
   "repository": {
     "type": "git",
