@@ -16,6 +16,17 @@ Explorer: https://testnet.suivision.xyz/package/0x00cd2e5357027bc9e1210c790f8425
 ## State
 LogiOracle is deployed on Sui Testnet. The TradeProof v0.1 harness is complete: a Sui Move proof object, tested lifecycle updates, tested evidence-reference replacement, a repo-level `npm test` gate, an offline-first evidence/hash generator, a verified live Walrus HTTP upload path, and a public testnet package.
 
+## BT-003 Gate Results — 2026-06-17
+
+| Gate | Result | Detail |
+|---|---|---|
+| `sui --version` | PASS | `sui 1.73.1-ff1fe0ec4551-dirty` |
+| `walrus --version` | PASS | `walrus 1.50.0-dac31b8cb87c` |
+| logioracle builds | PASS | `BUILDING logioracle` clean |
+| Move tests (≥1) | PASS | 4/4 — creates, entry, rejects-transition, rejects-unknown |
+
+Walrus CLI path: `C:\Users\milan\Documents\MilanGPT-OS\.tools\walrus\walrus.exe`
+
 ## Verified Tooling
 Sui CLI:
 
