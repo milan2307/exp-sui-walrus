@@ -24,7 +24,9 @@
     "demurrage": "node scripts/demurrage-demo.js",
     "demurrage:scenario": "node scripts/demurrage-demo.js --gate-in 2026-06-01 --free-days 14 --rate 150 --current 2026-06-20 --containers 3 --iso-id MSCU1234567",
     "container:testnet": "node scripts/container-testnet.js",
-    "container:pilot": "node scripts/container-testnet.js --iso-id MSCU9876543 --free-days 14 --rate 150"
+    "container:pilot": "node scripts/container-testnet.js --iso-id MSCU9876543 --free-days 14 --rate 150",
+    "demo:speedex": "node scripts/speedex-demo.js",
+    "pitch": "node scripts/serve-verify.js --file web/speedex-pitch.html"
   },
   "repository": {
     "type": "git",
