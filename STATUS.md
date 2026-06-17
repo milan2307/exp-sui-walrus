@@ -16,6 +16,27 @@ Explorer: https://testnet.suivision.xyz/package/0x00cd2e5357027bc9e1210c790f8425
 ## State
 LogiOracle is deployed on Sui Testnet. The TradeProof v0.1 harness is complete: a Sui Move proof object, tested lifecycle updates, tested evidence-reference replacement, a repo-level `npm test` gate, an offline-first evidence/hash generator, a verified live Walrus HTTP upload path, and a public testnet package.
 
+## Live Testnet Proof — 2026-06-17
+
+Full CREATED → DELIVERED lifecycle on Sui Testnet, publicly verifiable.
+
+```text
+Package:          0x00cd2e5357027bc9e1210c790f842503c2eda56e5237bf046698e176a1bc7f61
+Shipment Object:  0xc5d0ec32fd49b45df13045c9c8d7b61caf06337ccedb19247ca3c2a099df2a2a
+Create Tx:        9PhwsznQW9mf3W5a7xDXCFjKFWNswrPhGpUM4QfbFhcD
+Status Tx:        Di6vk6Gyfv1MBwzUveAgWQr1FwjFe5QDEG77km4K9w3E
+Walrus Blob:      I8621DDJDxpOiuaqMV_ZnMmVJx3Zc42EtdoQx4v7ux8
+Final Status:     DELIVERED
+Route:            Nairobi → Mombasa
+```
+
+Explorer links:
+- Object:  https://testnet.suivision.xyz/object/0xc5d0ec32fd49b45df13045c9c8d7b61caf06337ccedb19247ca3c2a099df2a2a
+- Package: https://testnet.suivision.xyz/package/0x00cd2e5357027bc9e1210c790f842503c2eda56e5237bf046698e176a1bc7f61
+
+Verify page (run `npm run verify` first):
+http://127.0.0.1:4174/?object=0xc5d0ec32fd49b45df13045c9c8d7b61caf06337ccedb19247ca3c2a099df2a2a
+
 ## BT-003 Gate Results — 2026-06-17
 
 | Gate | Result | Detail |
