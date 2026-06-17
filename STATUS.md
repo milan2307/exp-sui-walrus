@@ -16,6 +16,28 @@ Explorer: https://testnet.suivision.xyz/package/0x00cd2e5357027bc9e1210c790f8425
 ## State
 LogiOracle is deployed on Sui Testnet. The TradeProof v0.1 harness is complete: a Sui Move proof object, tested lifecycle updates, tested evidence-reference replacement, a repo-level `npm test` gate, an offline-first evidence/hash generator, a verified live Walrus HTTP upload path, and a public testnet package.
 
+## Live Two-Party Proof — 2026-06-17
+
+Full two-party lifecycle on Sui Testnet. Two independent wallets, two signatures, one shared object.
+
+```text
+Package (v2 two-party):  0x0c18d6a33f794d9e265029a6f1d9ddbf42a44fbc3239737486a4aaaef2c70f1e
+Shared Object:           0xc60b8192f9ccd6c5cbb59272d09062b361e14812f3cf9ba4f9b38093778d7c0d
+Shipment:                SHIP-2P-LIVE  (Nairobi → London)
+
+Sender (exporter):       0xedc98afbb6a8bc2aa8197e76d37d0da2f30df2244741756cf1782ba3bc2d7305
+Receiver (importer):     0xc96e9d22819375a1dca576dbb2e48ad7a707242da2ed7757749551afdf75ad8f
+
+Create tx:               7urJMbQuCNoTprZeZCcZ5ZrnqjUawFEYQQqSLcHs8q1e  (signed by sender)
+Confirm tx:              J9UzxHYh3AmqXta4vmmMDemQNrzTVUr9kdSc7Pq4DdUw  (signed by receiver)
+Final status:            DELIVERED
+```
+
+Explorer:
+https://testnet.suivision.xyz/object/0xc60b8192f9ccd6c5cbb59272d09062b361e14812f3cf9ba4f9b38093778d7c0d
+
+GitHub (public): https://github.com/milan2307/exp-sui-walrus
+
 ## Live Testnet Proof — 2026-06-17
 
 Full CREATED → DELIVERED lifecycle on Sui Testnet, publicly verifiable.
