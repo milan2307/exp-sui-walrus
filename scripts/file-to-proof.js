@@ -1,7 +1,7 @@
-/**
+﻿/**
  * file-to-proof.js
  *
- * Full pipeline: any file → Walrus blob → Sui testnet Shipment → verify URL
+ * Full pipeline: any file â†’ Walrus blob â†’ Sui testnet Shipment â†’ verify URL
  *
  * Usage:
  *   node scripts/file-to-proof.js --file <path> --shipment-id <id> --origin <city> --destination <city>
@@ -18,7 +18,7 @@ const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const artifactsDir = join(repoRoot, "artifacts", "proofs");
 const suiCli = join(dirname(repoRoot), "MilanGPT-OS", ".tools", "sui", "sui.exe");
 
-const PACKAGE_ID = "0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0";
+const PACKAGE_ID = "0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697";
 const WALRUS_PUBLISHER = "https://publisher.walrus-testnet.walrus.space";
 const VERIFY_BASE = "http://127.0.0.1:4174";
 
@@ -94,7 +94,7 @@ function createSuiShipment(args, blobId, evidenceHash, recipient) {
   return { digest, objectId };
 }
 
-// ── Main ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -109,28 +109,28 @@ const fileName = basename(args.file);
 console.log("TradeProof file-to-proof pipeline");
 console.log(`file=${args.file} (${fileBytes.length} bytes)`);
 console.log(`shipment_id=${args.shipmentId}`);
-console.log(`route=${args.origin} → ${args.destination}`);
+console.log(`route=${args.origin} â†’ ${args.destination}`);
 console.log(`evidence_hash=${evidenceHash}`);
 
-// Step 1 — Upload to Walrus
+// Step 1 â€” Upload to Walrus
 step(1, "Uploading evidence to Walrus testnet");
 const { blobId, response: walrusResponse } = await uploadToWalrus(fileBytes, args.epochs, WALRUS_PUBLISHER);
 console.log(`walrus_blob_id=${blobId}`);
 
-// Step 2 — Get active Sui address
+// Step 2 â€” Get active Sui address
 step(2, "Resolving Sui signer address");
 const addrResult = spawnSync(suiCli, ["client", "active-address"], { encoding: "utf8" });
 const recipient = addrResult.stdout.trim();
 if (!recipient) throw new Error("Could not read Sui active address");
 console.log(`signer=${recipient}`);
 
-// Step 3 — Create Shipment on Sui testnet
+// Step 3 â€” Create Shipment on Sui testnet
 step(3, "Creating Shipment proof on Sui testnet");
 const { digest, objectId } = createSuiShipment(args, blobId, evidenceHash, recipient);
 console.log(`tx_digest=${digest}`);
 console.log(`shipment_object=${objectId}`);
 
-// Step 4 — Write proof record
+// Step 4 â€” Write proof record
 step(4, "Writing proof record");
 const proofRecord = {
   shipment_id: args.shipmentId,
@@ -151,15 +151,15 @@ const proofRecord = {
 const recordPath = join(artifactsDir, `${args.shipmentId.replace(/[^a-z0-9]/gi, "-")}.json`);
 writeFileSync(recordPath, JSON.stringify(proofRecord, null, 2) + "\n");
 
-// Step 5 — Print summary
-console.log("\n─────────────────────────────────────────");
+// Step 5 â€” Print summary
+console.log("\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€");
 console.log("TradeProof created");
 console.log(`shipment_id=${args.shipmentId}`);
-console.log(`route=${args.origin} → ${args.destination}`);
+console.log(`route=${args.origin} â†’ ${args.destination}`);
 console.log(`walrus_blob_id=${blobId}`);
 console.log(`evidence_hash=${evidenceHash}`);
 console.log(`shipment_object=${objectId}`);
 console.log(`verify_url=${VERIFY_BASE}/?object=${objectId}`);
 console.log(`proof_record=${recordPath}`);
-console.log("─────────────────────────────────────────");
-console.log("\nTo verify: npm run verify  →  open the verify_url above");
+console.log("â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€");
+console.log("\nTo verify: npm run verify  â†’  open the verify_url above");

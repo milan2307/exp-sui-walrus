@@ -1,14 +1,14 @@
-/**
+﻿/**
  * TradeProof Demurrage Demo
  *
  * Demonstrates the on-chain demurrage dispute resolution flow for the
- * EAC corridor (Mombasa Port → Nairobi ICD).
+ * EAC corridor (Mombasa Port â†’ Nairobi ICD).
  *
  * The same arithmetic used here is the exact on-chain function:
  *   logioracle::container::calculate_demurrage(gate_in_ms, free_days, rate_per_day, current_ms)
  *
  * When both parties use on-chain timestamps, the calculation is identical
- * for both — no dispute possible.
+ * for both â€” no dispute possible.
  *
  * Usage:
  *   node scripts/demurrage-demo.js
@@ -17,10 +17,10 @@
 
 import { parseArgs } from 'node:util';
 
-const PACKAGE_V1 = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
+const PACKAGE_V1 = '0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697';
 const DAY_MS = 86_400_000n;
 
-// ── Parse CLI args ────────────────────────────────────────────────────────────
+// â”€â”€ Parse CLI args â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const { values } = parseArgs({
     options: {
@@ -48,7 +48,7 @@ const isoId       = values['iso-id'];
 const gateInMs  = BigInt(gateInDate.getTime());
 const currentMs = BigInt(currentDate.getTime());
 
-// ── Mirror of on-chain calculate_demurrage() ──────────────────────────────────
+// â”€â”€ Mirror of on-chain calculate_demurrage() â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function calculateDemurrage(gateInMs, freeDays, ratePerDay, currentMs) {
     const freePeriodMs = freeDays * DAY_MS;
@@ -63,14 +63,14 @@ const daysOverdue  = daysElapsed > freeDays ? daysElapsed - freeDays : 0n;
 const perContainer = calculateDemurrage(gateInMs, freeDays, rateUsd, currentMs);
 const totalOwed    = perContainer * containers;
 
-// ── Report ────────────────────────────────────────────────────────────────────
+// â”€â”€ Report â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-const sep = '─'.repeat(64);
+const sep = 'â”€'.repeat(64);
 
-console.log(`\n${'═'.repeat(64)}`);
-console.log('  TradeProof — Demurrage Dispute Resolution');
+console.log(`\n${'â•'.repeat(64)}`);
+console.log('  TradeProof â€” Demurrage Dispute Resolution');
 console.log('  EAC Corridor (Mombasa Port)');
-console.log(`${'═'.repeat(64)}`);
+console.log(`${'â•'.repeat(64)}`);
 
 console.log(`\n  Container:       ${isoId}`);
 console.log(`  Gate In:         ${gateInDate.toDateString()}`);
@@ -83,7 +83,7 @@ console.log(`  Containers:      ${containers}`);
 console.log(`\n${sep}`);
 
 if (daysOverdue === 0n) {
-    console.log(`  Status:          WITHIN FREE PERIOD — no demurrage owed`);
+    console.log(`  Status:          WITHIN FREE PERIOD â€” no demurrage owed`);
     console.log(`  Days Remaining:  ${freeDays - daysElapsed} free days left`);
 } else {
     console.log(`  Status:          DEMURRAGE ACCRUING`);
@@ -109,12 +109,12 @@ console.log(sep);
 console.log(`
   Traditional process:
     Shipping line: "Container arrived on ${gateInDate.toDateString()}"
-    Shipper:       "We have it as ${new Date(gateInDate.getTime() + 2 * Number(DAY_MS)).toDateString()} — you owe us 2 days"
+    Shipper:       "We have it as ${new Date(gateInDate.getTime() + 2 * Number(DAY_MS)).toDateString()} â€” you owe us 2 days"
     Result:        Months of emails, legal threats, relationship damage
 
   On-chain process:
     Both parties read ContainerGateIn event timestamp from Sui
-    Both run calculate_demurrage() — identical inputs, identical result
+    Both run calculate_demurrage() â€” identical inputs, identical result
     Result:        Same number, both sides, no dispute possible
 `);
 
@@ -127,7 +127,7 @@ console.log(`  2. Both parties bookmark the Sui Explorer link`);
 console.log(`  3. When free period expires, anyone can run calculate_demurrage()`);
 console.log(`  4. The number is the same for both. Always.\n`);
 
-// ── Write proof artifact ──────────────────────────────────────────────────────
+// â”€â”€ Write proof artifact â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';

@@ -1,15 +1,15 @@
-/**
+﻿/**
  * bl-testnet.js
  *
  * Issues a DCSA eBL 3.0 compliant Bill of Lading NFT on Sui Testnet.
- * The BL is an owned object — only the holder can endorse or surrender it.
+ * The BL is an owned object â€” only the holder can endorse or surrender it.
  * Holder rights are enforced by the Sui network, not by any platform.
  *
  * Usage:
  *   node scripts/bl-testnet.js
  *   node scripts/bl-testnet.js --bl-number BL-SPX-2026-001 --consignee 0x... --pol "KE MBA" --pod "GB FXT"
  *
- * Defaults simulate a Mombasa → Felixstowe Speedex coffee shipment.
+ * Defaults simulate a Mombasa â†’ Felixstowe Speedex coffee shipment.
  */
 
 import { spawnSync }   from 'node:child_process';
@@ -21,12 +21,12 @@ import { parseArgs }   from 'node:util';
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const suiCli   = join(dirname(repoRoot), 'MilanGPT-OS', '.tools', 'sui', 'sui.exe');
 
-const PACKAGE    = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
+const PACKAGE    = '0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697';
 const CLOCK_ID   = '0x0000000000000000000000000000000000000000000000000000000000000006';
 const GAS_BUDGET = '80000000';
 const EXPLORER   = 'https://testnet.suivision.xyz';
 
-// ── CLI args ──────────────────────────────────────────────────────────────────
+// â”€â”€ CLI args â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const { values } = parseArgs({
   options: {
@@ -55,11 +55,11 @@ const { values } = parseArgs({
   allowPositionals: false,
 });
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const W   = Math.min(process.stdout.columns || 70, 80);
-const sep = '─'.repeat(W);
-const dbl = '═'.repeat(W);
+const sep = 'â”€'.repeat(W);
+const dbl = 'â•'.repeat(W);
 
 function sui(args) {
   const r = spawnSync(suiCli, args, { encoding: 'utf8', cwd: repoRoot });
@@ -79,15 +79,15 @@ function findCreated(tx, module) {
   )?.objectId;
 }
 
-// ── BL type labels ────────────────────────────────────────────────────────────
+// â”€â”€ BL type labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const BL_TYPE_LABELS = { '0': 'STRAIGHT (non-negotiable)', '1': 'TO ORDER (negotiable)', '2': 'BEARER' };
 const FREIGHT_LABELS = { '0': 'PREPAID', '1': 'COLLECT' };
 
-// ── Main ──────────────────────────────────────────────────────────────────────
+// â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log('\n' + dbl);
-console.log('  TradeProof — Issue DCSA eBL 3.0 Bill of Lading on Sui Testnet');
+console.log('  TradeProof â€” Issue DCSA eBL 3.0 Bill of Lading on Sui Testnet');
 console.log(dbl);
 
 const shipper   = activeAddress();
@@ -98,16 +98,16 @@ console.log(`  Consignee:  ${consignee}`);
 console.log(`  BL Number:  ${values['bl-number']}`);
 console.log(`  BL Type:    ${BL_TYPE_LABELS[values['bl-type']] ?? values['bl-type']}`);
 console.log(`  Vessel:     ${values['vessel']} / Voyage ${values['voyage']}`);
-console.log(`  Route:      ${values['place-of-receipt']} → ${values['pol']} → ${values['pod']} → ${values['place-of-delivery']}`);
+console.log(`  Route:      ${values['place-of-receipt']} â†’ ${values['pol']} â†’ ${values['pod']} â†’ ${values['place-of-delivery']}`);
 console.log(`  Cargo:      ${values['cargo']}`);
 console.log(`  HS Code:    ${values['hs-code']}`);
 console.log(`  Weight:     ${Number(values['weight-kg']).toLocaleString()} kg`);
 console.log(`  Freight:    ${FREIGHT_LABELS[values['freight-terms']] ?? values['freight-terms']}`);
 
-// ── Issue the BL ──────────────────────────────────────────────────────────────
+// â”€â”€ Issue the BL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log('\n' + sep);
-console.log('  Issuing Bill of Lading on Sui Testnet…');
+console.log('  Issuing Bill of Lading on Sui Testnetâ€¦');
 console.log(sep);
 
 const issueTx = sui([
@@ -145,7 +145,7 @@ if (issueTx.effects?.status?.status !== 'success') {
   throw new Error(`issue() failed: ${JSON.stringify(issueTx.effects?.status)}`);
 }
 
-// The BL is transferred to the consignee — find it in objectChanges
+// The BL is transferred to the consignee â€” find it in objectChanges
 const blId     = findCreated(issueTx, '::bill_of_lading::BillOfLading');
 const txDigest = issueTx.digest;
 
@@ -156,7 +156,7 @@ console.log(`  BL Object:  ${blId}`);
 console.log(`  Tx Digest:  ${txDigest}`);
 console.log(`  Explorer:   ${EXPLORER}/object/${blId}`);
 
-// ── Read back ─────────────────────────────────────────────────────────────────
+// â”€â”€ Read back â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log('\n' + sep);
 console.log('  Verify On-Chain State');
@@ -167,7 +167,7 @@ const fields = obj?.content?.fields;
 
 if (fields) {
   console.log(`  bl_number:            ${fields.bl_number}`);
-  console.log(`  bl_type:              ${fields.bl_type} — ${BL_TYPE_LABELS[String(fields.bl_type)]}`);
+  console.log(`  bl_type:              ${fields.bl_type} â€” ${BL_TYPE_LABELS[String(fields.bl_type)]}`);
   console.log(`  carrier_scac:         ${fields.carrier_scac}`);
   console.log(`  vessel:               ${fields.vessel}  /  ${fields.voyage}`);
   console.log(`  place_of_receipt:     ${fields.place_of_receipt}`);
@@ -178,11 +178,11 @@ if (fields) {
   console.log(`  gross_weight_kg:      ${Number(fields.gross_weight_kg).toLocaleString()} kg`);
   console.log(`  container_count:      ${fields.container_count}`);
   console.log(`  freight_terms:        ${FREIGHT_LABELS[String(fields.freight_terms)]}`);
-  console.log(`  status:               ${fields.status} — ISSUED`);
+  console.log(`  status:               ${fields.status} â€” ISSUED`);
   console.log(`  shipper:              ${fields.shipper}`);
 }
 
-// ── Save proof artifact ───────────────────────────────────────────────────────
+// â”€â”€ Save proof artifact â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const artifactsDir = join(repoRoot, 'artifacts', 'bl');
 mkdirSync(artifactsDir, { recursive: true });
@@ -224,14 +224,14 @@ console.log(sep);
 console.log(`
   BL Number:  ${values['bl-number']}
   Object ID:  ${blId}
-  Status:     ISSUED — held by consignee
-  Route:      ${values['pol']} → ${values['pod']}
+  Status:     ISSUED â€” held by consignee
+  Route:      ${values['pol']} â†’ ${values['pod']}
   Cargo:      ${values['cargo']}
   HS Code:    ${values['hs-code']}
 
   The consignee is the Sui object owner.
   Only they can call endorse() or surrender().
-  No platform controls this — the Sui network enforces holder rights.
+  No platform controls this â€” the Sui network enforces holder rights.
 
   Explorer:   ${EXPLORER}/object/${blId}
   Verify:     http://127.0.0.1:4174/verify/?object=${blId}

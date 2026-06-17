@@ -1,14 +1,14 @@
-/**
+﻿/**
  * container-testnet.js
  *
  * End-to-end demurrage pilot on Sui Testnet.
  *
  * What this does:
  *   1. Registers a Container object on-chain (shipping line creates the Digital ID)
- *   2. Calls gate_in() — records the terminal entry timestamp on-chain
- *   3. Reads the container object back — confirms last_event_ms is live on-chain
+ *   2. Calls gate_in() â€” records the terminal entry timestamp on-chain
+ *   3. Reads the container object back â€” confirms last_event_ms is live on-chain
  *   4. Calculates demurrage using that exact timestamp (same formula as the contract)
- *   5. Saves a proof artifact — both parties can verify the same number
+ *   5. Saves a proof artifact â€” both parties can verify the same number
  *
  * Usage:
  *   node scripts/container-testnet.js
@@ -27,12 +27,12 @@ import { parseArgs } from 'node:util';
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const suiCli   = join(dirname(repoRoot), 'MilanGPT-OS', '.tools', 'sui', 'sui.exe');
 
-const PACKAGE    = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
+const PACKAGE    = '0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697';
 const CLOCK_ID   = '0x0000000000000000000000000000000000000000000000000000000000000006';
 const GAS_BUDGET = '50000000';
 const DAY_MS     = 86_400_000n;
 
-// ── CLI args ──────────────────────────────────────────────────────────────────
+// â”€â”€ CLI args â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const { values } = parseArgs({
     options: {
@@ -55,9 +55,9 @@ const year     = values['year'];
 const freeDays = BigInt(values['free-days']);
 const rate     = BigInt(values['rate']);
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-const sep  = '─'.repeat(64);
+const sep  = 'â”€'.repeat(64);
 
 function sui(args) {
     const result = spawnSync(suiCli, args, { encoding: 'utf8', cwd: repoRoot });
@@ -91,12 +91,12 @@ function mirrorCalculateDemurrage(gateInMs, freeDays, ratePerDay, currentMs) {
     return days * ratePerDay;
 }
 
-// ── Step 0: get active address ────────────────────────────────────────────────
+// â”€â”€ Step 0: get active address â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-console.log(`\n${'═'.repeat(64)}`);
-console.log('  TradeProof — Container Digital ID Testnet Pilot');
-console.log('  EAC Corridor · Mombasa Port Demurrage');
-console.log(`${'═'.repeat(64)}\n`);
+console.log(`\n${'â•'.repeat(64)}`);
+console.log('  TradeProof â€” Container Digital ID Testnet Pilot');
+console.log('  EAC Corridor Â· Mombasa Port Demurrage');
+console.log(`${'â•'.repeat(64)}\n`);
 
 const activeAddr = (() => {
     const r = spawnSync(suiCli, ['client', 'active-address'], { encoding: 'utf8', cwd: repoRoot });
@@ -108,10 +108,10 @@ console.log(`  Package:          ${PACKAGE}`);
 console.log(`  Container:        ${isoId} (${sizeType})`);
 console.log(`  Port:             ${port}`);
 
-// ── Step 1: register_and_transfer ─────────────────────────────────────────────
+// â”€â”€ Step 1: register_and_transfer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log(`\n${sep}`);
-console.log('  Step 1 — Register Container on Sui Testnet');
+console.log('  Step 1 â€” Register Container on Sui Testnet');
 console.log(sep);
 
 const registerTx = sui([
@@ -135,10 +135,10 @@ console.log(`  Container object: ${containerObjectId}`);
 console.log(`  Tx digest:        ${registerDigest}`);
 console.log(`  Explorer: https://testnet.suivision.xyz/object/${containerObjectId}`);
 
-// ── Step 2: gate_in ───────────────────────────────────────────────────────────
+// â”€â”€ Step 2: gate_in â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log(`\n${sep}`);
-console.log('  Step 2 — Gate In (container enters port terminal)');
+console.log('  Step 2 â€” Gate In (container enters port terminal)');
 console.log(sep);
 
 const gateInTx = sui([
@@ -160,10 +160,10 @@ console.log(`  Gate-in recorded on-chain`);
 console.log(`  Tx digest: ${gateInDigest}`);
 console.log(`  Tx: https://testnet.suivision.xyz/txblock/${gateInDigest}`);
 
-// ── Step 3: read back the container object ────────────────────────────────────
+// â”€â”€ Step 3: read back the container object â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log(`\n${sep}`);
-console.log('  Step 3 — Verify On-Chain State');
+console.log('  Step 3 â€” Verify On-Chain State');
 console.log(sep);
 
 const objectData = sui(['client', 'object', containerObjectId, '--json']);
@@ -182,10 +182,10 @@ console.log(`  last_event_ms:    ${gateInMs} (${new Date(Number(gateInMs)).toISO
 
 if (status !== 2) throw new Error(`Expected status 2 (GATE_IN), got ${status}`);
 
-// ── Step 4: calculate demurrage ───────────────────────────────────────────────
+// â”€â”€ Step 4: calculate demurrage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log(`\n${sep}`);
-console.log('  Step 4 — Demurrage Calculation (same formula as on-chain)');
+console.log('  Step 4 â€” Demurrage Calculation (same formula as on-chain)');
 console.log(sep);
 
 const nowMs        = BigInt(Date.now());
@@ -200,7 +200,7 @@ console.log(`  Free days:        ${freeDays}`);
 console.log(`  Rate:             $${rate}/container/day`);
 
 if (daysOverdue === 0n) {
-    console.log(`\n  Status:           WITHIN FREE PERIOD — $0 owed`);
+    console.log(`\n  Status:           WITHIN FREE PERIOD â€” $0 owed`);
     console.log(`  Days remaining:   ${freeDays - daysElapsed} free days`);
 } else {
     console.log(`\n  Status:           DEMURRAGE ACCRUING`);
@@ -208,7 +208,7 @@ if (daysOverdue === 0n) {
     console.log(`  TOTAL OWED:       $${demurrage}`);
 }
 
-// ── Step 5: save proof artifact ───────────────────────────────────────────────
+// â”€â”€ Step 5: save proof artifact â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const artifactsDir = join(repoRoot, 'artifacts', 'demurrage');
 mkdirSync(artifactsDir, { recursive: true });
@@ -241,9 +241,9 @@ console.log('  Proof Artifact');
 console.log(sep);
 console.log(`  Saved: ${outPath}`);
 console.log(`\n  This file proves:`);
-console.log(`  · Container ${isoId} registered on Sui Testnet`);
-console.log(`  · Gate-in timestamp recorded on-chain (immutable)`);
-console.log(`  · Demurrage = same calculation both parties can run`);
-console.log(`  · No dispute possible — timestamp is on the blockchain\n`);
+console.log(`  Â· Container ${isoId} registered on Sui Testnet`);
+console.log(`  Â· Gate-in timestamp recorded on-chain (immutable)`);
+console.log(`  Â· Demurrage = same calculation both parties can run`);
+console.log(`  Â· No dispute possible â€” timestamp is on the blockchain\n`);
 console.log(`  Object:  https://testnet.suivision.xyz/object/${containerObjectId}`);
 console.log(`  Gate-in: https://testnet.suivision.xyz/txblock/${gateInDigest}\n`);

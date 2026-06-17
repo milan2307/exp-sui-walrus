@@ -1,9 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TradeProof — Container Track & Trace</title>
+  <title>TradeProof â€” Container Track & Trace</title>
   <style>
     :root {
       --blue:      #1a4fff;
@@ -38,7 +38,7 @@
     a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ── Header ── */
+    /* â”€â”€ Header â”€â”€ */
     .hdr {
       background: var(--panel);
       border-bottom: 1px solid var(--line);
@@ -67,10 +67,10 @@
       border-radius: 20px; padding: 3px 10px;
     }
 
-    /* ── Main ── */
+    /* â”€â”€ Main â”€â”€ */
     .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
 
-    /* ── Search ── */
+    /* â”€â”€ Search â”€â”€ */
     .search-box {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -101,11 +101,11 @@
     .search-btn:hover { opacity: .9; }
     .search-hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
 
-    /* ── Main grid ── */
+    /* â”€â”€ Main grid â”€â”€ */
     .grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
     @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
 
-    /* ── Card ── */
+    /* â”€â”€ Card â”€â”€ */
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -124,7 +124,7 @@
     }
     .card-body { padding: 20px; }
 
-    /* ── Status banner ── */
+    /* â”€â”€ Status banner â”€â”€ */
     .status-banner {
       border-radius: 12px;
       padding: 20px 24px;
@@ -148,7 +148,7 @@
     .banner-status.gate-out   { color: var(--green); }
     .banner-loc { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-    /* ── Container info grid ── */
+    /* â”€â”€ Container info grid â”€â”€ */
     .info-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -169,7 +169,7 @@
       .info-cell:nth-child(2n) { border-right: none; }
     }
 
-    /* ── Timeline ── */
+    /* â”€â”€ Timeline â”€â”€ */
     .timeline { list-style: none; padding: 0; position: relative; }
     .timeline::before {
       content: '';
@@ -200,7 +200,7 @@
     .tl-time  { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: monospace; }
     .tl-tx    { font-size: 11px; margin-top: 3px; }
 
-    /* ── Demurrage box ── */
+    /* â”€â”€ Demurrage box â”€â”€ */
     .dem-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
     .dem-row:last-child { border-bottom: none; }
     .dem-label { color: var(--muted); }
@@ -215,7 +215,7 @@
     .dem-status.accruing { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-bd); }
     .dem-status.clear    { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
 
-    /* ── Carrier link ── */
+    /* â”€â”€ Carrier link â”€â”€ */
     .carrier-link {
       display: flex; align-items: center; gap: 10px;
       border: 1px solid var(--line); border-radius: 8px;
@@ -227,7 +227,7 @@
     .carrier-icon { font-size: 18px; }
     .carrier-sub  { font-size: 11px; font-weight: 400; color: var(--muted); }
 
-    /* ── Explorer link ── */
+    /* â”€â”€ Explorer link â”€â”€ */
     .explorer-btn {
       display: block; text-align: center;
       border: 1px solid var(--blue); color: var(--blue);
@@ -237,7 +237,7 @@
     }
     .explorer-btn:hover { background: #eff4ff; text-decoration: none; }
 
-    /* ── Stage progress bar ── */
+    /* â”€â”€ Stage progress bar â”€â”€ */
     .stages {
       display: flex; gap: 0;
       border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
@@ -253,7 +253,7 @@
     .stage.done    { background: var(--green-bg); color: var(--green); }
     .stage.current { background: var(--amber-bg); color: var(--amber); }
 
-    /* ── Spinner ── */
+    /* â”€â”€ Spinner â”€â”€ */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner {
       width: 20px; height: 20px;
@@ -264,7 +264,7 @@
 
     .hidden { display: none !important; }
 
-    /* ── Footer ── */
+    /* â”€â”€ Footer â”€â”€ */
     footer {
       text-align: center; font-size: 12px;
       color: var(--muted); padding: 40px 0 20px;
@@ -298,44 +298,44 @@
     </div>
     <div class="search-row">
       <input id="trackInput" class="search-input" type="text"
-        placeholder="MSCU9876543  or  0x52071c…"
+        placeholder="MSCU9876543  or  0x52071câ€¦"
         spellcheck="false" autocomplete="off" />
       <button class="search-btn" onclick="doTrack()">Track</button>
     </div>
     <p class="search-hint">
-      Timestamps are recorded by the Sui blockchain — not by any shipping line or operator.
+      Timestamps are recorded by the Sui blockchain â€” not by any shipping line or operator.
       Both parties read the same immutable record.
     </p>
   </div>
 
   <!-- Loading -->
   <div id="loading" class="hidden" style="text-align:center;padding:40px 0;color:var(--muted)">
-    <span class="spinner"></span>&nbsp; Fetching from Sui Testnet…
+    <span class="spinner"></span>&nbsp; Fetching from Sui Testnetâ€¦
   </div>
 
   <!-- Not registered on TradeProof yet -->
   <div id="notRegisteredBox" class="hidden">
     <div class="status-banner" style="background:#fffbeb;border:1px solid #fcd34d;color:#92400e">
-      <div style="font-size:22px;flex-shrink:0">📦</div>
+      <div style="font-size:22px;flex-shrink:0">ðŸ“¦</div>
       <div style="flex:1">
         <div class="banner-iso" style="font-size:16px;color:#92400e" id="notRegIso">Container not registered on TradeProof</div>
-        <div class="banner-loc" style="color:#b45309">This container hasn't been recorded on Sui Testnet yet — no on-chain timestamp exists. You can still track it on the carrier's website below, or register it on TradeProof to create an immutable gate-in record.</div>
+        <div class="banner-loc" style="color:#b45309">This container hasn't been recorded on Sui Testnet yet â€” no on-chain timestamp exists. You can still track it on the carrier's website below, or register it on TradeProof to create an immutable gate-in record.</div>
       </div>
     </div>
 
     <!-- Carrier fallback -->
     <div id="notRegCarrier" style="background:#fff;border:1px solid #dde1ea;border-radius:12px;padding:20px 24px;margin-top:16px">
-      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a6072;margin-bottom:14px">Carrier Tracking — Web2 Source</div>
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a6072;margin-bottom:14px">Carrier Tracking â€” Web2 Source</div>
       <div id="notRegCarrierLinks"></div>
       <div style="font-size:12px;color:#5a6072;margin-top:14px;padding-top:12px;border-top:1px solid #dde1ea">
-        ⚠️ Carrier timestamps are mutable — the carrier can change them. Register on TradeProof to create an immutable, blockchain-verified record that neither party can dispute.
+        âš ï¸ Carrier timestamps are mutable â€” the carrier can change them. Register on TradeProof to create an immutable, blockchain-verified record that neither party can dispute.
       </div>
     </div>
 
     <!-- Register CTA -->
     <div style="background:#eff4ff;border:1px solid #a4bcfd;border-radius:12px;padding:20px 24px;margin-top:16px">
       <div style="font-size:15px;font-weight:700;color:#1a4fff;margin-bottom:8px">Register this container on TradeProof</div>
-      <div style="font-size:13px;color:#5a6072;margin-bottom:14px">Run this command to create an immutable on-chain record at gate-in. Both parties will read the same Sui-timestamped record — no dispute possible.</div>
+      <div style="font-size:13px;color:#5a6072;margin-bottom:14px">Run this command to create an immutable on-chain record at gate-in. Both parties will read the same Sui-timestamped record â€” no dispute possible.</div>
       <div id="notRegCmd" style="background:#0f1117;color:#86efac;border-radius:8px;padding:14px 18px;font-family:monospace;font-size:13px;overflow-wrap:anywhere"></div>
       <div style="font-size:12px;color:#5a6072;margin-top:10px">Once registered, paste the object ID into the search box above to see the full on-chain record.</div>
     </div>
@@ -357,9 +357,9 @@
     <!-- Status banner -->
     <div id="statusBanner" class="status-banner empty">
       <div>
-        <div class="banner-iso" id="rIsoId">—</div>
-        <div class="banner-status" id="rStatusLabel">—</div>
-        <div class="banner-loc" id="rLocation">—</div>
+        <div class="banner-iso" id="rIsoId">â€”</div>
+        <div class="banner-status" id="rStatusLabel">â€”</div>
+        <div class="banner-loc" id="rLocation">â€”</div>
       </div>
     </div>
 
@@ -385,15 +385,15 @@
         <div class="card">
           <div class="card-head">Container Details <span id="rObjectLink"></span></div>
           <div class="info-grid">
-            <div class="info-cell"><div class="info-label">ISO ID</div><div class="info-val" id="rIsoId2">—</div></div>
-            <div class="info-cell"><div class="info-label">Size / Type</div><div class="info-val" id="rSizeType">—</div></div>
-            <div class="info-cell"><div class="info-label">Status</div><div class="info-val" id="rStatus">—</div></div>
-            <div class="info-cell"><div class="info-label">Operator</div><div class="info-val" id="rOperator">—</div></div>
-            <div class="info-cell"><div class="info-label">Port of Registration</div><div class="info-val" id="rPortReg">—</div></div>
-            <div class="info-cell"><div class="info-label">Current Location</div><div class="info-val" id="rCurrLoc">—</div></div>
-            <div class="info-cell"><div class="info-label">Last Event</div><div class="info-val" id="rLastEvent">—</div></div>
-            <div class="info-cell"><div class="info-label">Manufactured</div><div class="info-val" id="rYear">—</div></div>
-            <div class="info-cell"><div class="info-label">Blockchain Object</div><div class="info-val" style="font-size:11px;font-family:monospace" id="rObjId">—</div></div>
+            <div class="info-cell"><div class="info-label">ISO ID</div><div class="info-val" id="rIsoId2">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Size / Type</div><div class="info-val" id="rSizeType">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Status</div><div class="info-val" id="rStatus">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Operator</div><div class="info-val" id="rOperator">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Port of Registration</div><div class="info-val" id="rPortReg">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Current Location</div><div class="info-val" id="rCurrLoc">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Last Event</div><div class="info-val" id="rLastEvent">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Manufactured</div><div class="info-val" id="rYear">â€”</div></div>
+            <div class="info-cell"><div class="info-label">Blockchain Object</div><div class="info-val" style="font-size:11px;font-family:monospace" id="rObjId">â€”</div></div>
           </div>
         </div>
 
@@ -419,15 +419,15 @@
             <div id="demStatus" class="dem-status clear">Within free period</div>
             <div class="dem-total" id="demTotal">$0</div>
             <div style="font-size:12px;color:var(--muted);margin-bottom:16px">total demurrage owed</div>
-            <div class="dem-row"><span class="dem-label">Gate-in date</span><span class="dem-val" id="dGateIn">—</span></div>
-            <div class="dem-row"><span class="dem-label">Today</span><span class="dem-val" id="dToday">—</span></div>
-            <div class="dem-row"><span class="dem-label">Days at port</span><span class="dem-val" id="dElapsed">—</span></div>
+            <div class="dem-row"><span class="dem-label">Gate-in date</span><span class="dem-val" id="dGateIn">â€”</span></div>
+            <div class="dem-row"><span class="dem-label">Today</span><span class="dem-val" id="dToday">â€”</span></div>
+            <div class="dem-row"><span class="dem-label">Days at port</span><span class="dem-val" id="dElapsed">â€”</span></div>
             <div class="dem-row"><span class="dem-label">Free days</span><span class="dem-val" id="dFree">14</span></div>
             <div class="dem-row"><span class="dem-label">Days overdue</span><span class="dem-val" id="dOverdue">0</span></div>
             <div class="dem-row"><span class="dem-label">Rate per day</span><span class="dem-val" id="dRate">$150</span></div>
             <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:monospace;line-height:1.8" id="dFormula"></div>
             <div style="margin-top:12px;font-size:11px;color:var(--muted)">
-              Both parties read the same gate-in timestamp from the blockchain. The calculation is identical — no dispute possible.
+              Both parties read the same gate-in timestamp from the blockchain. The calculation is identical â€” no dispute possible.
             </div>
           </div>
         </div>
@@ -437,14 +437,14 @@
           <div class="card-head">Carrier Tracking</div>
           <div class="card-body">
             <a id="carrierLink" class="carrier-link" href="#" target="_blank" rel="noopener">
-              <span class="carrier-icon">🚢</span>
+              <span class="carrier-icon">ðŸš¢</span>
               <div>
                 <div id="carrierName">Carrier Website</div>
                 <div class="carrier-sub">View tracking on the carrier's official site</div>
               </div>
             </a>
             <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
-              The carrier's tracking data is the source. TradeProof records it immutably on Sui — so the carrier cannot later dispute their own timestamps.
+              The carrier's tracking data is the source. TradeProof records it immutably on Sui â€” so the carrier cannot later dispute their own timestamps.
             </div>
           </div>
         </div>
@@ -456,13 +456,13 @@
             <a id="explorerObj" class="explorer-btn" href="#" target="_blank" rel="noopener">
               View Object on Sui Explorer
             </a>
-            <a id="explorerPkg" class="explorer-btn" href="https://testnet.suivision.xyz/package/0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0" target="_blank" rel="noopener">
+            <a id="explorerPkg" class="explorer-btn" href="https://testnet.suivision.xyz/package/0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697" target="_blank" rel="noopener">
               View Package on Sui Explorer
             </a>
             <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
               Package:
               <span style="font-family:monospace;overflow-wrap:anywhere;display:block;margin-top:4px">
-                0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0
+                0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697
               </span>
             </div>
           </div>
@@ -476,16 +476,16 @@
 </main>
 
 <footer>
-  TradeProof · Built on Sui + Walrus · EAC Corridor Demurrage Pilot · Mombasa Port
+  TradeProof Â· Built on Sui + Walrus Â· EAC Corridor Demurrage Pilot Â· Mombasa Port
 </footer>
 
 <script type="module">
 const SUI_RPC  = 'https://fullnode.testnet.sui.io:443';
-const PACKAGE  = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
+const PACKAGE  = '0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697';
 const EXPLORER = 'https://testnet.suivision.xyz';
 const DAY_MS   = 86_400_000;
 
-// ── Carrier map ──────────────────────────────────────────────────────────────
+// â”€â”€ Carrier map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const CARRIERS = {
   MSCU: { name: 'MSC',          url: id => `https://www.msc.com/en/search-a-schedule-and-a-tariff/tracking?trackingNumber=${id}` },
@@ -503,32 +503,32 @@ const CARRIERS = {
   TCKU: { name: 'Trident',      url: id => `https://www.track-trace.com/container#${id}` },
 };
 
-// ── Status config ────────────────────────────────────────────────────────────
+// â”€â”€ Status config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const STATUS_NAMES  = ['EMPTY','STUFFED','GATE_IN','ON_VESSEL','DISCHARGED','CUSTOMS_CLEARED','GATE_OUT','RETURNED'];
 const STATUS_CLASS  = ['empty','stuffed','gate-in','on-vessel','discharged','cleared','gate-out','returned'];
 const STATUS_LABELS = [
-  'Empty — at depot',
-  'Stuffed — cargo loaded',
-  'Gate In — at port terminal',
-  'On Vessel — at sea',
-  'Discharged — unloaded from vessel',
+  'Empty â€” at depot',
+  'Stuffed â€” cargo loaded',
+  'Gate In â€” at port terminal',
+  'On Vessel â€” at sea',
+  'Discharged â€” unloaded from vessel',
   'Customs Cleared',
-  'Gate Out — released to consignee',
-  'Returned — empty, back at depot',
+  'Gate Out â€” released to consignee',
+  'Returned â€” empty, back at depot',
 ];
 
 const EVENT_TYPES = {
   ContainerStuffed:       { cls: 'stuffed',    label: 'Cargo Stuffed' },
-  ContainerGateIn:        { cls: 'gate-in',    label: 'Gate In — entered port terminal' },
+  ContainerGateIn:        { cls: 'gate-in',    label: 'Gate In â€” entered port terminal' },
   ContainerLoadedOnVessel:{ cls: 'on-vessel',  label: 'Loaded on Vessel' },
   ContainerDischarged:    { cls: 'discharged', label: 'Discharged from Vessel' },
   ContainerCustomsCleared:{ cls: 'cleared',    label: 'Customs Cleared' },
-  ContainerGateOut:       { cls: 'gate-out',   label: 'Gate Out — released to consignee' },
+  ContainerGateOut:       { cls: 'gate-out',   label: 'Gate Out â€” released to consignee' },
   ContainerReturned:      { cls: 'returned',   label: 'Returned Empty' },
 };
 
-// ── RPC helpers ──────────────────────────────────────────────────────────────
+// â”€â”€ RPC helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function rpc(method, params) {
   const r = await fetch(SUI_RPC, {
@@ -554,10 +554,10 @@ async function getEvents(isoId) {
   return (result?.data ?? []).filter(e => e.parsedJson?.iso_id === isoId);
 }
 
-// ── UI helpers ───────────────────────────────────────────────────────────────
+// â”€â”€ UI helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const $  = id => document.getElementById(id);
-const tx = (id, val) => { const el = $(id); if (el) el.textContent = val ?? '—'; };
+const tx = (id, val) => { const el = $(id); if (el) el.textContent = val ?? 'â€”'; };
 const ih = (id, val) => { const el = $(id); if (el) el.innerHTML = val; };
 
 function show(id)  { $(id)?.classList.remove('hidden'); $(id) && ($(id).style.display = ''); }
@@ -575,7 +575,7 @@ function fmtShort(ms) {
   });
 }
 
-// ── Demurrage ────────────────────────────────────────────────────────────────
+// â”€â”€ Demurrage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function calcDemurrage(gateInMs, freeDays, ratePerDay, currentMs) {
   const freePeriodMs = freeDays * DAY_MS;
@@ -600,7 +600,7 @@ function renderDemurrage(gateInMs) {
   tx('dFree',    `${FREE_DAYS} days`);
   tx('dOverdue', `${overdue} days`);
   tx('dRate',    `$${RATE}/container/day`);
-  ih('dFormula', `(${elapsed} − ${FREE_DAYS}) × $${RATE}/day`);
+  ih('dFormula', `(${elapsed} âˆ’ ${FREE_DAYS}) Ã— $${RATE}/day`);
 
   if (overdue > 0) {
     $('demStatus').className = 'dem-status accruing';
@@ -610,7 +610,7 @@ function renderDemurrage(gateInMs) {
   } else {
     const remaining = FREE_DAYS - elapsed;
     $('demStatus').className = 'dem-status clear';
-    $('demStatus').textContent = `Within free period — ${remaining} days remaining`;
+    $('demStatus').textContent = `Within free period â€” ${remaining} days remaining`;
     $('demTotal').className = 'dem-total green';
     $('demTotal').textContent = '$0';
   }
@@ -618,7 +618,7 @@ function renderDemurrage(gateInMs) {
   $('demCard').style.display = '';
 }
 
-// ── Stage bar ────────────────────────────────────────────────────────────────
+// â”€â”€ Stage bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function renderStages(statusCode) {
   for (let i = 0; i <= 7; i++) {
@@ -628,7 +628,7 @@ function renderStages(statusCode) {
   }
 }
 
-// ── Timeline ─────────────────────────────────────────────────────────────────
+// â”€â”€ Timeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function renderTimeline(events) {
   const tl = $('timeline');
@@ -646,7 +646,7 @@ function renderTimeline(events) {
 
     let detail = '';
     if (pj.port)              detail = pj.port;
-    if (pj.vessel)            detail = `${pj.vessel}${pj.port_of_loading ? ' · ' + pj.port_of_loading : ''}`;
+    if (pj.vessel)            detail = `${pj.vessel}${pj.port_of_loading ? ' Â· ' + pj.port_of_loading : ''}`;
     if (pj.port_of_discharge) detail = pj.vessel + ' at ' + pj.port_of_discharge;
 
     const txUrl = `${EXPLORER}/txblock/${ev.id.txDigest}`;
@@ -656,14 +656,14 @@ function renderTimeline(events) {
       <div class="tl-content">
         <div class="tl-event">${cfg.label}</div>
         ${detail ? `<div class="tl-loc">${detail}</div>` : ''}
-        <div class="tl-time">${ts ? fmtDate(ts) : '—'}</div>
-        <div class="tl-tx"><a href="${txUrl}" target="_blank" rel="noopener" style="font-size:11px;font-family:monospace">tx: ${ev.id.txDigest.slice(0,16)}…</a></div>
+        <div class="tl-time">${ts ? fmtDate(ts) : 'â€”'}</div>
+        <div class="tl-tx"><a href="${txUrl}" target="_blank" rel="noopener" style="font-size:11px;font-family:monospace">tx: ${ev.id.txDigest.slice(0,16)}â€¦</a></div>
       </div>
     </li>`;
   }).join('');
 }
 
-// ── Carrier link ─────────────────────────────────────────────────────────────
+// â”€â”€ Carrier link â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function renderCarrier(isoId) {
   const prefix = (isoId ?? '').slice(0, 4).toUpperCase();
@@ -678,7 +678,7 @@ function renderCarrier(isoId) {
   el.style.display = '';
 }
 
-// ── Main track function ───────────────────────────────────────────────────────
+// â”€â”€ Main track function â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function showNotRegistered(isoId) {
   hide('results');
@@ -686,7 +686,7 @@ function showNotRegistered(isoId) {
   const prefix = isoId.slice(0, 4).toUpperCase();
   const c = CARRIERS[prefix];
 
-  ih('notRegIso', `${isoId} — not yet registered on TradeProof`);
+  ih('notRegIso', `${isoId} â€” not yet registered on TradeProof`);
 
   // carrier links
   const linksEl = document.getElementById('notRegCarrierLinks');
@@ -697,20 +697,20 @@ function showNotRegistered(isoId) {
         style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
                padding:8px 14px;border:1px solid #dde1ea;border-radius:7px;
                background:#f6f8fc;color:#0f1117;text-decoration:none;margin-right:8px;margin-bottom:8px">
-        🚢 ${c.name} — official tracking
+        ðŸš¢ ${c.name} â€” official tracking
       </a>`);
     }
     links.push(`<a href="https://www.track-trace.com/container#${isoId}" target="_blank" rel="noopener"
       style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
              padding:8px 14px;border:1px solid #dde1ea;border-radius:7px;
              background:#f6f8fc;color:#0f1117;text-decoration:none;margin-right:8px;margin-bottom:8px">
-      🔗 track-trace.com — all carriers
+      ðŸ”— track-trace.com â€” all carriers
     </a>`);
     links.push(`<a href="https://www.seacargotracking.net/" target="_blank" rel="noopener"
       style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
              padding:8px 14px;border:1px solid #dde1ea;border-radius:7px;
              background:#f6f8fc;color:#0f1117;text-decoration:none;margin-right:8px;margin-bottom:8px">
-      🌐 SeaCargo Tracking
+      ðŸŒ SeaCargo Tracking
     </a>`);
     linksEl.innerHTML = links.join('');
   }
@@ -746,7 +746,7 @@ async function track(input) {
       events = await getEvents(isoId);
 
     } else {
-      // ISO ID — search events
+      // ISO ID â€” search events
       isoId  = input.trim().toUpperCase();
       events = await getEvents(isoId);
       if (!events.length) {
@@ -754,7 +754,7 @@ async function track(input) {
         showNotRegistered(isoId);
         return;
       }
-      // find the register tx to get object ID — use Explorer link without object ID for now
+      // find the register tx to get object ID â€” use Explorer link without object ID for now
       objId = null;
     }
 
@@ -765,9 +765,9 @@ async function track(input) {
 
     const banner = $('statusBanner');
     banner.className = `status-banner ${statusCls}`;
-    tx('rIsoId',       isoId ?? '—');
+    tx('rIsoId',       isoId ?? 'â€”');
     ih('rStatusLabel', `<span class="banner-status ${statusCls}">${statusName}</span>`);
-    tx('rLocation',    fields?.current_location ?? (events[events.length-1]?.parsedJson?.port ?? '—'));
+    tx('rLocation',    fields?.current_location ?? (events[events.length-1]?.parsedJson?.port ?? 'â€”'));
 
     // Stage bar
     if (statusCode >= 0) renderStages(statusCode);
@@ -776,16 +776,16 @@ async function track(input) {
     if (fields) {
       tx('rIsoId2',   fields.iso_id);
       tx('rSizeType', fields.size_type);
-      tx('rStatus',   statusCode >= 0 ? STATUS_LABELS[statusCode] : '—');
+      tx('rStatus',   statusCode >= 0 ? STATUS_LABELS[statusCode] : 'â€”');
       tx('rOperator', fields.operator_name);
       tx('rPortReg',  fields.port_of_registration);
       tx('rCurrLoc',  fields.current_location);
-      tx('rLastEvent',fields.last_event_ms ? fmtDate(fields.last_event_ms) : '—');
+      tx('rLastEvent',fields.last_event_ms ? fmtDate(fields.last_event_ms) : 'â€”');
       tx('rYear',     fields.manufactured_year);
-      tx('rObjId',    objId ?? '—');
+      tx('rObjId',    objId ?? 'â€”');
     } else {
       tx('rIsoId2',   isoId);
-      tx('rStatus',   'Events found — object ID needed for full details');
+      tx('rStatus',   'Events found â€” object ID needed for full details');
     }
 
     // Explorer link
@@ -823,7 +823,7 @@ async function track(input) {
   }
 }
 
-// ── Entry ────────────────────────────────────────────────────────────────────
+// â”€â”€ Entry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 window.doTrack = () => {
   const val = $('trackInput').value.trim();

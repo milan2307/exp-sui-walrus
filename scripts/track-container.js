@@ -1,9 +1,9 @@
-/**
+﻿/**
  * track-container.js
  *
  * CLI container track & trace using Sui blockchain events.
  * Mirrors what seacargotracking.net shows, but the source of truth
- * is the immutable Sui blockchain — not a carrier's mutable database.
+ * is the immutable Sui blockchain â€” not a carrier's mutable database.
  *
  * Usage:
  *   node scripts/track-container.js MSCU9876543
@@ -18,11 +18,11 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const suiCli   = join(dirname(repoRoot), 'MilanGPT-OS', '.tools', 'sui', 'sui.exe');
 
-const PACKAGE  = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
+const PACKAGE  = '0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697';
 const EXPLORER = 'https://testnet.suivision.xyz';
 const DAY_MS   = 86_400_000;
 
-// ── Carriers ──────────────────────────────────────────────────────────────────
+// â”€â”€ Carriers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const CARRIERS = {
   MSCU: { name: 'MSC',         url: id => `https://www.msc.com/en/search-a-schedule-and-a-tariff/tracking?trackingNumber=${id}` },
@@ -41,15 +41,15 @@ const CARRIERS = {
 const STATUS_NAMES = ['EMPTY','STUFFED','GATE_IN','ON_VESSEL','DISCHARGED','CUSTOMS_CLEARED','GATE_OUT','RETURNED'];
 const EVENT_TYPES  = {
   ContainerStuffed:        'Cargo Stuffed',
-  ContainerGateIn:         'Gate In — entered port terminal',
+  ContainerGateIn:         'Gate In â€” entered port terminal',
   ContainerLoadedOnVessel: 'Loaded on Vessel',
   ContainerDischarged:     'Discharged from Vessel',
   ContainerCustomsCleared: 'Customs Cleared',
-  ContainerGateOut:        'Gate Out — released to consignee',
+  ContainerGateOut:        'Gate Out â€” released to consignee',
   ContainerReturned:       'Returned Empty',
 };
 
-// ── Args ──────────────────────────────────────────────────────────────────────
+// â”€â”€ Args â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const argv        = process.argv.slice(2);
 const input       = argv[0];
@@ -63,11 +63,11 @@ if (!input) {
   process.exit(1);
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const W   = Math.min(process.stdout.columns || 70, 80);
-const hr  = () => '─'.repeat(W);
-const dbl = () => '═'.repeat(W);
+const hr  = () => 'â”€'.repeat(W);
+const dbl = () => 'â•'.repeat(W);
 
 function fmtDate(ms) {
   return new Date(Number(ms)).toUTCString();
@@ -87,7 +87,7 @@ function calcDemurrage(gateInMs, freeDays, ratePerDay, currentMs) {
   return { days, amount: days * ratePerDay };
 }
 
-// ── RPC via sui client ────────────────────────────────────────────────────────
+// â”€â”€ RPC via sui client â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function suiObject(id) {
   return suiCall(['client', 'object', id, '--json']);
@@ -120,12 +120,12 @@ async function fetchEvents(isoId) {
   return all.filter(e => e.parsedJson?.iso_id === isoId);
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
+// â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const isObjId = /^0x[0-9a-f]{64}$/i.test(input);
 
 console.log('\n' + dbl());
-console.log('  TradeProof — Container Track & Trace');
+console.log('  TradeProof â€” Container Track & Trace');
 console.log('  Source: Sui Testnet (immutable blockchain record)');
 console.log(dbl());
 
@@ -135,7 +135,7 @@ let objId   = null;
 
 if (isObjId) {
   objId = input;
-  console.log(`\n  Fetching object ${objId.slice(0,20)}…`);
+  console.log(`\n  Fetching object ${objId.slice(0,20)}â€¦`);
   const obj = suiObject(objId);
   fields = obj?.content?.fields;
   if (!fields) { console.error('  Object not found or not a Container'); process.exit(1); }
@@ -146,7 +146,7 @@ if (isObjId) {
 }
 
 // Fetch events
-console.log(`  Fetching on-chain events for ${isoId}…\n`);
+console.log(`  Fetching on-chain events for ${isoId}â€¦\n`);
 let events = [];
 try {
   events = await fetchEvents(isoId);
@@ -154,7 +154,7 @@ try {
   console.warn(`  (Event query failed: ${e.message})`);
 }
 
-// ── Container info ────────────────────────────────────────────────────────────
+// â”€â”€ Container info â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 if (fields) {
   const statusCode = Number(fields.status);
@@ -165,7 +165,7 @@ if (fields) {
   console.log(hr());
   console.log(`  ISO ID:           ${fields.iso_id}`);
   console.log(`  Size / Type:      ${fields.size_type}`);
-  console.log(`  Status:           ${statusCode} — ${statusName}`);
+  console.log(`  Status:           ${statusCode} â€” ${statusName}`);
   console.log(`  Operator:         ${fields.operator_name}`);
   console.log(`  Current Location: ${fields.current_location}`);
   console.log(`  Last Event:       ${fmtDate(fields.last_event_ms)}`);
@@ -176,11 +176,11 @@ if (fields) {
   }
 } else {
   console.log(hr());
-  console.log(`  Container: ${isoId}  (no object ID — enter object ID for full details)`);
+  console.log(`  Container: ${isoId}  (no object ID â€” enter object ID for full details)`);
   console.log(hr());
 }
 
-// ── Event timeline ────────────────────────────────────────────────────────────
+// â”€â”€ Event timeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log('\n' + hr());
 console.log('  On-Chain Event Timeline');
@@ -199,7 +199,7 @@ if (!events.length) {
     const label     = EVENT_TYPES[shortType] ?? shortType;
     const pj        = ev.parsedJson ?? {};
     const ts        = pj.timestamp_ms;
-    const prefix    = i === sorted.length - 1 ? '  └─' : '  ├─';
+    const prefix    = i === sorted.length - 1 ? '  â””â”€' : '  â”œâ”€';
 
     console.log(`${prefix} ${label}`);
     if (pj.port)              console.log(`     Location: ${pj.port}`);
@@ -208,11 +208,11 @@ if (!events.length) {
     if (pj.port_of_discharge) console.log(`     POD:      ${pj.port_of_discharge}`);
     if (ts)                   console.log(`     Time:     ${fmtDate(ts)}`);
     console.log(`     Tx:       ${EXPLORER}/txblock/${ev.id.txDigest}`);
-    if (i < sorted.length - 1) console.log('     │');
+    if (i < sorted.length - 1) console.log('     â”‚');
   });
 }
 
-// ── Demurrage ─────────────────────────────────────────────────────────────────
+// â”€â”€ Demurrage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const gateInEv = events.find(e => e.type.includes('ContainerGateIn'));
 const gateInMs = gateInEv?.parsedJson?.timestamp_ms
@@ -236,7 +236,7 @@ if (gateInMs) {
     console.log(`\n  STATUS:    DEMURRAGE ACCRUING`);
     console.log(`  Overdue:   ${overdue} days`);
     console.log(`  OWED:      $${amount.toLocaleString()}`);
-    console.log(`\n  Formula:   (${elapsed} − ${freeDays}) × $${rate} = $${amount}`);
+    console.log(`\n  Formula:   (${elapsed} âˆ’ ${freeDays}) Ã— $${rate} = $${amount}`);
   } else {
     const remaining = freeDays - elapsed;
     console.log(`\n  STATUS:    WITHIN FREE PERIOD`);
@@ -246,7 +246,7 @@ if (gateInMs) {
   console.log('  Same input. Same output. No dispute possible.');
 }
 
-// ── Carrier tracking ──────────────────────────────────────────────────────────
+// â”€â”€ Carrier tracking â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const prefix  = isoId.slice(0, 4).toUpperCase();
 const carrier = CARRIERS[prefix];
@@ -264,7 +264,7 @@ if (carrier) {
   console.log(`  Try: https://www.track-trace.com/container#${isoId}`);
 }
 
-// ── TradeProof web page ───────────────────────────────────────────────────────
+// â”€â”€ TradeProof web page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 console.log('\n' + hr());
 console.log('  TradeProof Track & Trace Page');
@@ -273,4 +273,4 @@ const trackUrl = objId
   ? `file://${repoRoot}/web/track/index.html?id=${objId}`
   : `file://${repoRoot}/web/track/index.html?id=${isoId}`;
 console.log(`  ${trackUrl}`);
-console.log(`\n  Share this URL with any party — no login, no account.\n`);
+console.log(`\n  Share this URL with any party â€” no login, no account.\n`);

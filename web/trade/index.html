@@ -327,7 +327,7 @@
   <div class="demo-banner-left">
     <span class="demo-dot"></span>
     <span class="demo-badge">DEMO MODE</span>
-    <span>Viewing Speedex Logistics demo account · Sui Testnet · Live blockchain data</span>
+    <span id="demo-wallet-note">Viewing Speedex Logistics demo account · Sui Testnet · Live blockchain data</span>
   </div>
   <button class="connect-btn" onclick="showConnect()">🔑 Connect Wallet / zkLogin</button>
 </div>
@@ -406,7 +406,7 @@
       <div class="user-name">Speedex Logistics</div>
       <div class="user-role">Freight Forwarder · Demo</div>
     </div>
-    <span class="user-chain">Testnet</span>
+    <span class="user-chain" id="wallet-chip">Testnet</span>
   </div>
 </aside>
 
@@ -573,14 +573,14 @@
             </div>
           </div>
           <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap">
-            <a href="/verify/?object=0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4" target="_blank" class="badge badge-green" style="padding:4px 10px;font-size:11px">🔍 Verify on Chain</a>
-            <a href="https://testnet.suivision.xyz/object/0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4" target="_blank" class="badge badge-gray" style="padding:4px 10px;font-size:11px">↗ Sui Explorer</a>
-            <span class="badge badge-gray" style="padding:4px 10px;font-size:11px">Object: 0x7c618a73…da3d4</span>
+            <a href="/verify/?object=0x9d567a4e89094f8a4efed5b087d259e844d313e7562fb5928f1f067d65e89e51" target="_blank" class="badge badge-green" style="padding:4px 10px;font-size:11px">🔍 Verify on Chain</a>
+            <a href="https://testnet.suivision.xyz/object/0x9d567a4e89094f8a4efed5b087d259e844d313e7562fb5928f1f067d65e89e51" target="_blank" class="badge badge-gray" style="padding:4px 10px;font-size:11px">↗ Sui Explorer</a>
+            <span class="badge badge-gray" style="padding:4px 10px;font-size:11px">Object: 0x9d567a4e…e89e51</span>
           </div>
         </div>
         <div class="bl-actions">
           <button class="action-btn action-primary" onclick="showConnect('endorse')">Endorse BL →</button>
-          <button class="action-btn action-secondary" onclick="window.open('/verify/?object=0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4','_blank')">Verify</button>
+          <button class="action-btn action-secondary" onclick="window.open('/verify/?object=0x9d567a4e89094f8a4efed5b087d259e844d313e7562fb5928f1f067d65e89e51','_blank')">Verify</button>
           <button class="action-btn action-secondary" onclick="showConnect('surrender')">Surrender BL</button>
           <button class="action-btn action-disabled" title="Connect wallet to encrypt">🔐 Encrypt (Seal)</button>
         </div>
@@ -605,7 +605,7 @@
           </div>
           <div style="display:flex;gap:8px;align-items:center">
             <span class="badge badge-blue" id="cont-status-badge">GATE_IN</span>
-            <a href="/track/?id=0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560" target="_blank" class="badge badge-gray" style="padding:4px 10px">Track ↗</a>
+            <a href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" target="_blank" class="badge badge-gray" style="padding:4px 10px">Track ↗</a>
           </div>
         </div>
 
@@ -721,7 +721,7 @@
 
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="showConnect('escrow')">🔒 Fund Escrow — Protect Against Dispute</button>
-            <button class="btn btn-outline" onclick="window.open('/track/?id=0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560','_blank')">📦 Track Container ↗</button>
+            <button class="btn btn-outline" onclick="window.open('/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0','_blank')">📦 Track Container ↗</button>
           </div>
         </div>
       </div>
@@ -843,7 +843,7 @@
               <div class="activity-meta">Port of Mombasa · Status: GATE_IN · Demurrage clock started</div>
               <div class="activity-meta" id="act-gate-in">Timestamp: loading from chain…</div>
             </div>
-            <a href="https://testnet.suivision.xyz/object/0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560" target="_blank" style="font-size:11px;color:var(--muted)">↗ Explorer</a>
+            <a href="https://testnet.suivision.xyz/object/0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" target="_blank" style="font-size:11px;color:var(--muted)">↗ Explorer</a>
           </div>
           <div class="activity-item">
             <div class="activity-icon" style="background:var(--blue-lt)">📄</div>
@@ -852,7 +852,7 @@
               <div class="activity-meta">KE MBA → GB FXT · MSC AURORA · 21,000 kg green coffee</div>
               <div class="activity-meta">Consignee: Speedex Logistics · Freight: Prepaid</div>
             </div>
-            <a href="https://testnet.suivision.xyz/object/0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4" target="_blank" style="font-size:11px;color:var(--muted)">↗ Explorer</a>
+            <a href="https://testnet.suivision.xyz/object/0x9d567a4e89094f8a4efed5b087d259e844d313e7562fb5928f1f067d65e89e51" target="_blank" style="font-size:11px;color:var(--muted)">↗ Explorer</a>
           </div>
           <div class="activity-item">
             <div class="activity-icon" style="background:var(--purple-bg)">🔐</div>
@@ -883,33 +883,63 @@
   </div>
 </main>
 
-<!-- ── Connect Modal ── -->
-<div id="connect-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)hideConnect()">
-  <div style="background:#fff;border-radius:16px;padding:32px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2)">
-    <div style="font-size:20px;font-weight:900;margin-bottom:6px">Connect to TradeProof</div>
-    <div style="font-size:13px;color:var(--muted);margin-bottom:24px">Choose how you want to sign in. No seed phrase required with zkLogin.</div>
+<!-- ── Connect Modal mount point (populated by wallet.js mountConnectModal) ── -->
+<div id="connect-modal-mount"></div>
 
-    <button onclick="hideConnect()" style="width:100%;padding:14px;border:2px solid var(--blue);border-radius:10px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px">
-      <span>G</span> Sign in with Google <span style="font-size:11px;opacity:.8">(zkLogin → Sui address)</span>
-    </button>
-    <button onclick="hideConnect()" style="width:100%;padding:14px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px">
-      🦊 Sui Wallet / Browser Extension
-    </button>
-    <button onclick="hideConnect()" style="width:100%;padding:14px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px">
-      📱 WalletConnect
-    </button>
+<!-- ── Escrow Modal ── -->
+<div id="escrow-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#fff;border-radius:16px;padding:28px;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+    <div style="font-size:18px;font-weight:900;margin-bottom:4px">Fund Demurrage Escrow</div>
+    <div style="font-size:12px;color:#6b7280;margin-bottom:20px">Deposit max potential demurrage. Auto-releases at gate-out. No invoice. No dispute.</div>
 
-    <div style="margin-top:20px;padding:14px;background:var(--blue-lt);border-radius:8px;font-size:12px;color:var(--blue)">
-      <strong>zkLogin</strong> converts your Google account into a Sui address using a zero-knowledge proof. No seed phrase. Your identity stays private. Your address is deterministic.
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">BL NUMBER</label>
+        <input id="esc-bl" value="BL-SPX-2026-001" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">CONTAINER</label>
+        <input id="esc-container" value="MSCU9876543" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+      </div>
     </div>
-    <div style="text-align:center;margin-top:14px">
-      <button onclick="hideConnect()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer">Cancel</button>
+
+    <div style="margin-bottom:16px">
+      <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">BENEFICIARY ADDRESS (shipping line)</label>
+      <input id="esc-beneficiary" placeholder="0x..." style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;font-family:monospace">
     </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">FREE DAYS</label>
+        <input id="esc-free-days" type="number" value="14" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">RATE ($/day)</label>
+        <input id="esc-rate" type="number" value="150" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">MAX DAYS</label>
+        <input id="esc-max-days" type="number" value="30" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+      </div>
+    </div>
+
+    <div style="background:#eff4ff;border:1px solid #dce8ff;border-radius:8px;padding:12px;font-size:12px;color:#1a4fff;margin-bottom:16px" id="esc-calc">
+      Deposit: <strong id="esc-deposit-display">$4,500</strong> (30 days × $150) locked in smart contract
+    </div>
+
+    <button id="esc-submit-btn" style="width:100%;padding:12px;background:#1a4fff;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px" onclick="submitEscrow()">
+      Lock in Smart Contract
+    </button>
+    <div id="esc-result" style="display:none;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:10px;font-size:12px;color:#087443;margin-bottom:8px"></div>
+    <div id="esc-error" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px;font-size:12px;color:#b42318;margin-bottom:8px"></div>
+    <button onclick="document.getElementById('escrow-modal').style.display='none'" style="background:none;border:none;color:#6b7280;font-size:12px;cursor:pointer;width:100%;text-align:center">Cancel</button>
   </div>
 </div>
 
 <script type="module">
-  const CONTAINER = '0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560';
+  import { wallet, mountConnectModal, buildCreateEscrowTx } from '/wallet.js';
+
+  const CONTAINER = '0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0';
   const RPC       = 'https://fullnode.testnet.sui.io:443';
   const DAY_MS    = 86_400_000;
   const FREE_DAYS = 14;
@@ -1043,11 +1073,120 @@
     document.getElementById('page-sub').textContent = sub;
   };
 
+  // ── Wallet integration ──────────────────────────────────────────────────────
+
+  function onWalletConnected(address) {
+    const short = address.slice(0, 6) + '…' + address.slice(-4);
+    // Banner button
+    const btn = document.querySelector('.connect-btn');
+    if (btn) { btn.textContent = short; btn.title = address; }
+    // Sidebar user chip
+    const chip = document.getElementById('wallet-chip');
+    if (chip) { chip.textContent = short; chip.title = address; chip.style.color = '#087443'; }
+    // Remove demo banner note
+    const demoNote = document.getElementById('demo-wallet-note');
+    if (demoNote) demoNote.textContent = 'Wallet connected · Testnet';
+    // If an escrow action was pending, open the modal
+    if (window._pendingAction === 'escrow') {
+      window._pendingAction = null;
+      openEscrowModal();
+    }
+  }
+
+  wallet.on('connected', ({ address }) => onWalletConnected(address));
+
   window.showConnect = function(action) {
-    document.getElementById('connect-modal').style.display = 'flex';
+    if (wallet.connected) {
+      if (action === 'escrow') openEscrowModal();
+      return;
+    }
+    window._pendingAction = action ?? null;
+    mountConnectModal('connect-modal-mount', onWalletConnected);
   };
   window.hideConnect = function() {
-    document.getElementById('connect-modal').style.display = 'none';
+    document.getElementById('connect-modal-mount').innerHTML = '';
+  };
+
+  // ── Escrow modal ─────────────────────────────────────────────────────────────
+
+  function openEscrowModal() {
+    const el = document.getElementById('escrow-modal');
+    if (el) { el.style.display = 'flex'; updateEscrowCalc(); }
+  }
+
+  function updateEscrowCalc() {
+    const rate    = Number(document.getElementById('esc-rate')?.value ?? 150);
+    const maxDays = Number(document.getElementById('esc-max-days')?.value ?? 30);
+    const display = document.getElementById('esc-deposit-display');
+    if (display) display.textContent = `$${rate * maxDays}`;
+  }
+
+  document.getElementById('esc-rate')?.addEventListener('input', updateEscrowCalc);
+  document.getElementById('esc-max-days')?.addEventListener('input', updateEscrowCalc);
+
+  window.submitEscrow = async function() {
+    const btn    = document.getElementById('esc-submit-btn');
+    const errEl  = document.getElementById('esc-error');
+    const resEl  = document.getElementById('esc-result');
+
+    const blNumber     = document.getElementById('esc-bl').value.trim();
+    const containerIso = document.getElementById('esc-container').value.trim();
+    const beneficiary  = document.getElementById('esc-beneficiary').value.trim();
+    const freeDays     = Number(document.getElementById('esc-free-days').value);
+    const ratePerDay   = Number(document.getElementById('esc-rate').value);
+    const maxDays      = Number(document.getElementById('esc-max-days').value);
+
+    errEl.style.display = 'none';
+    resEl.style.display = 'none';
+
+    if (!blNumber || !containerIso || !beneficiary.startsWith('0x')) {
+      errEl.style.display = 'block';
+      errEl.textContent = 'Fill in all fields. Beneficiary must be a Sui address (0x…).';
+      return;
+    }
+    if (!wallet.connected) {
+      errEl.style.display = 'block';
+      errEl.textContent = 'Wallet not connected. Please connect first.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Building transaction…';
+
+    try {
+      const depositMist  = BigInt(Math.round(maxDays * ratePerDay * 1_000_000));
+      const gateInMs     = BigInt(Date.now());
+      const rateMist     = BigInt(Math.round(ratePerDay * 1_000_000));
+
+      const tx = await buildCreateEscrowTx({
+        blNumber,
+        containerIso,
+        beneficiary,
+        freeDays:       BigInt(freeDays),
+        ratePerDayMist: rateMist,
+        gateInMs,
+        depositMist,
+        senderAddress:  wallet.address,
+      });
+
+      btn.textContent = 'Waiting for wallet approval…';
+      const result = await wallet.signAndExecute(tx);
+      const digest = result?.digest ?? result?.effects?.transactionDigest ?? 'unknown';
+
+      resEl.style.display = 'block';
+      resEl.innerHTML = `
+        Escrow created on Sui Testnet.<br>
+        <strong>Tx:</strong> <a href="https://testnet.suivision.xyz/txblock/${digest}" target="_blank" style="color:#087443">${digest.slice(0,12)}… ↗</a>
+      `;
+      btn.textContent = 'Funded';
+    } catch (e) {
+      errEl.style.display = 'block';
+      errEl.textContent = e.message === 'USER_REJECTED'
+        ? 'Transaction rejected in wallet.'
+        : `Error: ${e.message}`;
+      btn.disabled = false;
+      btn.textContent = 'Lock in Smart Contract';
+    }
   };
 </script>
 </body>
