@@ -28,7 +28,9 @@
     "demo:speedex": "node scripts/speedex-demo.js",
     "pitch": "node scripts/serve-verify.js --file web/speedex-pitch.html",
     "track": "node scripts/track-container.js",
-    "track:mscu": "node scripts/track-container.js MSCU9876543"
+    "track:mscu": "node scripts/track-container.js MSCU9876543",
+    "serve": "node scripts/serve.js",
+    "bl:testnet": "node scripts/bl-testnet.js"
   },
   "repository": {
     "type": "git",

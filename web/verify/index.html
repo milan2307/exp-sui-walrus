@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TradeProof Verify — LogiOracle</title>
+  <title>TradeProof Verifier</title>
   <style>
     :root {
       --bg: #f7f8fa;
@@ -11,7 +11,7 @@
       --ink: #17191d;
       --muted: #667085;
       --line: #d9dee7;
-      --blue: #1f5eff;
+      --blue: #1a4fff;
       --green: #087443;
       --green-bg: #ecfdf5;
       --green-border: #6ce9a6;
@@ -24,194 +24,172 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg);
-      color: var(--ink);
+      background: var(--bg); color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-      min-height: 100vh;
+      min-height: 100vh; font-size: 15px;
     }
     a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
     /* ── Header ── */
-    .header {
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
-      padding: 18px 0;
-    }
+    .header { background: var(--panel); border-bottom: 1px solid var(--line); padding: 16px 0; }
     .header-inner {
-      width: min(860px, calc(100% - 32px));
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      width: min(900px, calc(100% - 32px)); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
     .logo { display: flex; align-items: center; gap: 10px; }
     .logo-mark {
-      width: 36px; height: 36px;
-      background: var(--blue);
-      border-radius: 8px;
-      display: grid; place-items: center;
-      color: #fff; font-weight: 800; font-size: 15px;
+      width: 34px; height: 34px; background: var(--blue);
+      border-radius: 8px; display: grid; place-items: center;
+      color: #fff; font-weight: 800; font-size: 14px;
     }
-    .logo-text { font-weight: 700; font-size: 17px; }
-    .logo-sub { font-size: 13px; color: var(--muted); margin-top: 1px; }
+    .logo-text { font-weight: 700; font-size: 16px; }
+    .logo-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
     .chain-badge {
-      font-size: 12px; font-weight: 600;
-      color: var(--green);
-      background: var(--green-bg);
-      border: 1px solid var(--green-border);
-      padding: 4px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; color: var(--green);
+      background: var(--green-bg); border: 1px solid var(--green-border);
+      padding: 3px 10px; border-radius: 20px;
     }
+    .header-nav { font-size: 13px; color: var(--muted); }
+    .header-nav a { color: var(--muted); margin-left: 16px; }
+    .header-nav a:hover { color: var(--blue); text-decoration: none; }
 
     /* ── Main ── */
-    .main {
-      width: min(860px, calc(100% - 32px));
-      margin: 40px auto 80px;
-    }
+    .main { width: min(900px, calc(100% - 32px)); margin: 40px auto 80px; }
 
     /* ── Search ── */
     .search-wrap {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-      margin-bottom: 32px;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 10px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 28px;
     }
     .search-label {
-      display: block;
-      font-size: 13px; font-weight: 700;
-      color: var(--muted); text-transform: uppercase;
-      margin-bottom: 10px;
+      display: block; font-size: 12px; font-weight: 700;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px;
     }
     .search-row { display: flex; gap: 10px; }
     .search-input {
-      flex: 1;
-      height: 44px;
-      padding: 0 14px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      font: inherit; font-size: 14px;
-      color: var(--ink);
-      background: var(--bg);
-      outline: none;
+      flex: 1; height: 44px; padding: 0 14px;
+      border: 1px solid var(--line); border-radius: 7px;
+      font: inherit; font-size: 14px; color: var(--ink);
+      background: var(--bg); outline: none;
     }
     .search-input:focus { border-color: var(--blue); }
     .search-btn {
       height: 44px; padding: 0 20px;
       background: var(--blue); color: #fff;
       border: none; border-radius: 7px;
-      font: inherit; font-size: 14px; font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
+      font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
     }
     .search-btn:hover { opacity: .9; }
-    .search-hint { font-size: 12px; color: var(--muted); margin-top: 9px; }
+    .search-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
 
-    /* ── Status banner ── */
+    /* ── Banner ── */
     .banner {
-      border-radius: 10px;
-      padding: 22px 24px;
-      margin-bottom: 24px;
+      border-radius: 10px; padding: 20px 24px; margin-bottom: 22px;
       display: flex; align-items: center; gap: 16px;
     }
     .banner.verified { background: var(--green-bg); border: 1px solid var(--green-border); }
-    .banner.failed   { background: var(--red-bg);   border: 1px solid var(--red-border);   }
-    .banner.loading  { background: var(--panel);    border: 1px solid var(--line);          }
-    .banner-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
-    .banner-title { font-size: 18px; font-weight: 700; }
+    .banner.failed   { background: var(--red-bg);   border: 1px solid var(--red-border); }
+    .banner.loading  { background: var(--panel);    border: 1px solid var(--line); }
+    .banner-icon { font-size: 26px; line-height: 1; flex-shrink: 0; }
+    .banner-title { font-size: 17px; font-weight: 700; }
     .banner.verified .banner-title { color: var(--green); }
     .banner.failed   .banner-title { color: var(--red); }
     .banner-sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
 
-    /* ── Card grid ── */
+    /* ── Type badge ── */
+    .type-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+      border: 1px solid; margin-bottom: 16px;
+    }
+    .type-badge.container   { background: #eff4ff; color: var(--blue); border-color: #a4bcfd; }
+    .type-badge.bl          { background: var(--yellow-bg); color: var(--yellow); border-color: #fec84b; }
+    .type-badge.shipment    { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+    .type-badge.unknown     { background: var(--bg); color: var(--muted); border-color: var(--line); }
+
+    /* ── Progress bar (container) ── */
+    .progress-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
+    .progress-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; }
+    .progress-stages { display: flex; align-items: center; gap: 0; }
+    .stage { flex: 1; text-align: center; position: relative; }
+    .stage-dot {
+      width: 14px; height: 14px; border-radius: 50%; margin: 0 auto 6px;
+      border: 2px solid var(--line); background: var(--bg);
+      position: relative; z-index: 1;
+    }
+    .stage.done .stage-dot { background: var(--blue); border-color: var(--blue); }
+    .stage.current .stage-dot { background: #fff; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,79,255,.2); }
+    .stage-line {
+      position: absolute; top: 7px; left: 50%; width: 100%;
+      height: 2px; background: var(--line); z-index: 0;
+    }
+    .stage.done .stage-line { background: var(--blue); }
+    .stage:last-child .stage-line { display: none; }
+    .stage-label { font-size: 10px; color: var(--muted); font-weight: 600; }
+    .stage.done .stage-label { color: var(--blue); }
+    .stage.current .stage-label { color: var(--ink); font-weight: 700; }
+
+    /* ── Cards ── */
     .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      margin-bottom: 20px;
-      overflow: hidden;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 10px; box-shadow: var(--shadow); margin-bottom: 18px; overflow: hidden;
     }
     .card-head {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--line);
-      font-size: 13px; font-weight: 700;
-      color: var(--muted); text-transform: uppercase;
+      padding: 12px 20px; border-bottom: 1px solid var(--line);
+      font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em;
     }
-    .field-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 0;
-    }
-    .field {
-      padding: 16px 20px;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .field:last-child, .field-grid > .field:nth-child(even) { border-right: none; }
-    .field-label {
-      font-size: 11px; font-weight: 700;
-      color: var(--muted); text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .field-value {
-      font-size: 14px; font-weight: 600;
-      overflow-wrap: anywhere;
-    }
-    .field-value.mono {
-      font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-      font-size: 12px; font-weight: 400;
-    }
-    .field-value.link a { display: block; overflow-wrap: anywhere; }
+    .field-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .field { padding: 14px 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .field:last-child { border-right: none; }
+    .field-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+    .field-value { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+    .field-value.mono { font-family: "Cascadia Mono","SFMono-Regular",Consolas,monospace; font-size: 12px; font-weight: 400; }
+    .field-full { grid-column: 1 / -1; }
 
-    /* Status pill */
-    .pill {
-      display: inline-block;
-      padding: 3px 10px; border-radius: 20px;
-      font-size: 12px; font-weight: 700;
-    }
-    .pill.DELIVERED  { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-    .pill.IN_TRANSIT { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #fec84b; }
-    .pill.CREATED    { background: #eff4ff; color: var(--blue); border: 1px solid #a4bcfd; }
+    /* Status pills */
+    .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+    .pill-blue   { background: #eff4ff; color: var(--blue); border: 1px solid #a4bcfd; }
+    .pill-green  { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .pill-yellow { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #fec84b; }
+    .pill-red    { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
 
-    /* Hash match row */
+    /* ── Demurrage box (container) ── */
+    .demurrage-box {
+      margin: 0 20px 14px; padding: 16px;
+      background: var(--yellow-bg); border: 1px solid #fec84b; border-radius: 8px;
+      font-size: 13px;
+    }
+    .demurrage-box.overdue { background: var(--red-bg); border-color: var(--red-border); }
+    .demurrage-label { font-weight: 700; margin-bottom: 6px; }
+    .demurrage-amount { font-size: 22px; font-weight: 900; color: var(--red); }
+
+    /* ── Hash row ── */
     .hash-row {
-      padding: 16px 20px;
-      border-top: 1px solid var(--line);
+      padding: 14px 20px; border-top: 1px solid var(--line);
       display: flex; align-items: flex-start; gap: 12px;
     }
     .hash-check { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
     .hash-label { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-    .hash-detail { font-size: 12px; color: var(--muted); font-family: "Cascadia Mono", Consolas, monospace; overflow-wrap: anywhere; }
+    .hash-detail { font-size: 12px; color: var(--muted); font-family: "Cascadia Mono",Consolas,monospace; overflow-wrap: anywhere; white-space: pre-wrap; }
 
-    /* Footer */
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 40px;
+    /* Links row */
+    .links-row { padding: 14px 20px; display: flex; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); }
+    .ext-link {
+      font-size: 12px; font-weight: 600; padding: 6px 12px;
+      border: 1px solid var(--line); border-radius: 6px; color: var(--ink); background: var(--bg);
     }
+    .ext-link:hover { border-color: var(--blue); color: var(--blue); text-decoration: none; }
 
-    /* Loading spinner */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner {
-      width: 22px; height: 22px;
-      border: 3px solid var(--line);
-      border-top-color: var(--blue);
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      flex-shrink: 0;
+      width: 20px; height: 20px; border: 3px solid var(--line);
+      border-top-color: var(--blue); border-radius: 50%; animation: spin .8s linear infinite; flex-shrink: 0;
     }
 
     #result { display: none; }
-    #searchBox { display: block; }
-
-    @media (max-width: 600px) {
-      .field-grid { grid-template-columns: 1fr; }
-      .field { border-right: none; }
-    }
+    footer { text-align: center; font-size: 12px; color: var(--muted); padding: 32px 0 20px; border-top: 1px solid var(--line); }
+    @media (max-width: 600px) { .field-grid { grid-template-columns: 1fr; } .field { border-right: none; } }
   </style>
 </head>
 <body>
@@ -219,32 +197,34 @@
 <header class="header">
   <div class="header-inner">
     <div class="logo">
-      <div class="logo-mark">L</div>
+      <div class="logo-mark">T</div>
       <div>
-        <div class="logo-text">LogiOracle</div>
-        <div class="logo-sub">TradeProof Verifier</div>
+        <div class="logo-text">TradeProof Verifier</div>
+        <div class="logo-sub">Container · Bill of Lading · Shipment Proof</div>
       </div>
     </div>
-    <span class="chain-badge">Sui Testnet</span>
+    <div style="display:flex;align-items:center;gap:16px">
+      <nav class="header-nav">
+        <a href="/">Home</a>
+        <a href="/track/">Track</a>
+      </nav>
+      <span class="chain-badge">Sui Testnet</span>
+    </div>
   </div>
 </header>
 
 <main class="main">
 
   <div class="search-wrap" id="searchBox">
-    <label class="search-label" for="objectInput">Shipment Proof Object ID</label>
+    <label class="search-label" for="objectInput">TradeProof Object ID</label>
     <div class="search-row">
-      <input
-        id="objectInput"
-        class="search-input"
-        type="text"
-        placeholder="0x…"
-        spellcheck="false"
-      />
+      <input id="objectInput" class="search-input" type="text"
+        placeholder="0x… (Container, Bill of Lading, or Shipment object ID)"
+        spellcheck="false" autocomplete="off" />
       <button class="search-btn" onclick="verify()">Verify</button>
     </div>
     <p class="search-hint">
-      Enter a Sui object ID to verify the on-chain trade proof and Walrus evidence.
+      Enter any Sui object ID from TradeProof — Container, Bill of Lading, Shipment, or other trade document.
     </p>
   </div>
 
@@ -252,251 +232,411 @@
     <div class="banner loading" id="banner">
       <div class="spinner"></div>
       <div>
-        <div class="banner-title">Verifying proof…</div>
-        <div class="banner-sub">Fetching from Sui testnet and Walrus</div>
+        <div class="banner-title">Verifying…</div>
+        <div class="banner-sub">Fetching from Sui testnet</div>
       </div>
     </div>
-
-    <div class="card" id="shipmentCard" style="display:none">
-      <div class="card-head">Shipment Details</div>
-      <div class="field-grid">
-        <div class="field">
-          <div class="field-label">Shipment ID</div>
-          <div class="field-value" id="fShipmentId">—</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Status</div>
-          <div class="field-value" id="fStatus">—</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Origin</div>
-          <div class="field-value" id="fOrigin">—</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Destination</div>
-          <div class="field-value" id="fDestination">—</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Proof Type</div>
-          <div class="field-value" id="fProofType">—</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Owner</div>
-          <div class="field-value mono" id="fOwner">—</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" id="evidenceCard" style="display:none">
-      <div class="card-head">Evidence &amp; Storage</div>
-      <div class="field-grid">
-        <div class="field">
-          <div class="field-label">Walrus Blob ID</div>
-          <div class="field-value mono" id="fBlobId">—</div>
-        </div>
-        <div class="field">
-          <div class="field-label">On-chain Evidence Hash</div>
-          <div class="field-value mono" id="fEvidenceHash">—</div>
-        </div>
-      </div>
-      <div class="hash-row" id="hashRow" style="display:none">
-        <div class="hash-check" id="hashIcon">⏳</div>
-        <div>
-          <div class="hash-label" id="hashLabel">Checking Walrus blob…</div>
-          <div class="hash-detail" id="hashDetail"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" id="chainCard" style="display:none">
-      <div class="card-head">On-chain Record</div>
-      <div class="field-grid">
-        <div class="field">
-          <div class="field-label">Object ID</div>
-          <div class="field-value link mono" id="fObjectId">—</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Package</div>
-          <div class="field-value link mono" id="fPackageId">—</div>
-        </div>
-      </div>
-    </div>
+    <div id="objectContent"></div>
   </div>
 
 </main>
 
-<footer class="footer">
-  LogiOracle · TradeProof v0.1 · Powered by Sui + Walrus
+<footer>
+  TradeProof · Built on Sui + Walrus · EAC Corridor Pilot · milan@speedexlogistics.com
 </footer>
 
 <script type="module">
-  const SUI_RPC = "https://fullnode.testnet.sui.io:443";
-  const WALRUS_AGGREGATOR = "https://aggregator.walrus-testnet.walrus.space";
-  const EXPLORER_BASE = "https://testnet.suivision.xyz";
+  const SUI_RPC         = 'https://fullnode.testnet.sui.io:443';
+  const WALRUS          = 'https://aggregator.walrus-testnet.walrus.space';
+  const EXPLORER        = 'https://testnet.suivision.xyz';
+  const DAY_MS          = 86_400_000;
+
+  const STATUS_NAMES    = ['EMPTY','STUFFED','GATE_IN','ON_VESSEL','DISCHARGED','CUSTOMS_CLEARED','GATE_OUT','RETURNED'];
+  const BL_TYPE_LABELS  = { 0: 'Straight (non-negotiable)', 1: 'To Order (negotiable)', 2: 'Bearer' };
+  const BL_STATUS       = { 0: 'ISSUED', 1: 'ENDORSED', 2: 'SURRENDERED', 3: 'CANCELLED' };
+  const FREIGHT_LABELS  = { 0: 'Prepaid', 1: 'Collect' };
+
+  // ── Boot ─────────────────────────────────────────────────────────────────────
 
   const params = new URLSearchParams(location.search);
-  const objectParam = params.get("object");
+  const objectParam = params.get('object');
   if (objectParam) {
-    document.querySelector("#objectInput").value = objectParam;
-    document.querySelector("#searchBox").style.display = "none";
-    document.querySelector("#result").style.display = "block";
+    document.querySelector('#objectInput').value = objectParam;
+    document.querySelector('#searchBox').style.display = 'none';
+    document.querySelector('#result').style.display = 'block';
     run(objectParam);
   }
 
   window.verify = function () {
-    const id = document.querySelector("#objectInput").value.trim();
+    const id = document.querySelector('#objectInput').value.trim();
     if (!id) return;
     const url = new URL(location.href);
-    url.searchParams.set("object", id);
-    history.pushState({}, "", url);
-    document.querySelector("#searchBox").style.display = "none";
-    document.querySelector("#result").style.display = "block";
+    url.searchParams.set('object', id);
+    history.pushState({}, '', url);
+    document.querySelector('#searchBox').style.display = 'none';
+    document.querySelector('#result').style.display = 'block';
+    document.querySelector('#objectContent').innerHTML = '';
     run(id);
   };
 
-  document.querySelector("#objectInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") window.verify();
+  document.querySelector('#objectInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.verify();
   });
+
+  // ── RPC ───────────────────────────────────────────────────────────────────────
 
   async function suiGetObject(id) {
     const res = await fetch(SUI_RPC, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        jsonrpc: "2.0", id: 1,
-        method: "sui_getObject",
+        jsonrpc: '2.0', id: 1,
+        method: 'sui_getObject',
         params: [id, { showContent: true, showOwner: true }],
       }),
     });
-    if (!res.ok) throw new Error(`Sui RPC error: ${res.status}`);
-    const json = await res.json();
-    if (json.error) throw new Error(json.error.message ?? JSON.stringify(json.error));
-    return json.result;
+    if (!res.ok) throw new Error(`Sui RPC ${res.status}`);
+    const j = await res.json();
+    if (j.error) throw new Error(j.error.message ?? JSON.stringify(j.error));
+    return j.result;
   }
 
-  async function sha256hex(arrayBuffer) {
-    const digest = await crypto.subtle.digest("SHA-256", arrayBuffer);
-    return Array.from(new Uint8Array(digest))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
+  async function sha256hex(buf) {
+    const d = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(d)).map(b => b.toString(16).padStart(2,'0')).join('');
   }
+
+  // ── Helpers ───────────────────────────────────────────────────────────────────
 
   function setBanner(type, icon, title, sub) {
-    const el = document.querySelector("#banner");
+    const el = document.querySelector('#banner');
     el.className = `banner ${type}`;
     el.innerHTML = `<div class="banner-icon">${icon}</div><div><div class="banner-title">${title}</div><div class="banner-sub">${sub}</div></div>`;
   }
 
-  function explorerObjectUrl(id) {
-    return `${EXPLORER_BASE}/object/${id}`;
+  function pill(label, cls) {
+    return `<span class="pill ${cls}">${label}</span>`;
   }
 
-  function explorerPackageUrl(id) {
-    return `${EXPLORER_BASE}/package/${id}`;
+  function fmtDate(ms) {
+    if (!ms) return '—';
+    return new Date(Number(ms)).toUTCString().replace(' GMT', ' UTC');
   }
 
-  function elText(id, value) {
-    document.querySelector(id).textContent = value || "—";
+  function append(html) {
+    document.querySelector('#objectContent').insertAdjacentHTML('beforeend', html);
   }
 
-  function elHtml(id, html) {
-    document.querySelector(id).innerHTML = html;
+  function explorerObj(id) { return `${EXPLORER}/object/${id}`; }
+  function explorerPkg(id) { return `${EXPLORER}/package/${id}`; }
+
+  function field(label, value, mono = false, full = false) {
+    const cls = (mono ? ' mono' : '') + (full ? ' field-full' : '');
+    return `<div class="field${full ? ' field-full' : ''}"><div class="field-label">${label}</div><div class="field-value${cls}">${value || '—'}</div></div>`;
   }
 
-  function statusPill(status) {
-    return `<span class="pill ${status}">${status}</span>`;
+  function fieldLink(label, text, href) {
+    return `<div class="field"><div class="field-label">${label}</div><div class="field-value mono"><a href="${href}" target="_blank" rel="noopener">${text}</a></div></div>`;
   }
 
-  async function run(objectId) {
-    setBanner("loading",
-      `<div class="spinner"></div>`,
-      "Verifying proof…",
-      "Fetching from Sui testnet and Walrus");
+  function card(title, body, extra = '') {
+    return `<div class="card"><div class="card-head">${title}</div><div class="field-grid">${body}</div>${extra}</div>`;
+  }
+
+  function linksRow(links) {
+    const items = links.map(([label, href]) =>
+      `<a class="ext-link" href="${href}" target="_blank" rel="noopener">${label}</a>`
+    ).join('');
+    return `<div class="links-row">${items}</div>`;
+  }
+
+  // ── Detect object module ──────────────────────────────────────────────────────
+
+  function detectModule(type) {
+    if (!type) return 'unknown';
+    const lower = type.toLowerCase();
+    if (lower.includes('::container::container'))    return 'container';
+    if (lower.includes('::bill_of_lading::billoflading')) return 'bill_of_lading';
+    if (lower.includes('::shipment::shipment'))      return 'shipment';
+    return 'unknown';
+  }
+
+  // ── Container renderer ────────────────────────────────────────────────────────
+
+  function renderContainer(f, objectId, packageId) {
+    const statusCode = Number(f.status ?? 0);
+    const statusName = STATUS_NAMES[statusCode] ?? 'UNKNOWN';
+    const statusCls  = statusCode >= 4 ? 'pill-green' : statusCode >= 2 ? 'pill-yellow' : 'pill-blue';
+
+    append(`<div class="type-badge container">📦 Container Digital ID</div>`);
+
+    // Progress bar
+    const stages = STATUS_NAMES.map((name, i) => {
+      const cls = i < statusCode ? 'done' : i === statusCode ? 'current' : '';
+      const short = name.replace('_','<br>');
+      return `<div class="stage ${cls}">
+        ${i < STATUS_NAMES.length - 1 ? '<div class="stage-line"></div>' : ''}
+        <div class="stage-dot"></div>
+        <div class="stage-label">${short}</div>
+      </div>`;
+    }).join('');
+    append(`<div class="progress-wrap"><div class="progress-title">Container Lifecycle</div><div class="progress-stages">${stages}</div></div>`);
+
+    // Details card
+    let details = '';
+    details += field('ISO ID',           f.iso_id);
+    details += field('Status',           `${pill(statusName, statusCls)} <small style="color:var(--muted);font-size:12px;margin-left:6px">${statusCode} of 7</small>`);
+    details += field('Size / Type',      f.size_type);
+    details += field('Operator',         f.operator_name);
+    details += field('Current Location', f.current_location);
+    details += field('Manufactured Year',f.manufactured_year);
+    details += field('Last Event',       fmtDate(f.last_event_ms));
+
+    append(card('Container Details', details,
+      linksRow([
+        ['Track on TradeProof', `/track/?id=${objectId}`],
+        ['Sui Explorer', explorerObj(objectId)],
+      ])
+    ));
+
+    // Demurrage card
+    const gateInMs  = f.last_event_ms && statusCode >= 2 ? Number(f.last_event_ms) : null;
+    const freeDays  = Number(f.free_days ?? 14);
+    const ratePerDay = Number(f.rate_per_day ?? 150);
+
+    if (gateInMs) {
+      const now        = Date.now();
+      const elapsedMs  = now - gateInMs;
+      const elapsedDays = Math.floor(elapsedMs / DAY_MS);
+      const freeMs     = freeDays * DAY_MS;
+      const overdue    = elapsedMs > freeMs ? Math.floor((elapsedMs - freeMs) / DAY_MS) : 0;
+      const amount     = overdue * ratePerDay;
+      const cls        = overdue > 0 ? 'overdue' : '';
+      const statusText = overdue > 0
+        ? `<div class="demurrage-amount">$${amount.toLocaleString()}</div><div style="color:var(--red);font-size:13px;margin-top:4px">${overdue} days overdue × $${ratePerDay}/day</div>`
+        : `<div style="font-size:15px;font-weight:700;color:var(--green)">Within free period</div><div style="font-size:13px;color:var(--muted);margin-top:4px">${freeDays - elapsedDays} days remaining</div>`;
+
+      let demurFields = '';
+      demurFields += field('Gate-in (on-chain)', fmtDate(gateInMs));
+      demurFields += field('Free Days',          freeDays + ' days');
+      demurFields += field('Days at Port',       elapsedDays);
+      demurFields += field('Rate',               `$${ratePerDay}/container/day`);
+
+      const demurExtra = `<div class="demurrage-box ${cls}"><div class="demurrage-label">${overdue > 0 ? 'Demurrage Accruing' : 'Demurrage Status'}</div>${statusText}</div>`;
+      append(card('Live Demurrage Calculation', demurFields, demurExtra));
+    }
+
+    // Chain card
+    let chain = '';
+    chain += fieldLink('Object ID', objectId.slice(0,20) + '…', explorerObj(objectId));
+    chain += fieldLink('Package',   packageId.slice(0,20) + '…', explorerPkg(packageId));
+    append(card('On-chain Record', chain));
+  }
+
+  // ── Bill of Lading renderer ───────────────────────────────────────────────────
+
+  function renderBL(f, objectId, packageId, owner) {
+    const statusCode = Number(f.status ?? 0);
+    const statusLabel = BL_STATUS[statusCode] ?? 'UNKNOWN';
+    const statusCls   = statusCode === 0 ? 'pill-blue' : statusCode === 1 ? 'pill-yellow' : statusCode === 2 ? 'pill-green' : 'pill-red';
+
+    append(`<div class="type-badge bl">📋 Bill of Lading NFT — DCSA eBL 3.0</div>`);
+
+    let details = '';
+    details += field('BL Number',       f.bl_number);
+    details += field('Status',          pill(statusLabel, statusCls));
+    details += field('BL Type',         BL_TYPE_LABELS[Number(f.bl_type)] ?? f.bl_type);
+    details += field('Freight Terms',   FREIGHT_LABELS[Number(f.freight_terms)] ?? f.freight_terms);
+    details += field('Carrier (SCAC)',  f.carrier_scac);
+    details += field('Vessel / Voyage', `${f.vessel ?? '—'} / ${f.voyage ?? '—'}`);
+    details += field('Place of Receipt',  f.place_of_receipt);
+    details += field('Port of Loading',   f.port_of_loading);
+    details += field('Port of Discharge', f.port_of_discharge);
+    details += field('Place of Delivery', f.place_of_delivery);
+    details += field('Shipped on Board',  fmtDate(f.shipped_on_board_ms));
+    details += field('HS Code',           f.hs_code);
+    details += field('Gross Weight',      f.gross_weight_kg ? Number(f.gross_weight_kg).toLocaleString() + ' kg' : '—');
+    details += field('Containers',        f.container_count);
+    details += field('Cargo Description', f.cargo_description, false, true);
+
+    append(card('Bill of Lading — Cargo & Route', details));
+
+    // Privacy card
+    const isEnc = f.is_encrypted === true || f.is_encrypted === 'true';
+    const sealId = f.seal_id ?? '';
+    let privacy = '';
+    privacy += field('Encryption',
+      isEnc
+        ? `<span class="pill pill-green">🔐 Seal-encrypted</span> <span style="font-size:12px;color:var(--muted);margin-left:6px">Document encrypted with Mysten Labs Seal</span>`
+        : `<span class="pill pill-blue">Unencrypted (testnet)</span>`, false);
+    if (sealId) {
+      privacy += fieldLink('Seal AllowList', sealId.slice(0,20) + '…', explorerObj(sealId));
+    } else {
+      privacy += field('Seal AllowList', 'Not set (pass --seal-id when issuing)');
+    }
+    append(card('Privacy Layer', privacy));
+
+    // Parties card
+    let parties = '';
+    parties += field('Shipper',      f.shipper,      true);
+    parties += field('Current Holder (Sui owner)', owner ?? '—', true);
+    parties += field('Notify Party', f.notify_party);
+    append(card('Parties', parties));
+
+    // Evidence card
+    let evidence = '';
+    evidence += field('Walrus Blob ID',  f.walrus_blob_id, true);
+    evidence += field('Evidence Hash',   f.evidence_hash,  true);
+    append(card('Evidence & Storage', evidence,
+      `<div id="hashRow" class="hash-row"><div class="hash-check" id="hashIcon">⏳</div><div><div class="hash-label" id="hashLabel">Checking evidence…</div><div class="hash-detail" id="hashDetail"></div></div></div>`
+    ));
+
+    // Chain card
+    let chain = '';
+    chain += fieldLink('Object ID', objectId.slice(0,20) + '…', explorerObj(objectId));
+    chain += fieldLink('Package',   packageId.slice(0,20) + '…', explorerPkg(packageId));
+    append(card('On-chain Record', chain));
+
+    // Async: verify Walrus blob
+    verifyWalrus(f.walrus_blob_id, (f.evidence_hash ?? '').replace(/^sha256:/, ''));
+  }
+
+  // ── Shipment renderer ─────────────────────────────────────────────────────────
+
+  function renderShipment(f, objectId, packageId) {
+    const statusCls = f.status === 'DELIVERED' ? 'pill-green' : f.status === 'IN_TRANSIT' ? 'pill-yellow' : 'pill-blue';
+
+    append(`<div class="type-badge shipment">🚢 Shipment Proof</div>`);
+
+    let details = '';
+    details += field('Shipment ID',  f.shipment_id);
+    details += field('Status',       pill(f.status ?? '—', statusCls));
+    details += field('Origin',       f.origin);
+    details += field('Destination',  f.destination);
+    details += field('Proof Type',   f.proof_type);
+    details += field('Owner',        f.owner, true);
+    append(card('Shipment Details', details));
+
+    let evidence = '';
+    evidence += field('Walrus Blob ID',  f.walrus_blob_id, true);
+    evidence += field('Evidence Hash',   f.evidence_hash,  true);
+    append(card('Evidence & Storage', evidence,
+      `<div id="hashRow" class="hash-row"><div class="hash-check" id="hashIcon">⏳</div><div><div class="hash-label" id="hashLabel">Checking Walrus blob…</div><div class="hash-detail" id="hashDetail"></div></div></div>`
+    ));
+
+    let chain = '';
+    chain += fieldLink('Object ID', objectId.slice(0,20) + '…', explorerObj(objectId));
+    chain += fieldLink('Package',   packageId.slice(0,20) + '…', explorerPkg(packageId));
+    append(card('On-chain Record', chain));
+
+    verifyWalrus(f.walrus_blob_id, (f.evidence_hash ?? '').replace(/^sha256:/, ''));
+  }
+
+  // ── Unknown renderer ──────────────────────────────────────────────────────────
+
+  function renderUnknown(content, objectId, packageId) {
+    append(`<div class="type-badge unknown">? Unknown Object Type</div>`);
+    const f = content.fields ?? {};
+    let fields = '';
+    for (const [k, v] of Object.entries(f)) {
+      fields += field(k, typeof v === 'object' ? JSON.stringify(v) : String(v), true);
+    }
+    append(card('Object Fields', fields || field('(no fields)', '—')));
+
+    let chain = '';
+    chain += fieldLink('Object ID', objectId.slice(0,20) + '…', explorerObj(objectId));
+    chain += fieldLink('Package',   packageId.slice(0,20) + '…', explorerPkg(packageId));
+    chain += field('Full Type', content.type, true, true);
+    append(card('On-chain Record', chain));
+  }
+
+  // ── Walrus blob verification ──────────────────────────────────────────────────
+
+  async function verifyWalrus(blobId, onChainHash) {
+    const iconEl   = document.querySelector('#hashIcon');
+    const labelEl  = document.querySelector('#hashLabel');
+    const detailEl = document.querySelector('#hashDetail');
+    if (!iconEl) return;
+
+    if (!blobId || blobId.startsWith('pending')) {
+      iconEl.textContent  = '⚠️';
+      labelEl.textContent = 'No Walrus blob uploaded yet';
+      detailEl.textContent = `blob_id: ${blobId || 'none'}`;
+      return;
+    }
 
     try {
-      // 1 — fetch Sui object
-      const result = await suiGetObject(objectId);
-      if (!result?.data) throw new Error("Object not found on Sui testnet");
-
-      const content = result.data?.content;
-      if (!content?.fields) throw new Error("Object found but has no content fields — it may not be a Shipment");
-
-      const f = content.fields;
-      const packageId = content.type?.split("::")[0] ?? "—";
-
-      // Show shipment card
-      elText("#fShipmentId", f.shipment_id);
-      elHtml("#fStatus", statusPill(f.status));
-      elText("#fOrigin", f.origin);
-      elText("#fDestination", f.destination);
-      elText("#fProofType", f.proof_type);
-      elText("#fOwner", f.owner);
-      document.querySelector("#shipmentCard").style.display = "block";
-
-      // Show evidence card
-      elText("#fBlobId", f.walrus_blob_id);
-      elText("#fEvidenceHash", f.evidence_hash);
-      document.querySelector("#evidenceCard").style.display = "block";
-
-      // Show chain card
-      const objUrl = explorerObjectUrl(objectId);
-      const pkgUrl = explorerPackageUrl(packageId);
-      elHtml("#fObjectId", `<a href="${objUrl}" target="_blank" rel="noopener">${objectId}</a>`);
-      elHtml("#fPackageId", `<a href="${pkgUrl}" target="_blank" rel="noopener">${packageId}</a>`);
-      document.querySelector("#chainCard").style.display = "block";
-
-      // 2 — verify Walrus blob hash
-      const hashRow = document.querySelector("#hashRow");
-      hashRow.style.display = "flex";
-      document.querySelector("#hashLabel").textContent = "Fetching evidence from Walrus…";
-
-      const blobId = f.walrus_blob_id;
-      const onChainHash = (f.evidence_hash ?? "").replace(/^sha256:/, "");
-
-      let hashMatch = null;
-      let computedHash = null;
-
-      if (blobId && blobId !== "pending-walrus-upload" && !blobId.startsWith("pending")) {
-        try {
-          const walrusRes = await fetch(`${WALRUS_AGGREGATOR}/v1/blobs/${encodeURIComponent(blobId)}`);
-          if (!walrusRes.ok) throw new Error(`Walrus returned ${walrusRes.status}`);
-          const bytes = await walrusRes.arrayBuffer();
-          computedHash = await sha256hex(bytes);
-          hashMatch = computedHash === onChainHash;
-        } catch (walrusErr) {
-          document.querySelector("#hashIcon").textContent = "⚠️";
-          document.querySelector("#hashLabel").textContent = "Could not fetch Walrus blob";
-          document.querySelector("#hashDetail").textContent = walrusErr.message;
-        }
+      const res = await fetch(`${WALRUS}/v1/blobs/${encodeURIComponent(blobId)}`);
+      if (!res.ok) throw new Error(`Walrus returned ${res.status}`);
+      const bytes = await res.arrayBuffer();
+      const computed = await sha256hex(bytes);
+      if (computed === onChainHash) {
+        iconEl.textContent  = '✅';
+        labelEl.textContent = 'Evidence hash matches on-chain record';
+        detailEl.textContent = `sha256:${computed}`;
       } else {
-        document.querySelector("#hashIcon").textContent = "⚠️";
-        document.querySelector("#hashLabel").textContent = "No Walrus blob uploaded yet";
-        document.querySelector("#hashDetail").textContent = `blob_id: ${blobId || "none"}`;
+        iconEl.textContent  = '❌';
+        labelEl.textContent = 'Hash mismatch — evidence may have been altered';
+        detailEl.textContent = `expected: sha256:${onChainHash}\ncomputed: sha256:${computed}`;
       }
+    } catch (e) {
+      iconEl.textContent  = '⚠️';
+      labelEl.textContent = 'Could not fetch Walrus blob';
+      detailEl.textContent = e.message;
+    }
+  }
 
-      if (hashMatch === true) {
-        document.querySelector("#hashIcon").textContent = "✅";
-        document.querySelector("#hashLabel").textContent = "Evidence hash matches on-chain record";
-        document.querySelector("#hashDetail").textContent = `sha256:${computedHash}`;
-        setBanner("verified", "✅",
-          "Proof Verified",
-          `Shipment ${f.shipment_id} · ${f.origin} → ${f.destination} · Evidence hash confirmed on Sui Testnet`);
-      } else if (hashMatch === false) {
-        document.querySelector("#hashIcon").textContent = "❌";
-        document.querySelector("#hashLabel").textContent = "Hash mismatch — evidence may have been altered";
-        document.querySelector("#hashDetail").textContent = `expected: sha256:${onChainHash}\ncomputed: sha256:${computedHash}`;
-        setBanner("failed", "❌",
-          "Hash Mismatch",
-          "The Walrus blob does not match the on-chain evidence hash.");
+  // ── Main ─────────────────────────────────────────────────────────────────────
+
+  async function run(objectId) {
+    setBanner('loading',
+      '<div class="spinner"></div>',
+      'Verifying…',
+      'Fetching from Sui testnet');
+    document.querySelector('#objectContent').innerHTML = '';
+
+    try {
+      const result = await suiGetObject(objectId);
+      if (!result?.data) throw new Error('Object not found on Sui testnet');
+
+      const data      = result.data;
+      const content   = data?.content;
+      const owner     = data?.owner?.AddressOwner ?? data?.owner?.ObjectOwner ?? null;
+
+      if (!content?.fields) throw new Error('Object has no content fields. It may be a deleted or non-Move object.');
+
+      const f          = content.fields;
+      const packageId  = content.type?.split('::')[0] ?? '—';
+      const mod        = detectModule(content.type ?? '');
+
+      if (mod === 'container') {
+        setBanner('verified', '📦',
+          `Container Verified — ${f.iso_id ?? objectId}`,
+          `Status: ${STATUS_NAMES[Number(f.status)] ?? f.status} · Location: ${f.current_location ?? '—'} · Record is immutable on Sui Testnet`);
+        renderContainer(f, objectId, packageId);
+
+      } else if (mod === 'bill_of_lading') {
+        const blStatus = BL_STATUS[Number(f.status)] ?? 'UNKNOWN';
+        setBanner('verified', '📋',
+          `Bill of Lading Verified — ${f.bl_number ?? objectId}`,
+          `Status: ${blStatus} · ${f.port_of_loading ?? '—'} → ${f.port_of_discharge ?? '—'} · DCSA eBL 3.0 compliant · Holder rights enforced by Sui`);
+        renderBL(f, objectId, packageId, owner);
+
+      } else if (mod === 'shipment') {
+        setBanner('verified', '✅',
+          `Shipment Proof Verified — ${f.shipment_id ?? objectId}`,
+          `${f.origin ?? '—'} → ${f.destination ?? '—'} · Status: ${f.status ?? '—'} · Recorded on Sui Testnet`);
+        renderShipment(f, objectId, packageId);
+
       } else {
-        // Walrus check skipped but Sui object is valid
-        setBanner("verified", "✓",
-          "On-chain Record Found",
-          `Shipment ${f.shipment_id} is recorded on Sui Testnet. Walrus evidence check skipped.`);
+        setBanner('verified', '✓',
+          'Object Found',
+          `Type: ${content.type ?? 'unknown'} · This object exists on Sui Testnet but is not a recognised TradeProof module`);
+        renderUnknown(content, objectId, packageId);
       }
 
     } catch (err) {
-      setBanner("failed", "❌", "Verification Failed", err.message);
+      setBanner('failed', '❌', 'Verification Failed', err.message);
     }
   }
 </script>

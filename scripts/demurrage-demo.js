@@ -17,7 +17,7 @@
 
 import { parseArgs } from 'node:util';
 
-const PACKAGE_V1 = '0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7';
+const PACKAGE_V1 = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
 const DAY_MS = 86_400_000n;
 
 // ── Parse CLI args ────────────────────────────────────────────────────────────

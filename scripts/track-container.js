@@ -7,7 +7,7 @@
  *
  * Usage:
  *   node scripts/track-container.js MSCU9876543
- *   node scripts/track-container.js 0x52071cbb1f4e10eb9ba80c3f36006ec5e95fa31a4c2f28d2652290b6dfc47ecc
+ *   node scripts/track-container.js 0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560
  *   node scripts/track-container.js MSCU9876543 --free-days 21 --rate 200
  */
 
@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const suiCli   = join(dirname(repoRoot), 'MilanGPT-OS', '.tools', 'sui', 'sui.exe');
 
-const PACKAGE  = '0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7';
+const PACKAGE  = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
 const EXPLORER = 'https://testnet.suivision.xyz';
 const DAY_MS   = 86_400_000;
 

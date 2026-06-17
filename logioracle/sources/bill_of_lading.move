@@ -24,9 +24,14 @@ module logioracle::bill_of_lading {
     // Holder rights enforced at protocol level — only the Sui object owner
     // can endorse or surrender. No platform can override this.
     //
-    // Full DCSA document stored in Walrus (walrus_blob_id).
-    // evidence_hash proves the Walrus document matches what was recorded on Sui.
-    // Neither field exists in any other DCSA implementation.
+    // Privacy layer (Seal threshold encryption):
+    //   The full DCSA document is encrypted client-side with Sui's Seal service
+    //   before upload to Walrus. Only parties in the seal_id AllowList can
+    //   request decryption key shares. Competitors see the hash — nothing else.
+    //
+    //   seal_id      — Sui object ID of the seal_policy::AllowList for this BL.
+    //                  Empty string if document is stored unencrypted.
+    //   is_encrypted — true if walrus_blob_id points to a Seal-encrypted blob.
     //
     // Fields follow DCSA eBL 3.0 terminology. UN/LOCODE recommended for ports.
 
@@ -51,6 +56,8 @@ module logioracle::bill_of_lading {
         freight_terms: u8,              // DCSA: freightPaymentTermCode
         walrus_blob_id: String,         // TradeProof: full DCSA JSON doc on Walrus
         evidence_hash: String,          // TradeProof: SHA-256, integrity proof
+        seal_id: String,                // TradeProof: seal_policy::AllowList object ID (or "")
+        is_encrypted: bool,             // TradeProof: true = walrus_blob_id is Seal-encrypted
         status: u8,
     }
 
@@ -66,6 +73,8 @@ module logioracle::bill_of_lading {
         container_count: u64,
         walrus_blob_id: String,
         evidence_hash: String,
+        seal_id: String,
+        is_encrypted: bool,
     }
 
     public struct BLEndorsed has copy, drop {
@@ -84,6 +93,11 @@ module logioracle::bill_of_lading {
 
     /// Shipper issues a DCSA eBL 3.0 compliant BL and transfers it to the consignee.
     /// The consignee becomes the first holder. Use UN/LOCODE for port fields.
+    ///
+    /// For encrypted BLs: pass the seal_policy::AllowList object ID as seal_id
+    /// and set is_encrypted = true. The full document should be encrypted with
+    /// Mysten Labs' Seal SDK before upload to Walrus.
+    /// For unencrypted BLs (testnet / non-sensitive): pass "" and false.
     public fun issue(
         bl_number: String,
         bl_type: u8,
@@ -104,6 +118,8 @@ module logioracle::bill_of_lading {
         freight_terms: u8,
         walrus_blob_id: String,
         evidence_hash: String,
+        seal_id: String,
+        is_encrypted: bool,
         ctx: &mut sui::tx_context::TxContext
     ) {
         let shipper = sui::tx_context::sender(ctx);
@@ -128,6 +144,8 @@ module logioracle::bill_of_lading {
             freight_terms,
             walrus_blob_id,
             evidence_hash,
+            seal_id,
+            is_encrypted,
             status: STATUS_ISSUED,
         };
 
@@ -141,6 +159,8 @@ module logioracle::bill_of_lading {
             container_count: bl.container_count,
             walrus_blob_id: bl.walrus_blob_id,
             evidence_hash: bl.evidence_hash,
+            seal_id: bl.seal_id,
+            is_encrypted: bl.is_encrypted,
         });
 
         sui::transfer::public_transfer(bl, consignee);
@@ -191,6 +211,7 @@ module logioracle::bill_of_lading {
             place_of_delivery: _, shipped_on_board_date_ms: _, shipper: _,
             notify_party: _, cargo_description: _, hs_code: _, gross_weight_kg: _,
             container_count: _, freight_terms: _, walrus_blob_id: _, evidence_hash: _,
+            seal_id: _, is_encrypted: _,
             status: _,
         } = bl;
         sui::object::delete(id);
@@ -215,6 +236,8 @@ module logioracle::bill_of_lading {
     public fun get_walrus_blob_id(bl: &BillOfLading): String       { bl.walrus_blob_id }
     public fun get_evidence_hash(bl: &BillOfLading): String        { bl.evidence_hash }
     public fun get_container_count(bl: &BillOfLading): u64         { bl.container_count }
+    public fun get_seal_id(bl: &BillOfLading): String              { bl.seal_id }
+    public fun get_is_encrypted(bl: &BillOfLading): bool           { bl.is_encrypted }
 
     // ── Constants (public) ────────────────────────────────────────────────────
 
@@ -261,6 +284,8 @@ module logioracle::bill_of_lading {
             freight_terms: FREIGHT_PREPAID,
             walrus_blob_id,
             evidence_hash,
+            seal_id: b"".to_string(),
+            is_encrypted: false,
             status: STATUS_ISSUED,
         }
     }
@@ -273,6 +298,7 @@ module logioracle::bill_of_lading {
             place_of_delivery: _, shipped_on_board_date_ms: _, shipper: _,
             notify_party: _, cargo_description: _, hs_code: _, gross_weight_kg: _,
             container_count: _, freight_terms: _, walrus_blob_id: _, evidence_hash: _,
+            seal_id: _, is_encrypted: _,
             status: _,
         } = bl;
         sui::object::delete(id);

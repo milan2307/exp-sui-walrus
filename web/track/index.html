@@ -313,11 +313,39 @@
     <span class="spinner"></span>&nbsp; Fetching from Sui Testnet…
   </div>
 
-  <!-- Error -->
+  <!-- Not registered on TradeProof yet -->
+  <div id="notRegisteredBox" class="hidden">
+    <div class="status-banner" style="background:#fffbeb;border:1px solid #fcd34d;color:#92400e">
+      <div style="font-size:22px;flex-shrink:0">📦</div>
+      <div style="flex:1">
+        <div class="banner-iso" style="font-size:16px;color:#92400e" id="notRegIso">Container not registered on TradeProof</div>
+        <div class="banner-loc" style="color:#b45309">This container hasn't been recorded on Sui Testnet yet — no on-chain timestamp exists. You can still track it on the carrier's website below, or register it on TradeProof to create an immutable gate-in record.</div>
+      </div>
+    </div>
+
+    <!-- Carrier fallback -->
+    <div id="notRegCarrier" style="background:#fff;border:1px solid #dde1ea;border-radius:12px;padding:20px 24px;margin-top:16px">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#5a6072;margin-bottom:14px">Carrier Tracking — Web2 Source</div>
+      <div id="notRegCarrierLinks"></div>
+      <div style="font-size:12px;color:#5a6072;margin-top:14px;padding-top:12px;border-top:1px solid #dde1ea">
+        ⚠️ Carrier timestamps are mutable — the carrier can change them. Register on TradeProof to create an immutable, blockchain-verified record that neither party can dispute.
+      </div>
+    </div>
+
+    <!-- Register CTA -->
+    <div style="background:#eff4ff;border:1px solid #a4bcfd;border-radius:12px;padding:20px 24px;margin-top:16px">
+      <div style="font-size:15px;font-weight:700;color:#1a4fff;margin-bottom:8px">Register this container on TradeProof</div>
+      <div style="font-size:13px;color:#5a6072;margin-bottom:14px">Run this command to create an immutable on-chain record at gate-in. Both parties will read the same Sui-timestamped record — no dispute possible.</div>
+      <div id="notRegCmd" style="background:#0f1117;color:#86efac;border-radius:8px;padding:14px 18px;font-family:monospace;font-size:13px;overflow-wrap:anywhere"></div>
+      <div style="font-size:12px;color:#5a6072;margin-top:10px">Once registered, paste the object ID into the search box above to see the full on-chain record.</div>
+    </div>
+  </div>
+
+  <!-- Error (genuine errors, not "not found") -->
   <div id="errorBox" class="hidden">
     <div class="status-banner error">
       <div>
-        <div class="banner-iso" style="font-size:16px">Not found</div>
+        <div class="banner-iso" style="font-size:16px">Error</div>
         <div id="errorMsg" class="banner-loc"></div>
       </div>
     </div>
@@ -428,13 +456,13 @@
             <a id="explorerObj" class="explorer-btn" href="#" target="_blank" rel="noopener">
               View Object on Sui Explorer
             </a>
-            <a id="explorerPkg" class="explorer-btn" href="https://testnet.suivision.xyz/package/0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7" target="_blank" rel="noopener">
+            <a id="explorerPkg" class="explorer-btn" href="https://testnet.suivision.xyz/package/0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0" target="_blank" rel="noopener">
               View Package on Sui Explorer
             </a>
             <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
               Package:
               <span style="font-family:monospace;overflow-wrap:anywhere;display:block;margin-top:4px">
-                0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7
+                0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0
               </span>
             </div>
           </div>
@@ -453,7 +481,7 @@
 
 <script type="module">
 const SUI_RPC  = 'https://fullnode.testnet.sui.io:443';
-const PACKAGE  = '0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7';
+const PACKAGE  = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
 const EXPLORER = 'https://testnet.suivision.xyz';
 const DAY_MS   = 86_400_000;
 
@@ -652,8 +680,51 @@ function renderCarrier(isoId) {
 
 // ── Main track function ───────────────────────────────────────────────────────
 
+function showNotRegistered(isoId) {
+  hide('results');
+  hide('errorBox');
+  const prefix = isoId.slice(0, 4).toUpperCase();
+  const c = CARRIERS[prefix];
+
+  ih('notRegIso', `${isoId} — not yet registered on TradeProof`);
+
+  // carrier links
+  const linksEl = document.getElementById('notRegCarrierLinks');
+  if (linksEl) {
+    const links = [];
+    if (c) {
+      links.push(`<a href="${c.url(isoId)}" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
+               padding:8px 14px;border:1px solid #dde1ea;border-radius:7px;
+               background:#f6f8fc;color:#0f1117;text-decoration:none;margin-right:8px;margin-bottom:8px">
+        🚢 ${c.name} — official tracking
+      </a>`);
+    }
+    links.push(`<a href="https://www.track-trace.com/container#${isoId}" target="_blank" rel="noopener"
+      style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
+             padding:8px 14px;border:1px solid #dde1ea;border-radius:7px;
+             background:#f6f8fc;color:#0f1117;text-decoration:none;margin-right:8px;margin-bottom:8px">
+      🔗 track-trace.com — all carriers
+    </a>`);
+    links.push(`<a href="https://www.seacargotracking.net/" target="_blank" rel="noopener"
+      style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;
+             padding:8px 14px;border:1px solid #dde1ea;border-radius:7px;
+             background:#f6f8fc;color:#0f1117;text-decoration:none;margin-right:8px;margin-bottom:8px">
+      🌐 SeaCargo Tracking
+    </a>`);
+    linksEl.innerHTML = links.join('');
+  }
+
+  // register command
+  const cmdEl = document.getElementById('notRegCmd');
+  if (cmdEl) cmdEl.textContent = `node scripts/container-testnet.js --iso-id ${isoId} --free-days 14 --rate 150`;
+
+  show('notRegisteredBox');
+}
+
 async function track(input) {
   hide('errorBox');
+  hide('notRegisteredBox');
   hide('results');
   show('loading');
 
@@ -678,8 +749,11 @@ async function track(input) {
       // ISO ID — search events
       isoId  = input.trim().toUpperCase();
       events = await getEvents(isoId);
-      if (!events.length)
-        throw new Error(`No on-chain events found for container ${isoId}. Check the container number or enter the Sui object ID.`);
+      if (!events.length) {
+        hide('loading');
+        showNotRegistered(isoId);
+        return;
+      }
       // find the register tx to get object ID — use Explorer link without object ID for now
       objId = null;
     }
@@ -743,6 +817,7 @@ async function track(input) {
 
   } catch (err) {
     hide('loading');
+    hide('notRegisteredBox');
     ih('errorMsg', err.message);
     show('errorBox');
   }

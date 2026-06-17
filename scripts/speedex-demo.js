@@ -19,10 +19,10 @@ const suiCli   = join(dirname(repoRoot), 'MilanGPT-OS', '.tools', 'sui', 'sui.ex
 
 // ── Live testnet data ─────────────────────────────────────────────────────────
 
-const PACKAGE          = '0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7';
-const CONTAINER_ID     = '0x52071cbb1f4e10eb9ba80c3f36006ec5e95fa31a4c2f28d2652290b6dfc47ecc';
-const GATE_IN_TX       = '6LLFtvfJjc5ZLUKhAAczdh8dghVLhWkCioRw37s3Kqgj';
-const GATE_IN_MS       = 1781693444550n;
+const PACKAGE          = '0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0';
+const CONTAINER_ID     = '0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560';
+const GATE_IN_TX       = '5xNX8XhJAxWjLFaxwL2Matvb2GbXkvTCrrMpUNK5GQt7';
+const GATE_IN_MS       = 1781700307629n;
 const GATE_IN_DATE     = new Date(Number(GATE_IN_MS));
 const DAY_MS           = 86_400_000n;
 
@@ -157,6 +157,81 @@ console.log(`
   Demurrage = (days at port − free days) × rate
   Both parties run the same formula on the same timestamp.
   They get the same number. Every time. No dispute possible.
+`);
+
+await pause();
+
+// ── Slide 3.5: Privacy ────────────────────────────────────────────────────────
+
+console.clear();
+section('PRIVACY — What TradeLens got catastrophically wrong');
+
+console.log(`
+  TradeLens (IBM + Maersk) shut down in 2022.
+  Contour (banks) shut down in 2023.
+  we.trade shut down in 2023.
+  Marco Polo shut down in 2023.
+
+  All four failed for the same reason: PRIVACY.
+
+  Hapag-Lloyd, ONE Line, and Yang Ming were not going to let their
+  biggest competitor — Maersk — see their customer list, their routes,
+  their cargo volumes, and their negotiated rates.
+
+  Neither would any bank that competed with the other banks in Contour.
+
+  The consortium model requires everyone to share data on a shared ledger.
+  No company shares data with its competitors. The network never formed.
+
+  TradeProof solves privacy at the protocol level.
+  Not as a feature. As the foundation.
+
+  ════════════════════════════════════════════════════════════════════
+  THREE PRIVACY LAYERS — ALL BUILT INTO THE SUI ECOSYSTEM
+  ════════════════════════════════════════════════════════════════════
+
+  1. 🔐 SEAL — Document Encryption (Mysten Labs · Sui Testnet)
+  ─────────────────────────────────────────────────────────────────
+  BL documents are encrypted client-side BEFORE upload to Walrus.
+  Only authorized parties hold key shares: shipper, consignee, bank.
+  The on-chain record stores only the SHA-256 hash.
+  The Seal service checks the AllowList object on-chain before releasing
+  any key share to anyone.
+
+  What a competitor reads on-chain: "encrypted blob exists"
+  What they cannot read:           cargo details, routes, customers, prices
+
+  TradeProof stores this on the BillOfLading object:
+    seal_id:       → Sui object ID of the Seal AllowList
+    is_encrypted:  → true (Walrus blob is Seal-encrypted)
+
+  2. 🛡️ CONFIDENTIAL TRANSACTIONS — Private Settlement (Sui Testnet)
+  ─────────────────────────────────────────────────────────────────
+  Demurrage is settled on-chain using Sui's Confidential Transactions.
+  Homomorphic encryption hides the payment amount.
+
+  Both parties verify: "this settlement is correct and complete."
+  No one else sees: the amount, the rate, or who paid what.
+
+  Your negotiated freight rates with shipping lines stay private.
+  Your competitors cannot price-benchmark off your on-chain settlements.
+
+  3. 🪪 zkLOGIN — Zero-friction Onboarding (Sui Mainnet · Live)
+  ─────────────────────────────────────────────────────────────────
+  Any party joins with Google, Microsoft, or Facebook.
+  A zero-knowledge proof maps their OAuth identity to a Sui address.
+  Their email is never stored on-chain. No one can link their address
+  to their identity without their cooperation.
+
+  Nairobi clearing agent onboards: opens browser → Google login → done.
+  No seed phrase. No wallet app. No blockchain training. 30 seconds.
+
+  ════════════════════════════════════════════════════════════════════
+  RESULT: Competitors can coexist on the same protocol.
+          Each party's data is private to them.
+          The network can actually form.
+          The consortium problem is solved.
+  ════════════════════════════════════════════════════════════════════
 `);
 
 await pause();
@@ -306,37 +381,75 @@ console.log(`
 
 await pause();
 
-// ── Slide 8: The Bigger Picture ───────────────────────────────────────────────
+// ── Slide 8: The Sui Ecosystem ────────────────────────────────────────────────
 
 console.clear();
-section('THE BIGGER PICTURE — Beyond demurrage');
+section('THE SUI ECOSYSTEM — Why TradeProof is built here and nowhere else');
 
 console.log(`
-  Demurrage is the first problem we are solving because it is the most painful
-  and requires the fewest parties to agree.
+  TradeProof is not just using Sui's smart contracts.
+  It is using every layer of the Sui ecosystem — by design.
 
-  The same technology can eventually handle:
+  ════════════════════════════════════════════════════════════════════
+  THE SUI STACK — FIVE LAYERS, ONE PROTOCOL
+  ════════════════════════════════════════════════════════════════════
 
-  · Bill of Lading as an NFT
-    The holder of the BL object on Sui IS the legal holder.
-    No platform controls it. No bank can freeze the transfer.
-    It transfers when Sui transfers it — instant, borderless, 24/7.
+  ⚡ SUI MOVE — Smart Contracts
+  ──────────────────────────────────────────────────────────────────
+  9 trade finance modules (Container, BL, CoO, Invoice, AWB, CMR, ...)
+  Owned objects model: only the BL holder can endorse or surrender.
+  Parallel execution: 100+ containers tracked simultaneously.
+  Sub-second finality: gate-in recorded in under a second.
+  Package: 0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7
 
-  · Certificate of Origin countersigned by government
-    KRA or Kenya Revenue Authority signs on-chain.
-    No more paper CoOs lost in transit or forged in transit.
+  🌊 WALRUS — Decentralised Document Storage
+  ──────────────────────────────────────────────────────────────────
+  Full DCSA BL JSON documents stored on Walrus — not on TradeProof servers.
+  Erasure-coded across validator nodes.
+  2-year minimum retention guarantee.
+  If TradeProof shuts down: documents still exist on Walrus.
+  If a validator goes offline: blob is reconstructed from other nodes.
 
-  · Commercial Invoice accepted by buyer on-chain
-    Payment triggers when both parties confirm on-chain.
-    No more 30-day payment terms with no enforcement mechanism.
+  🔐 SEAL — Threshold Encryption (Mysten Labs)
+  ──────────────────────────────────────────────────────────────────
+  Documents encrypted before Walrus upload.
+  AllowList is a shared Sui object — access managed on-chain.
+  Seal service releases key shares only to AllowList members.
+  New participant (e.g. bank) added with one on-chain transaction.
 
-  · Container tracking across the entire EAC corridor
-    Mombasa → Nairobi ICD → Kampala → Kigali
-    One record, visible to every party, updated at every checkpoint.
+  🛡️ CONFIDENTIAL TRANSACTIONS — Private Payments
+  ──────────────────────────────────────────────────────────────────
+  Homomorphic encryption on Sui's native token layer.
+  Demurrage settled on-chain without revealing the amount.
+  Verifiable settlement without disclosure.
+
+  🪪 ZKLOGI N — Barrier-free Onboarding
+  ──────────────────────────────────────────────────────────────────
+  Google login → ZK proof → Sui address.
+  Any counterparty, anywhere, in 30 seconds.
+  No wallet. No seed phrase. No training.
+
+  ════════════════════════════════════════════════════════════════════
+  THE BIGGER PICTURE — Beyond Speedex, beyond demurrage
+  ════════════════════════════════════════════════════════════════════
+
+  · Bill of Lading as an NFT (Seal-encrypted)
+    Holder rights enforced by Sui. No platform controls the transfer.
+    Instant, borderless, 24/7 — from Mombasa to Felixstowe.
+
+  · Certificate of Origin countersigned by KRA on-chain
+    No more paper CoOs lost or forged in transit.
+
+  · Commercial Invoice paid on-chain (CT-private)
+    Payment triggers when both parties confirm. 30-day terms enforced.
+
+  · Container tracking: Mombasa → Nairobi ICD → Kampala → Kigali
+    One EAC corridor. One record. Every party reads it.
 
   We start with demurrage.
   We build the corridor.
-  Then we build the standard.
+  We make the Sui ecosystem the infrastructure for African trade.
+  The ecosystem wins with every shipment.
 `);
 
 await pause();
@@ -347,18 +460,25 @@ console.clear();
 box([
     'SUMMARY',
     '',
-    'Problem:   Demurrage disputes cost the industry $20-30B/year',
-    '           because no party controls the trusted timestamp.',
+    'Problem:   Demurrage disputes cost the industry $20-30B/year.',
+    '           No neutral, private, tamper-proof record exists.',
     '',
-    'Solution:  TradeProof records gate-in on the Sui blockchain.',
-    '           Both parties run the same formula. No dispute.',
+    'Solution:  TradeProof on the Sui ecosystem.',
+    '           On-chain timestamp + Seal encryption + CT settlement',
+    '           + zkLogin onboarding = end-to-end trade finance.',
+    '',
+    'Privacy:   Seal (docs) · CT (payments) · zkLogin (identity)',
+    '           Competitors coexist. Network can form. Protocol wins.',
     '',
     'Live now:  Container MSCU9876543 is on Sui Testnet.',
     '           Gate-in: ' + GATE_IN_DATE.toDateString(),
     '           Explorer: testnet.suivision.xyz/object/',
     '           ' + CONTAINER_ID,
     '',
-    'The ask:   One container. One real scenario. Two weeks.',
+    'Ecosystem: Sui Move · Walrus · Seal · CT · zkLogin',
+    '           Every transaction is a win for the Sui ecosystem.',
+    '',
+    'The ask:   One container. One real scenario. Two weeks. Zero cost.',
     '',
     'Contact:   milan@speedexlogistics.com',
     '           github.com/milan2307/exp-sui-walrus',

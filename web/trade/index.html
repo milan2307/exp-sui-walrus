@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TradeProof — Trade Portal</title>
+  <style>
+    :root {
+      --blue:      #1a4fff;
+      --blue-lt:   #eff4ff;
+      --blue-md:   #dce8ff;
+      --green:     #087443;
+      --green-bg:  #ecfdf5;
+      --green-bd:  #a7f3d0;
+      --amber:     #92400e;
+      --amber-bg:  #fffbeb;
+      --amber-bd:  #fde68a;
+      --red:       #b42318;
+      --red-bg:    #fef2f2;
+      --red-bd:    #fecaca;
+      --purple:    #5b21b6;
+      --purple-bg: #f5f3ff;
+      --purple-bd: #c4b5fd;
+      --ink:       #111827;
+      --muted:     #6b7280;
+      --line:      #e5e7eb;
+      --bg:        #f9fafb;
+      --panel:     #ffffff;
+      --sidebar-w: 220px;
+      --shadow:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.5;
+      display: flex; min-height: 100vh;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Demo banner ── */
+    .demo-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: #1e40af; color: #fff; padding: 8px 20px;
+      font-size: 12px; font-weight: 600; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+    }
+    .demo-banner-left { display: flex; align-items: center; gap: 8px; }
+    .demo-dot { width: 7px; height: 7px; border-radius: 50%; background: #60a5fa; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .demo-badge { background: rgba(255,255,255,.15); border-radius: 12px; padding: 2px 9px; font-size: 11px; }
+    .connect-btn {
+      background: #fff; color: #1e40af; padding: 5px 14px; border-radius: 6px;
+      font-size: 12px; font-weight: 700; cursor: pointer; border: none; white-space: nowrap;
+    }
+    .connect-btn:hover { background: #dbeafe; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--panel); border-right: 1px solid var(--line);
+      display: flex; flex-direction: column; position: fixed; top: 34px; bottom: 0;
+      left: 0; z-index: 100; overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 18px 16px 14px; display: flex; align-items: center; gap: 9px;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo-mark {
+      width: 30px; height: 30px; background: var(--blue); color: #fff; border-radius: 7px;
+      display: grid; place-items: center; font-weight: 900; font-size: 13px; flex-shrink: 0;
+    }
+    .logo-text { font-weight: 800; font-size: 14px; }
+    .logo-sub  { font-size: 10px; color: var(--muted); font-weight: 600; }
+
+    .sidebar-section { padding: 10px 8px 4px; }
+    .sidebar-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--muted); padding: 0 8px; margin-bottom: 4px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 9px; padding: 8px 10px;
+      border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 500;
+      color: var(--muted); transition: all .12s; border: none; background: none;
+      width: 100%; text-align: left;
+    }
+    .nav-item:hover { background: var(--bg); color: var(--ink); }
+    .nav-item.active { background: var(--blue-lt); color: var(--blue); font-weight: 700; }
+    .nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-badge {
+      margin-left: auto; font-size: 10px; font-weight: 700; padding: 1px 6px;
+      border-radius: 10px; background: var(--red-bg); color: var(--red);
+    }
+
+    .sidebar-user {
+      margin-top: auto; padding: 14px 12px; border-top: 1px solid var(--line);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .user-avatar {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--blue-md);
+      display: grid; place-items: center; font-size: 12px; font-weight: 800;
+      color: var(--blue); flex-shrink: 0;
+    }
+    .user-name  { font-size: 12px; font-weight: 700; }
+    .user-role  { font-size: 10px; color: var(--muted); }
+    .user-chain {
+      margin-left: auto; font-size: 10px; color: var(--muted); background: var(--bg);
+      padding: 2px 6px; border-radius: 8px; border: 1px solid var(--line);
+    }
+
+    /* ── Main ── */
+    .main {
+      margin-left: var(--sidebar-w); margin-top: 34px; flex: 1;
+      display: flex; flex-direction: column;
+    }
+    .topbar {
+      background: var(--panel); border-bottom: 1px solid var(--line);
+      padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; position: sticky; top: 34px; z-index: 50;
+    }
+    .page-title { font-size: 17px; font-weight: 800; }
+    .page-sub   { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .topbar-actions { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      height: 34px; padding: 0 14px; border-radius: 7px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px;
+      transition: all .12s;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { opacity: .88; }
+    .btn-outline { background: var(--panel); border: 1px solid var(--line); color: var(--ink); }
+    .btn-outline:hover { background: var(--bg); }
+
+    .content { padding: 24px; flex: 1; }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+    .tab {
+      padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--muted);
+      cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+      background: none; border-top: none; border-left: none; border-right: none;
+      transition: all .12s;
+    }
+    .tab:hover { color: var(--ink); }
+    .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* ── Stat cards ── */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .stat-card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      padding: 18px 20px; box-shadow: var(--shadow);
+    }
+    .stat-label  { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+    .stat-val    { font-size: 26px; font-weight: 900; }
+    .stat-sub    { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .stat-change { font-size: 11px; font-weight: 700; }
+    .up   { color: var(--green); }
+    .down { color: var(--red);   }
+    .warn { color: #d97706; }
+
+    /* ── Alert ── */
+    .alert {
+      border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
+      display: flex; align-items: flex-start; gap: 12px;
+      border: 1px solid;
+    }
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .alert-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .alert-body  { font-size: 12px; }
+    .alert-red    { background: var(--red-bg);    border-color: var(--red-bd);    color: var(--red); }
+    .alert-amber  { background: var(--amber-bg);  border-color: var(--amber-bd);  color: var(--amber); }
+    .alert-green  { background: var(--green-bg);  border-color: var(--green-bd);  color: var(--green); }
+    .alert-blue   { background: var(--blue-lt);   border-color: var(--blue-md);   color: var(--blue); }
+    .alert-purple { background: var(--purple-bg); border-color: var(--purple-bd); color: var(--purple); }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: var(--shadow); margin-bottom: 16px;
+    }
+    .card-head {
+      padding: 14px 18px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .card-title { font-size: 14px; font-weight: 700; }
+    .card-sub   { font-size: 12px; color: var(--muted); }
+    .card-body  { padding: 18px; }
+
+    /* ── Table ── */
+    .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tbl th {
+      text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .07em; color: var(--muted);
+      background: var(--bg); border-bottom: 1px solid var(--line);
+    }
+    .tbl td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    .tbl tr:last-child td { border-bottom: none; }
+    .tbl tr:hover td { background: var(--bg); }
+
+    /* ── Badges ── */
+    .badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+    .badge-green  { background: var(--green-bg); color: var(--green); }
+    .badge-amber  { background: var(--amber-bg); color: var(--amber); }
+    .badge-blue   { background: var(--blue-lt);  color: var(--blue); }
+    .badge-red    { background: var(--red-bg);   color: var(--red); }
+    .badge-purple { background: var(--purple-bg);color: var(--purple); }
+    .badge-gray   { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+
+    /* ── BL Card ── */
+    .bl-card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      padding: 18px 20px; box-shadow: var(--shadow); margin-bottom: 14px;
+      display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start;
+    }
+    .bl-num { font-size: 15px; font-weight: 800; margin-bottom: 4px; font-family: monospace; }
+    .bl-route { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+    .bl-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+    .bl-field-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+    .bl-field-val   { font-size: 12px; font-weight: 600; margin-top: 1px; }
+    .bl-actions { display: flex; flex-direction: column; gap: 6px; min-width: 130px; }
+    .action-btn {
+      padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 700;
+      cursor: pointer; border: 1px solid; text-align: center; display: block;
+      transition: all .12s;
+    }
+    .action-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .action-primary:hover { opacity: .88; }
+    .action-secondary { background: var(--panel); color: var(--ink); border-color: var(--line); }
+    .action-secondary:hover { background: var(--bg); }
+    .action-disabled { background: var(--bg); color: var(--muted); border-color: var(--line);
+      cursor: not-allowed; opacity: .7; }
+
+    /* ── Container card ── */
+    .container-card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: var(--shadow); margin-bottom: 14px; overflow: hidden;
+    }
+    .container-head {
+      padding: 16px 20px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .container-iso { font-size: 15px; font-weight: 800; font-family: monospace; }
+    .container-status-bar {
+      padding: 16px 20px; background: var(--bg); border-bottom: 1px solid var(--line);
+    }
+    .progress-stages {
+      display: flex; align-items: center; gap: 0; margin-bottom: 8px;
+    }
+    .stage { flex: 1; position: relative; }
+    .stage-dot {
+      width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line);
+      background: var(--panel); display: grid; place-items: center; font-size: 9px;
+      font-weight: 800; margin: 0 auto; position: relative; z-index: 2;
+    }
+    .stage-dot.done    { background: var(--green); border-color: var(--green); color: #fff; }
+    .stage-dot.current { background: var(--blue);  border-color: var(--blue);  color: #fff; animation: pulse 2s infinite; }
+    .stage-dot.pending { background: var(--panel); border-color: var(--line);  color: var(--muted); }
+    .stage-label { font-size: 9px; font-weight: 600; color: var(--muted); text-align: center; margin-top: 4px; white-space: nowrap; }
+    .stage-line {
+      position: absolute; top: 10px; left: calc(50% + 10px); right: calc(-50% + 10px);
+      height: 2px; background: var(--line); z-index: 1;
+    }
+    .stage-line.done { background: var(--green); }
+    .container-body { padding: 16px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .detail-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px; }
+    .detail-val   { font-size: 13px; font-weight: 600; }
+
+    /* ── Demurrage panel ── */
+    .demurrage-calc {
+      background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 16px;
+    }
+    .calc-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
+    .calc-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 12px; border-bottom: 1px solid var(--line); }
+    .calc-row:last-child { border-bottom: none; }
+    .calc-key  { color: var(--muted); }
+    .calc-val  { font-weight: 600; }
+    .calc-total { font-size: 14px; font-weight: 900; color: var(--red); margin-top: 8px; padding-top: 8px; border-top: 2px solid var(--red-bd); }
+
+    /* ── Escrow panel ── */
+    .escrow-box {
+      background: var(--purple-bg); border: 1px solid var(--purple-bd); border-radius: 10px;
+      padding: 18px; margin-top: 14px;
+    }
+    .escrow-title { font-size: 13px; font-weight: 800; color: var(--purple); margin-bottom: 8px; }
+    .escrow-body  { font-size: 12px; color: #4c1d95; line-height: 1.6; margin-bottom: 12px; }
+    .escrow-status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .escrow-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; }
+
+    /* ── Activity feed ── */
+    .activity { display: flex; flex-direction: column; gap: 0; }
+    .activity-item {
+      display: grid; grid-template-columns: 32px 1fr; gap: 12px; padding: 12px 0;
+      border-bottom: 1px solid var(--line); align-items: flex-start;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-icon {
+      width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+    .activity-title { font-size: 13px; font-weight: 600; }
+    .activity-meta  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .activity-time  { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+    /* ── Tabs content ── */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center; padding: 48px 24px; color: var(--muted);
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .empty-body  { font-size: 13px; max-width: 320px; margin: 0 auto 20px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Demo Banner ── -->
+<div class="demo-banner">
+  <div class="demo-banner-left">
+    <span class="demo-dot"></span>
+    <span class="demo-badge">DEMO MODE</span>
+    <span>Viewing Speedex Logistics demo account · Sui Testnet · Live blockchain data</span>
+  </div>
+  <button class="connect-btn" onclick="showConnect()">🔑 Connect Wallet / zkLogin</button>
+</div>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">T</div>
+    <div>
+      <div class="logo-text">Trade Portal</div>
+      <div class="logo-sub">by TradeProof</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Overview</div>
+    <button class="nav-item active" onclick="showTab('dashboard', this)">
+      <span class="nav-icon">📊</span> Dashboard
+    </button>
+    <button class="nav-item" onclick="showTab('activity', this)">
+      <span class="nav-icon">📋</span> Activity
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Documents</div>
+    <button class="nav-item" onclick="showTab('bls', this)">
+      <span class="nav-icon">📄</span> Bills of Lading
+      <span class="nav-badge">1</span>
+    </button>
+    <button class="nav-item" onclick="showTab('shipments', this)">
+      <span class="nav-icon">🚢</span> Shipments
+    </button>
+    <button class="nav-item" onclick="showTab('docs', this)">
+      <span class="nav-icon">🗂</span> Documents
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Tracking</div>
+    <button class="nav-item" onclick="showTab('containers', this)">
+      <span class="nav-icon">📦</span> Containers
+    </button>
+    <button class="nav-item" onclick="showTab('demurrage', this)">
+      <span class="nav-icon">⏱</span> Demurrage
+      <span class="nav-badge" id="dem-badge" style="display:none">!</span>
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Finance</div>
+    <button class="nav-item" onclick="showTab('escrow', this)">
+      <span class="nav-icon">🔒</span> Escrow &amp; Payments
+    </button>
+    <button class="nav-item" onclick="showTab('finance', this)">
+      <span class="nav-icon">🏦</span> Trade Finance
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">More</div>
+    <button class="nav-item" onclick="window.open('/', '_self')">
+      <span class="nav-icon">🏠</span> Home
+    </button>
+    <button class="nav-item" onclick="window.open('/dashboard/', '_blank')">
+      <span class="nav-icon">📈</span> Build Dashboard
+    </button>
+    <button class="nav-item" onclick="window.open('/authority/', '_blank')">
+      <span class="nav-icon">🏛</span> Authority Portal ↗
+    </button>
+  </div>
+
+  <div class="sidebar-user">
+    <div class="user-avatar">SL</div>
+    <div>
+      <div class="user-name">Speedex Logistics</div>
+      <div class="user-role">Freight Forwarder · Demo</div>
+    </div>
+    <span class="user-chain">Testnet</span>
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="page-sub" id="page-sub">Overview of your shipments, BLs, and demurrage</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" onclick="window.open('/track/', '_blank')">Track Container</button>
+      <button class="btn btn-primary" onclick="showConnect()">+ Issue BL</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD TAB ── -->
+    <div class="tab-pane active" id="pane-dashboard">
+
+      <div class="alert alert-amber" style="margin-bottom:16px">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <div class="alert-title">Demurrage Alert — MSCU9876543</div>
+          <div class="alert-body">Container has been at port for <strong id="days-display">—</strong> days.
+          Free period: 14 days. <span id="alert-dem-msg">Calculating from chain…</span>
+          <a href="#" onclick="showTab('demurrage', null); return false">View demurrage →</a></div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Active BLs</div>
+          <div class="stat-val" style="color:var(--blue)">1</div>
+          <div class="stat-sub">BL-SPX-2026-001 — ISSUED</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Containers at Port</div>
+          <div class="stat-val" style="color:var(--amber)">1</div>
+          <div class="stat-sub">MSCU9876543 — GATE_IN</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Demurrage Accruing</div>
+          <div class="stat-val warn" id="dem-stat">$—</div>
+          <div class="stat-sub" id="dem-stat-sub">Fetching from chain…</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Documents on Chain</div>
+          <div class="stat-val" style="color:var(--green)">2</div>
+          <div class="stat-sub">1 BL · 1 Container</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Active BLs</div>
+              <div class="card-sub">Bills of Lading you hold</div>
+            </div>
+            <button class="btn btn-outline" style="font-size:12px;height:30px" onclick="showTab('bls', null)">View all</button>
+          </div>
+          <table class="tbl">
+            <thead><tr><th>BL Number</th><th>Route</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>BL-SPX-2026-001</strong></td>
+                <td style="color:var(--muted)">KE MBA → GB FXT</td>
+                <td><span class="badge badge-blue">ISSUED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Recent Activity</div>
+              <div class="card-sub">On-chain events for your account</div>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <div class="activity">
+              <div class="activity-item" style="padding:12px 18px">
+                <div class="activity-icon" style="background:var(--green-bg)">✅</div>
+                <div>
+                  <div class="activity-title">Container GATE_IN recorded</div>
+                  <div class="activity-meta">MSCU9876543 · Port of Mombasa · Sui Testnet</div>
+                  <div class="activity-meta" id="gate-in-time">Loading from chain…</div>
+                </div>
+              </div>
+              <div class="activity-item" style="padding:12px 18px">
+                <div class="activity-icon" style="background:var(--blue-lt)">📄</div>
+                <div>
+                  <div class="activity-title">BL-SPX-2026-001 issued</div>
+                  <div class="activity-meta">KE MBA → GB FXT · MSCU · 21,000 kg</div>
+                  <div class="activity-meta">Consignee: Speedex Logistics</div>
+                </div>
+              </div>
+              <div class="activity-item" style="padding:12px 18px">
+                <div class="activity-icon" style="background:var(--purple-bg)">🔐</div>
+                <div>
+                  <div class="activity-title">seal_policy module deployed</div>
+                  <div class="activity-meta">Threshold encryption available for BL documents</div>
+                  <div class="activity-meta">Package: 0xdf6082e2…</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ── BLS TAB ── -->
+    <div class="tab-pane" id="pane-bls">
+      <div class="alert alert-blue">
+        <span class="alert-icon">ℹ️</span>
+        <div>
+          <div class="alert-title">Bills of Lading are Sui NFTs</div>
+          <div class="alert-body">Each BL is a unique owned object on the Sui blockchain. Only the current holder can endorse or surrender it. Chain of title is enforced at the protocol level — no platform override possible.</div>
+        </div>
+      </div>
+
+      <div class="bl-card">
+        <div>
+          <div class="bl-num">BL-SPX-2026-001</div>
+          <div class="bl-route">📍 Mombasa (KE MBA) → Felixstowe (GB FXT) · Vessel: MSC AURORA · Voyage AW216N</div>
+          <div class="bl-fields">
+            <div>
+              <div class="bl-field-label">BL Type</div>
+              <div class="bl-field-val"><span class="badge badge-purple">Order BL</span> <span style="font-size:11px;color:var(--muted)">Negotiable</span></div>
+            </div>
+            <div>
+              <div class="bl-field-label">Carrier SCAC</div>
+              <div class="bl-field-val">MSCU (MSC)</div>
+            </div>
+            <div>
+              <div class="bl-field-label">Status</div>
+              <div class="bl-field-val"><span class="badge badge-blue">ISSUED</span></div>
+            </div>
+            <div>
+              <div class="bl-field-label">Cargo</div>
+              <div class="bl-field-val">Green Coffee · 21,000 kg</div>
+            </div>
+            <div>
+              <div class="bl-field-label">HS Code</div>
+              <div class="bl-field-val">0901.11</div>
+            </div>
+            <div>
+              <div class="bl-field-label">Containers</div>
+              <div class="bl-field-val">1 × 20GP</div>
+            </div>
+            <div>
+              <div class="bl-field-label">Freight Terms</div>
+              <div class="bl-field-val">Prepaid</div>
+            </div>
+            <div>
+              <div class="bl-field-label">Privacy</div>
+              <div class="bl-field-val"><span class="badge badge-gray">Unencrypted (testnet)</span></div>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap">
+            <a href="/verify/?object=0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4" target="_blank" class="badge badge-green" style="padding:4px 10px;font-size:11px">🔍 Verify on Chain</a>
+            <a href="https://testnet.suivision.xyz/object/0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4" target="_blank" class="badge badge-gray" style="padding:4px 10px;font-size:11px">↗ Sui Explorer</a>
+            <span class="badge badge-gray" style="padding:4px 10px;font-size:11px">Object: 0x7c618a73…da3d4</span>
+          </div>
+        </div>
+        <div class="bl-actions">
+          <button class="action-btn action-primary" onclick="showConnect('endorse')">Endorse BL →</button>
+          <button class="action-btn action-secondary" onclick="window.open('/verify/?object=0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4','_blank')">Verify</button>
+          <button class="action-btn action-secondary" onclick="showConnect('surrender')">Surrender BL</button>
+          <button class="action-btn action-disabled" title="Connect wallet to encrypt">🔐 Encrypt (Seal)</button>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <span class="alert-icon">✅</span>
+        <div>
+          <div class="alert-title">DCSA eBL 3.0 Compliant</div>
+          <div class="alert-body">This BL contains all 23 DCSA-required fields. It is aligned with the Digital Container Shipping Association's eBL 3.0 standard — the same standard supported by Maersk, MSC, CMA CGM, and Hapag-Lloyd.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTAINERS TAB ── -->
+    <div class="tab-pane" id="pane-containers">
+      <div class="container-card">
+        <div class="container-head">
+          <div>
+            <div class="container-iso">MSCU9876543</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:3px">20GP · MSC · Mombasa Terminal · Last event: <span id="cont-last-event">Loading…</span></div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="badge badge-blue" id="cont-status-badge">GATE_IN</span>
+            <a href="/track/?id=0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560" target="_blank" class="badge badge-gray" style="padding:4px 10px">Track ↗</a>
+          </div>
+        </div>
+
+        <div class="container-status-bar">
+          <div class="progress-stages" id="progress-stages">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <div class="container-body">
+          <div>
+            <div class="detail-label">ISO ID</div>
+            <div class="detail-val" style="font-family:monospace">MSCU9876543</div>
+          </div>
+          <div>
+            <div class="detail-label">Size / Type</div>
+            <div class="detail-val">20GP</div>
+          </div>
+          <div>
+            <div class="detail-label">Operator</div>
+            <div class="detail-val">Speedex Logistics</div>
+          </div>
+          <div>
+            <div class="detail-label">Gate-In (On-Chain)</div>
+            <div class="detail-val" id="gate-in-val">Loading from Sui…</div>
+          </div>
+          <div>
+            <div class="detail-label">Days at Port</div>
+            <div class="detail-val" id="days-at-port">—</div>
+          </div>
+          <div>
+            <div class="detail-label">Free Days</div>
+            <div class="detail-val">14 days</div>
+          </div>
+        </div>
+
+        <div style="padding:16px 20px;border-top:1px solid var(--line)">
+          <div class="demurrage-calc">
+            <div class="calc-title">Live Demurrage Calculation</div>
+            <div class="calc-row"><span class="calc-key">Gate-in timestamp</span><span class="calc-val" id="dem-gate-in">Loading…</span></div>
+            <div class="calc-row"><span class="calc-key">Days at port</span><span class="calc-val" id="dem-days">—</span></div>
+            <div class="calc-row"><span class="calc-key">Free days</span><span class="calc-val">14</span></div>
+            <div class="calc-row"><span class="calc-key">Days overdue</span><span class="calc-val warn" id="dem-overdue">—</span></div>
+            <div class="calc-row"><span class="calc-key">Rate</span><span class="calc-val">$150 / container / day</span></div>
+            <div class="calc-total" id="dem-total">Calculating…</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:8px">
+              Formula: (days at port − free days) × rate · Both parties run this on the same on-chain timestamp. Same input. Same output. No dispute possible.
+            </div>
+          </div>
+
+          <div class="escrow-box">
+            <div class="escrow-title">🔒 Demurrage Escrow — payment_escrow.move</div>
+            <div class="escrow-body">
+              Deposit the maximum potential demurrage in SUI now. The smart contract holds it.
+              When the container gates out, the exact owed amount auto-releases to the shipping line.
+              The remainder returns to you automatically. No invoice. No dispute. No 60-day wait.
+            </div>
+            <div class="escrow-status-row">
+              <span class="escrow-badge" style="background:var(--amber-bg);color:var(--amber)">No escrow active</span>
+              <span style="font-size:11px;color:var(--muted)">Connect wallet to fund escrow</span>
+            </div>
+            <button class="btn btn-primary" style="font-size:12px" onclick="showConnect('escrow')">🔒 Fund Demurrage Escrow</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DEMURRAGE TAB ── -->
+    <div class="tab-pane" id="pane-demurrage">
+
+      <div class="alert alert-purple">
+        <span class="alert-icon">📐</span>
+        <div>
+          <div class="alert-title">How demurrage works on TradeProof</div>
+          <div class="alert-body">
+            The gate-in timestamp is written to the Sui blockchain by the port authority when the container physically enters the terminal. It is immutable — nobody can change it after the fact. Both you and the shipping line calculate demurrage from this exact same timestamp using the same formula. There is no dispute possible over the number. The only questions are: what are the free days, and what is the agreed rate? Both of those are also on-chain.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">MSCU9876543 — Live Demurrage</div>
+            <div class="card-sub">Calculated from Sui Testnet · Updates every page load</div>
+          </div>
+          <span class="badge badge-blue" id="dem-tab-badge">Loading…</span>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px">
+            <div class="stat-card" style="box-shadow:none;border-color:var(--line)">
+              <div class="stat-label">Gate-In</div>
+              <div style="font-size:13px;font-weight:700;margin-top:4px" id="dem2-gate-in">…</div>
+            </div>
+            <div class="stat-card" style="box-shadow:none;border-color:var(--line)">
+              <div class="stat-label">Days at Port</div>
+              <div class="stat-val warn" id="dem2-days">—</div>
+            </div>
+            <div class="stat-card" style="box-shadow:none;border-color:var(--line)">
+              <div class="stat-label">Free Days Left</div>
+              <div class="stat-val" id="dem2-free-left" style="color:var(--green)">—</div>
+            </div>
+            <div class="stat-card" style="box-shadow:none;border-color:var(--line)">
+              <div class="stat-label">Amount Owed</div>
+              <div class="stat-val warn" id="dem2-owed">—</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:16px;font-family:monospace;font-size:12px">
+            <div style="color:var(--muted);margin-bottom:6px;font-family:sans-serif;font-size:11px;font-weight:700">ON-CHAIN FORMULA</div>
+            <div id="formula-display">owed = (days_at_port − 14) × $150</div>
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="showConnect('escrow')">🔒 Fund Escrow — Protect Against Dispute</button>
+            <button class="btn btn-outline" onclick="window.open('/track/?id=0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560','_blank')">📦 Track Container ↗</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── ESCROW TAB ── -->
+    <div class="tab-pane" id="pane-escrow">
+      <div class="alert alert-purple">
+        <span class="alert-icon">🔒</span>
+        <div>
+          <div class="alert-title">payment_escrow.move — Now live in Phase 2</div>
+          <div class="alert-body">The escrow module is compiled and tested. To fund a real escrow on testnet, connect your Sui wallet. The smart contract will hold your deposit and auto-calculate the exact owed amount at gate-out.</div>
+        </div>
+      </div>
+
+      <div class="empty">
+        <div class="empty-icon">🔐</div>
+        <div class="empty-title">No active escrow accounts</div>
+        <div class="empty-body">Connect your wallet to fund a demurrage escrow for MSCU9876543. The contract holds your deposit and settles automatically at gate-out.</div>
+        <button class="btn btn-primary" onclick="showConnect('escrow')">Connect Wallet &amp; Fund Escrow</button>
+        <div style="margin-top:16px;font-size:12px;color:var(--muted)">
+          Module: <code>logioracle::payment_escrow</code> ·
+          <a href="/dashboard/#module-directory">View in Dashboard →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DOCUMENTS TAB ── -->
+    <div class="tab-pane" id="pane-docs">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px">
+        <div class="card" style="margin:0;cursor:pointer" onclick="showTab('bls',null)">
+          <div class="card-body" style="text-align:center;padding:24px">
+            <div style="font-size:32px;margin-bottom:8px">📄</div>
+            <div style="font-weight:700;margin-bottom:4px">Bill of Lading</div>
+            <div style="font-size:12px;color:var(--muted)">1 active · DCSA eBL 3.0</div>
+            <div class="badge badge-blue" style="margin-top:8px;display:inline-block">1 BL</div>
+          </div>
+        </div>
+        <div class="card" style="margin:0;opacity:.6">
+          <div class="card-body" style="text-align:center;padding:24px">
+            <div style="font-size:32px;margin-bottom:8px">🧾</div>
+            <div style="font-weight:700;margin-bottom:4px">Commercial Invoice</div>
+            <div style="font-size:12px;color:var(--muted)">commercial_invoice.move</div>
+            <div class="badge badge-gray" style="margin-top:8px;display:inline-block">Not yet issued</div>
+          </div>
+        </div>
+        <div class="card" style="margin:0;opacity:.6">
+          <div class="card-body" style="text-align:center;padding:24px">
+            <div style="font-size:32px;margin-bottom:8px">🌱</div>
+            <div style="font-weight:700;margin-bottom:4px">Certificate of Origin</div>
+            <div style="font-size:12px;color:var(--muted)">certificate_of_origin.move</div>
+            <div class="badge badge-gray" style="margin-top:8px;display:inline-block">Not yet issued</div>
+          </div>
+        </div>
+        <div class="card" style="margin:0;opacity:.6">
+          <div class="card-body" style="text-align:center;padding:24px">
+            <div style="font-size:32px;margin-bottom:8px">🌿</div>
+            <div style="font-weight:700;margin-bottom:4px">Phytosanitary Cert</div>
+            <div style="font-size:12px;color:var(--muted)">phytosanitary.move</div>
+            <div class="badge badge-gray" style="margin-top:8px;display:inline-block">Not yet issued</div>
+          </div>
+        </div>
+        <div class="card" style="margin:0;opacity:.6">
+          <div class="card-body" style="text-align:center;padding:24px">
+            <div style="font-size:32px;margin-bottom:8px">✈️</div>
+            <div style="font-weight:700;margin-bottom:4px">Air Waybill</div>
+            <div style="font-size:12px;color:var(--muted)">air_waybill.move</div>
+            <div class="badge badge-gray" style="margin-top:8px;display:inline-block">Not yet issued</div>
+          </div>
+        </div>
+        <div class="card" style="margin:0;opacity:.6">
+          <div class="card-body" style="text-align:center;padding:24px">
+            <div style="font-size:32px;margin-bottom:8px">🚛</div>
+            <div style="font-weight:700;margin-bottom:4px">CMR Note</div>
+            <div style="font-size:12px;color:var(--muted)">cmr_note.move · Road freight</div>
+            <div class="badge badge-gray" style="margin-top:8px;display:inline-block">Not yet issued</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SHIPMENTS TAB ── -->
+    <div class="tab-pane" id="pane-shipments">
+      <div class="empty">
+        <div class="empty-icon">🚢</div>
+        <div class="empty-title">Your shipments will appear here</div>
+        <div class="empty-body">A shipment links BLs, containers, and documents into one trackable record. Use the CLI to create your first shipment, or connect your wallet.</div>
+        <button class="btn btn-primary" onclick="showConnect()">Connect Wallet</button>
+      </div>
+    </div>
+
+    <!-- ── FINANCE TAB ── -->
+    <div class="tab-pane" id="pane-finance">
+      <div class="alert alert-blue">
+        <span class="alert-icon">🏦</span>
+        <div>
+          <div class="alert-title">Trade Finance — Phase 4 (Planned)</div>
+          <div class="alert-body">BL-backed invoice financing, programmable Letters of Credit, and stablecoin settlement are planned for Phase 4. Your BL-SPX-2026-001 will be eligible as collateral once live.</div>
+        </div>
+      </div>
+      <div class="empty" style="padding-top:24px">
+        <div class="empty-icon">📈</div>
+        <div class="empty-title">Trade Finance coming in Phase 4</div>
+        <div class="empty-body">Letters of Credit that auto-execute when your cargo loads. Invoice financing against your BL NFT. USDC settlement in minutes, not 90 days.</div>
+        <a href="/dashboard/" class="btn btn-outline">View Build Roadmap →</a>
+      </div>
+    </div>
+
+    <!-- ── ACTIVITY TAB ── -->
+    <div class="tab-pane" id="pane-activity">
+      <div class="card">
+        <div class="card-head"><div class="card-title">On-Chain Activity — Speedex Logistics</div></div>
+        <div class="activity" style="padding:0 18px">
+          <div class="activity-item">
+            <div class="activity-icon" style="background:var(--green-bg)">✅</div>
+            <div style="flex:1">
+              <div class="activity-title">container.gate_in() — MSCU9876543</div>
+              <div class="activity-meta">Port of Mombasa · Status: GATE_IN · Demurrage clock started</div>
+              <div class="activity-meta" id="act-gate-in">Timestamp: loading from chain…</div>
+            </div>
+            <a href="https://testnet.suivision.xyz/object/0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560" target="_blank" style="font-size:11px;color:var(--muted)">↗ Explorer</a>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:var(--blue-lt)">📄</div>
+            <div style="flex:1">
+              <div class="activity-title">bill_of_lading.issue() — BL-SPX-2026-001</div>
+              <div class="activity-meta">KE MBA → GB FXT · MSC AURORA · 21,000 kg green coffee</div>
+              <div class="activity-meta">Consignee: Speedex Logistics · Freight: Prepaid</div>
+            </div>
+            <a href="https://testnet.suivision.xyz/object/0x7c618a738ac1bb589ad67dadf3e08832bc484e5dc79457a2c824bbff843da3d4" target="_blank" style="font-size:11px;color:var(--muted)">↗ Explorer</a>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:var(--purple-bg)">🔐</div>
+            <div style="flex:1">
+              <div class="activity-title">seal_policy.create() — AllowList deployed</div>
+              <div class="activity-meta">Privacy layer active · Seal threshold encryption ready</div>
+              <div class="activity-meta">Package: 0xdf6082e2…aa0</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:var(--amber-bg)">🔨</div>
+            <div style="flex:1">
+              <div class="activity-title">payment_escrow.move — Compiled &amp; Tested</div>
+              <div class="activity-meta">Phase 2 · 2 tests passing · Ready for testnet deploy</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:var(--amber-bg)">🔨</div>
+            <div style="flex:1">
+              <div class="activity-title">bl_transfer.move — Compiled &amp; Tested</div>
+              <div class="activity-meta">Phase 2 · Endorsement records on-chain · 2 tests passing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ── Connect Modal ── -->
+<div id="connect-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)hideConnect()">
+  <div style="background:#fff;border-radius:16px;padding:32px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+    <div style="font-size:20px;font-weight:900;margin-bottom:6px">Connect to TradeProof</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:24px">Choose how you want to sign in. No seed phrase required with zkLogin.</div>
+
+    <button onclick="hideConnect()" style="width:100%;padding:14px;border:2px solid var(--blue);border-radius:10px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px">
+      <span>G</span> Sign in with Google <span style="font-size:11px;opacity:.8">(zkLogin → Sui address)</span>
+    </button>
+    <button onclick="hideConnect()" style="width:100%;padding:14px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px">
+      🦊 Sui Wallet / Browser Extension
+    </button>
+    <button onclick="hideConnect()" style="width:100%;padding:14px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px">
+      📱 WalletConnect
+    </button>
+
+    <div style="margin-top:20px;padding:14px;background:var(--blue-lt);border-radius:8px;font-size:12px;color:var(--blue)">
+      <strong>zkLogin</strong> converts your Google account into a Sui address using a zero-knowledge proof. No seed phrase. Your identity stays private. Your address is deterministic.
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <button onclick="hideConnect()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  const CONTAINER = '0x55c994ae0d0bc00a2929cfb42e912b69466f9bf46d22869bbc4bb53bcdac4560';
+  const RPC       = 'https://fullnode.testnet.sui.io:443';
+  const DAY_MS    = 86_400_000;
+  const FREE_DAYS = 14;
+  const RATE      = 150;
+  const STAGES    = ['EMPTY','STUFFED','GATE_IN','ON_VESSEL','DISCHARGED','CUSTOMS_CLEARED','GATE_OUT','RETURNED'];
+  const STAGE_SHORT = ['Empty','Stuffed','Gate In','On Vessel','Discharged','Customs','Gate Out','Returned'];
+
+  function fmtDate(ms) {
+    return new Date(Number(ms)).toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', timeZone:'UTC' }) + ' UTC';
+  }
+
+  async function rpc(method, params) {
+    const r = await fetch(RPC, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+    });
+    return (await r.json()).result;
+  }
+
+  function renderProgressBar(statusCode) {
+    const container = document.getElementById('progress-stages');
+    if (!container) return;
+    let html = '';
+    STAGE_SHORT.forEach((label, i) => {
+      const done    = i < statusCode;
+      const current = i === statusCode;
+      const dotClass = done ? 'done' : (current ? 'current' : 'pending');
+      const lineClass = done && i < STAGE_SHORT.length - 1 ? 'done' : '';
+      html += `<div class="stage">
+        <div class="stage-dot ${dotClass}">${done ? '✓' : (current ? '●' : '')}</div>
+        <div class="stage-label" style="${current ? 'color:var(--blue);font-weight:700' : ''}">${label}</div>
+        ${i < STAGE_SHORT.length - 1 ? `<div class="stage-line ${lineClass}"></div>` : ''}
+      </div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  async function loadChainData() {
+    try {
+      const obj = await rpc('sui_getObject', [CONTAINER, { showContent: true }]);
+      const f   = obj?.data?.content?.fields;
+      if (!f) return;
+
+      const statusCode = Number(f.status);
+      const gateInMs   = Number(f.last_event_ms ?? 0);
+      const now        = Date.now();
+      const elapsed    = Math.floor((now - gateInMs) / DAY_MS);
+      const overdue    = Math.max(0, elapsed - FREE_DAYS);
+      const owed       = overdue * RATE;
+      const freeLeft   = Math.max(0, FREE_DAYS - elapsed);
+
+      const gateInStr = fmtDate(gateInMs);
+      const statusName = STAGES[statusCode] ?? 'UNKNOWN';
+
+      // Render progress bar
+      renderProgressBar(statusCode);
+
+      // Dashboard
+      document.getElementById('days-display').textContent = elapsed;
+      document.getElementById('alert-dem-msg').innerHTML = overdue > 0
+        ? `<strong style="color:var(--red)">$${owed} demurrage accruing — ${overdue} days overdue.</strong>`
+        : `${freeLeft} free days remaining.`;
+      document.getElementById('dem-stat').textContent = overdue > 0 ? `$${owed}` : '$0';
+      document.getElementById('dem-stat-sub').textContent = overdue > 0
+        ? `${overdue} days overdue · $${RATE}/day` : 'Within free period';
+      document.getElementById('gate-in-time').textContent = 'Gate-in: ' + gateInStr;
+
+      // Container tab
+      document.getElementById('cont-last-event').textContent = gateInStr;
+      document.getElementById('cont-status-badge').textContent = statusName;
+      document.getElementById('gate-in-val').textContent = gateInStr;
+      document.getElementById('days-at-port').textContent = elapsed + ' days';
+
+      // Demurrage calc (container tab)
+      document.getElementById('dem-gate-in').textContent = gateInStr;
+      document.getElementById('dem-days').textContent = elapsed + ' days';
+      document.getElementById('dem-overdue').textContent = overdue > 0 ? overdue + ' days' : 'None (within free period)';
+      document.getElementById('dem-total').textContent = overdue > 0
+        ? `DEMURRAGE OWED: $${owed}   (${elapsed} − ${FREE_DAYS}) × $${RATE}`
+        : `STATUS: Within free period — $0 owed · ${freeLeft} days remaining`;
+      document.getElementById('dem-total').style.color = overdue > 0 ? 'var(--red)' : 'var(--green)';
+
+      // Demurrage tab
+      document.getElementById('dem-tab-badge').textContent = overdue > 0 ? `$${owed} OVERDUE` : 'Within Free Period';
+      document.getElementById('dem-tab-badge').className = overdue > 0 ? 'badge badge-red' : 'badge badge-green';
+      document.getElementById('dem2-gate-in').textContent = gateInStr;
+      document.getElementById('dem2-days').textContent = elapsed;
+      document.getElementById('dem2-free-left').textContent = freeLeft > 0 ? freeLeft : '0';
+      document.getElementById('dem2-free-left').style.color = freeLeft > 0 ? 'var(--green)' : 'var(--red)';
+      document.getElementById('dem2-owed').textContent = `$${owed}`;
+      document.getElementById('dem2-owed').style.color = overdue > 0 ? 'var(--red)' : 'var(--green)';
+      document.getElementById('formula-display').textContent = overdue > 0
+        ? `owed = (${elapsed} − ${FREE_DAYS}) × $${RATE} = $${owed}`
+        : `owed = (${elapsed} − ${FREE_DAYS}) × $${RATE} = $0  [within free period]`;
+
+      // Activity
+      document.getElementById('act-gate-in').textContent = 'Timestamp: ' + gateInStr;
+
+      // Badge in sidebar
+      if (overdue > 0) document.getElementById('dem-badge').style.display = 'inline-block';
+
+    } catch (e) {
+      console.warn('Chain fetch failed:', e.message);
+    }
+  }
+
+  // Render initial empty progress bar
+  renderProgressBar(2); // GATE_IN as default before fetch
+  loadChainData();
+
+  // Expose tab/modal functions globally
+  window.showTab = function(name, btn) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const pane = document.getElementById('pane-' + name);
+    if (pane) pane.classList.add('active');
+    if (btn) btn.classList.add('active');
+    const titles = {
+      dashboard:  ['Dashboard', 'Overview of your shipments, BLs, and demurrage'],
+      bls:        ['Bills of Lading', 'Your trade documents on Sui blockchain'],
+      containers: ['Containers', 'Container tracking and live demurrage'],
+      demurrage:  ['Demurrage Calculator', 'Live calculation from on-chain timestamps'],
+      escrow:     ['Escrow & Payments', 'Demurrage protection via payment_escrow.move'],
+      finance:    ['Trade Finance', 'Letters of Credit, invoice financing (Phase 4)'],
+      docs:       ['Documents', 'All trade document types on-chain'],
+      shipments:  ['Shipments', 'End-to-end shipment tracking'],
+      activity:   ['Activity', 'On-chain event history'],
+    };
+    const [title, sub] = titles[name] || ['TradeProof', ''];
+    document.getElementById('page-title').textContent = title;
+    document.getElementById('page-sub').textContent = sub;
+  };
+
+  window.showConnect = function(action) {
+    document.getElementById('connect-modal').style.display = 'flex';
+  };
+  window.hideConnect = function() {
+    document.getElementById('connect-modal').style.display = 'none';
+  };
+</script>
+</body>
+</html>

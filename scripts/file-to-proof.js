@@ -18,7 +18,7 @@ const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const artifactsDir = join(repoRoot, "artifacts", "proofs");
 const suiCli = join(dirname(repoRoot), "MilanGPT-OS", ".tools", "sui", "sui.exe");
 
-const PACKAGE_ID = "0x26374b0a84b30d54f8860808f37d66d9b2225ac96350fffa27469c585a0fd3e7";
+const PACKAGE_ID = "0xdf6082e26679444b163801398b7ab49654c5d2f4922db5512fe2760eca248aa0";
 const WALRUS_PUBLISHER = "https://publisher.walrus-testnet.walrus.space";
 const VERIFY_BASE = "http://127.0.0.1:4174";
 

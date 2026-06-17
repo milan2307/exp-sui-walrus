@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TradeProof — Authority Portal</title>
+  <style>
+    :root {
+      --purple:    #5b21b6;
+      --purple-lt: #f5f3ff;
+      --purple-md: #e9d5ff;
+      --green:     #087443;
+      --green-bg:  #ecfdf5;
+      --amber:     #92400e;
+      --amber-bg:  #fffbeb;
+      --ink:       #111827;
+      --muted:     #6b7280;
+      --line:      #e5e7eb;
+      --bg:        #f9fafb;
+      --panel:     #ffffff;
+      --sidebar-w: 220px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--ink); font-size: 14px; line-height: 1.5;
+      display: flex; min-height: 100vh;
+    }
+    a { color: var(--purple); text-decoration: none; }
+
+    .banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: #4c1d95; color: #fff; padding: 8px 20px;
+      font-size: 12px; font-weight: 600; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+    }
+    .banner-left { display: flex; align-items: center; gap: 8px; }
+    .banner-badge { background: rgba(255,255,255,.15); border-radius: 12px; padding: 2px 9px; font-size: 11px; }
+    .badge-btn {
+      background: #fff; color: #4c1d95; padding: 5px 14px; border-radius: 6px;
+      font-size: 12px; font-weight: 700; cursor: pointer; border: none;
+    }
+
+    .sidebar {
+      width: var(--sidebar-w); background: var(--panel); border-right: 1px solid var(--line);
+      display: flex; flex-direction: column; position: fixed; top: 34px; bottom: 0;
+      left: 0; z-index: 100; overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 18px 16px 14px; display: flex; align-items: center; gap: 9px;
+      border-bottom: 1px solid var(--line);
+    }
+    .logo-mark {
+      width: 30px; height: 30px; background: var(--purple); color: #fff; border-radius: 7px;
+      display: grid; place-items: center; font-weight: 900; font-size: 13px; flex-shrink: 0;
+    }
+    .logo-text { font-weight: 800; font-size: 14px; }
+    .logo-sub  { font-size: 10px; color: var(--muted); font-weight: 600; }
+
+    .sidebar-section { padding: 10px 8px 4px; }
+    .sidebar-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--muted); padding: 0 8px; margin-bottom: 4px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 9px; padding: 8px 10px;
+      border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 500;
+      color: var(--muted); transition: all .12s; border: none; background: none;
+      width: 100%; text-align: left;
+    }
+    .nav-item:hover { background: var(--bg); color: var(--ink); }
+    .nav-item.active { background: var(--purple-lt); color: var(--purple); font-weight: 700; }
+    .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+
+    .sidebar-user {
+      margin-top: auto; padding: 14px 12px; border-top: 1px solid var(--line);
+      display: flex; align-items: center; gap: 9px;
+    }
+    .user-avatar {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--purple-md);
+      display: grid; place-items: center; font-size: 11px; font-weight: 800;
+      color: var(--purple); flex-shrink: 0;
+    }
+    .user-name  { font-size: 12px; font-weight: 700; }
+    .user-role  { font-size: 10px; color: var(--muted); }
+
+    .main { margin-left: var(--sidebar-w); margin-top: 34px; flex: 1; }
+    .topbar {
+      background: var(--panel); border-bottom: 1px solid var(--line);
+      padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; position: sticky; top: 34px; z-index: 50;
+    }
+    .page-title { font-size: 17px; font-weight: 800; }
+    .page-sub   { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+    .content { padding: 24px; }
+
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 16px;
+    }
+    .card-head {
+      padding: 14px 18px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-title { font-size: 14px; font-weight: 700; }
+    .card-body  { padding: 18px; }
+
+    .alert {
+      border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
+      display: flex; align-items: flex-start; gap: 12px; border: 1px solid;
+    }
+    .alert-icon { font-size: 18px; flex-shrink: 0; }
+    .alert-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .alert-body  { font-size: 12px; }
+    .alert-purple { background: var(--purple-lt); border-color: var(--purple-md); color: var(--purple); }
+    .alert-amber  { background: var(--amber-bg);  border-color: #fde68a; color: var(--amber); }
+    .alert-green  { background: var(--green-bg);  border-color: #a7f3d0; color: var(--green); }
+
+    .btn {
+      height: 34px; padding: 0 14px; border-radius: 7px; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-primary { background: var(--purple); color: #fff; }
+    .btn-primary:hover { opacity: .88; }
+    .btn-outline { background: var(--panel); border: 1px solid var(--line); color: var(--ink); }
+
+    .action-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;
+    }
+    .action-card {
+      background: var(--panel); border: 2px solid var(--line); border-radius: 12px;
+      padding: 20px; cursor: pointer; transition: all .15s; text-align: left;
+    }
+    .action-card:hover { border-color: var(--purple); background: var(--purple-lt); }
+    .action-card.disabled { opacity: .5; cursor: not-allowed; }
+    .action-card:hover.disabled { border-color: var(--line); background: var(--panel); }
+    .action-icon { font-size: 28px; margin-bottom: 10px; }
+    .action-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .action-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .action-tag   { margin-top: 10px; display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 8px; }
+    .tag-live   { background: var(--green-bg); color: var(--green); }
+    .tag-phase3 { background: var(--amber-bg); color: var(--amber); }
+
+    .phase-note {
+      background: #1e1b4b; color: #c4b5fd; border-radius: 12px; padding: 28px;
+      text-align: center; margin-top: 20px;
+    }
+    .phase-note-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .phase-note-body  { font-size: 13px; opacity: .8; max-width: 500px; margin: 0 auto 20px; line-height: 1.65; }
+  </style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-left">
+    <span class="banner-badge">AUTHORITY PORTAL — PHASE 3</span>
+    <span>For shipping lines, port authorities, customs officials, and government bodies</span>
+  </div>
+  <button class="badge-btn" onclick="alert('zkLogin with institutional credentials — coming in Phase 3')">
+    🏛 Institutional Login (Phase 3)
+  </button>
+</div>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">A</div>
+    <div>
+      <div class="logo-text">Authority Portal</div>
+      <div class="logo-sub">by TradeProof</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Operations</div>
+    <button class="nav-item active">
+      <span class="nav-icon">🏛</span> Overview
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">📦</span> Register Container
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">📋</span> Update Events
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Documents</div>
+    <button class="nav-item">
+      <span class="nav-icon">📄</span> Issue BL
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">✅</span> Customs Clearance
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">🌿</span> Certifications
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Governance</div>
+    <button class="nav-item">
+      <span class="nav-icon">🗳</span> Dispute DAO
+    </button>
+    <button class="nav-item">
+      <span class="nav-icon">📊</span> Analytics
+    </button>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">More</div>
+    <button class="nav-item" onclick="window.open('/', '_self')">
+      <span class="nav-icon">🏠</span> Home
+    </button>
+    <button class="nav-item" onclick="window.open('/trade/', '_blank')">
+      <span class="nav-icon">🚢</span> Trade Portal ↗
+    </button>
+    <button class="nav-item" onclick="window.open('/dashboard/', '_blank')">
+      <span class="nav-icon">📈</span> Build Dashboard ↗
+    </button>
+  </div>
+
+  <div class="sidebar-user">
+    <div class="user-avatar">PA</div>
+    <div>
+      <div class="user-name">Port Authority</div>
+      <div class="user-role">Not connected · Phase 3</div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title">Authority Portal</div>
+      <div class="page-sub">Phase 3 — Available for shipping lines, port authorities, customs &amp; government</div>
+    </div>
+    <div>
+      <button class="btn btn-outline" onclick="window.open('/trade/', '_blank')">Trade Portal ↗</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="alert alert-purple">
+      <span class="alert-icon">🏛</span>
+      <div>
+        <div class="alert-title">Authority Portal — Phase 3 Build Target</div>
+        <div class="alert-body">
+          This portal is for institutional parties: shipping lines, port authorities, customs authorities, and government officials. Each party can only write events they are authorised for — the Move contracts enforce this at the protocol level. Institutional login via zkLogin with government/corporate credentials is planned for Phase 3.
+          <br><br>
+          <strong>Already live:</strong> Port authorities can use the CLI today to call <code>gate_in()</code>, <code>load_on_vessel()</code>, and <code>discharged()</code> directly. This portal is the web interface for that functionality.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="card-title">Available Actions — What You Can Do From This Portal</div></div>
+      <div class="card-body">
+        <div class="action-grid">
+
+          <div class="action-card" onclick="window.open('/track/', '_blank')">
+            <div class="action-icon">📦</div>
+            <div class="action-title">Register Container (Gate-In)</div>
+            <div class="action-desc">Record container arrival at your terminal. Creates an immutable gate-in timestamp on Sui. Demurrage clock starts from this exact moment.</div>
+            <span class="action-tag tag-live">CLI Available Now</span>
+          </div>
+
+          <div class="action-card" onclick="alert('Connect CLI: node scripts/container-testnet.js --iso-id [ID] --free-days 14 --rate 150')">
+            <div class="action-icon">🚢</div>
+            <div class="action-title">Record Vessel Events</div>
+            <div class="action-desc">Load on vessel, discharge at destination. Each event creates an immutable on-chain record. Shipping line calls these; port authority confirms.</div>
+            <span class="action-tag tag-live">CLI Available Now</span>
+          </div>
+
+          <div class="action-card disabled">
+            <div class="action-icon">🛃</div>
+            <div class="action-title">Issue Customs Clearance</div>
+            <div class="action-desc">Sign customs release on-chain. Both portals reflect the clearance instantly. Requires <code>customs_clearance.move</code>.</div>
+            <span class="action-tag tag-phase3">Phase 3</span>
+          </div>
+
+          <div class="action-card" onclick="window.open('/verify/', '_blank')">
+            <div class="action-icon">📄</div>
+            <div class="action-title">Issue Bill of Lading</div>
+            <div class="action-desc">Shipping line issues the BL as a Sui NFT to the consignee. 23 DCSA eBL 3.0 fields. Seal encryption available for sensitive cargo.</div>
+            <span class="action-tag tag-live">CLI Available Now</span>
+          </div>
+
+          <div class="action-card" onclick="window.open('/verify/', '_blank')">
+            <div class="action-icon">🌿</div>
+            <div class="action-title">Issue Phytosanitary Certificate</div>
+            <div class="action-desc">National plant protection authority signs crop certification on-chain. Cannot be forged. Critical for EAC agricultural export corridor.</div>
+            <span class="action-tag tag-live">CLI Available Now</span>
+          </div>
+
+          <div class="action-card" onclick="window.open('/verify/', '_blank')">
+            <div class="action-icon">🌍</div>
+            <div class="action-title">Certificate of Origin</div>
+            <div class="action-desc">Chamber of commerce signs origin certification. Required for preferential tariffs under COMESA, AfCFTA, EAC trade agreements.</div>
+            <span class="action-tag tag-live">CLI Available Now</span>
+          </div>
+
+          <div class="action-card disabled">
+            <div class="action-icon">📡</div>
+            <div class="action-title">IoT / DePIN Anchor</div>
+            <div class="action-desc">Container seals, temperature sensors, gate cameras write physical events directly to chain. <code>depin_oracle.move</code> planned.</div>
+            <span class="action-tag tag-phase3">Phase 3</span>
+          </div>
+
+          <div class="action-card disabled">
+            <div class="action-icon">🗳</div>
+            <div class="action-title">Dispute DAO</div>
+            <div class="action-desc">Vote on demurrage and freight disputes as an industry arbitrator. Decisions are enforced on-chain. <code>dispute_dao.move</code> planned.</div>
+            <span class="action-tag tag-phase3">Phase 4</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <span class="alert-icon">💻</span>
+      <div>
+        <div class="alert-title">CLI Access Available Now</div>
+        <div class="alert-body">
+          All authority functions are accessible via the CLI today. Port authorities and shipping lines can integrate their existing systems to call the Move functions directly without waiting for this web portal.
+          <br><br>
+          <code>node scripts/container-testnet.js --iso-id XXXX --free-days 14 --rate 150</code><br>
+          <code>node scripts/bl-testnet.js --bl-number BL-XXX --carrier MSCU ...</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-note">
+      <div class="phase-note-title">Are you a port authority, shipping line, or customs official?</div>
+      <div class="phase-note-body">
+        TradeProof is building this portal specifically for institutional adoption — but we know the
+        challenge. You don't trust a platform controlled by a competitor. TradeProof is not a platform.
+        The Move contracts are open source. No company controls the rules. Sui validators are the arbiter.
+        <br><br>
+        If you want to be the first port authority or shipping line to write a real event on-chain
+        — reach out. No fee. No commitment. Just a demonstration.
+      </div>
+      <a href="mailto:milan@speedexlogistics.com?subject=Authority Portal Interest" style="display:inline-block;margin-top:16px;background:#fff;color:#4c1d95;padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none">
+        ✉ Get Early Access — milan@speedexlogistics.com
+      </a>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>
