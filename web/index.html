@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TradeProof — Private · Verifiable · Immutable</title>
+  <style>
+    :root {
+      --blue:      #1a4fff;
+      --blue-dk:   #0f2e9e;
+      --ink:       #0f1117;
+      --muted:     #5a6072;
+      --line:      #dde1ea;
+      --bg:        #f6f8fc;
+      --panel:     #ffffff;
+      --green:     #087443;
+      --green-bg:  #ecfdf5;
+      --green-bd:  #6ce9a6;
+      --purple:    #6b21a8;
+      --purple-bg: #faf5ff;
+      --purple-bd: #c4b5fd;
+      --amber:     #92400e;
+      --amber-bg:  #fffbeb;
+      --amber-bd:  #fcd34d;
+      --red:       #b42318;
+      --red-bg:    #fff4f2;
+      --red-bd:    #fda29b;
+      --shadow:    0 8px 24px rgba(15,17,23,.07);
+      --shadow-lg: 0 16px 48px rgba(15,17,23,.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--ink); font-size: 15px; line-height: 1.6;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    .hdr { background: var(--panel); border-bottom: 1px solid var(--line); padding: 14px 0; position: sticky; top: 0; z-index: 100; }
+    .hdr-inner {
+      max-width: 1040px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+    .logo-mark {
+      width: 34px; height: 34px; background: var(--blue); color: #fff;
+      border-radius: 8px; display: grid; place-items: center; font-weight: 900; font-size: 14px;
+    }
+    .hdr-nav { display: flex; align-items: center; gap: 4px; }
+    .hdr-nav a {
+      font-size: 13px; font-weight: 600; color: var(--muted); padding: 6px 12px;
+      border-radius: 6px; transition: background .1s, color .1s;
+    }
+    .hdr-nav a:hover { background: var(--bg); color: var(--ink); text-decoration: none; }
+    .hdr-badge {
+      font-size: 11px; font-weight: 700; background: var(--green-bg); color: var(--green);
+      border: 1px solid var(--green-bd); border-radius: 20px; padding: 3px 10px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(155deg, #060b1f 0%, #0a1442 40%, #1a4fff 100%);
+      color: #fff; padding: 80px 24px 72px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(99,102,241,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 780px; margin: 0 auto; text-align: center; position: relative; }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      opacity: .6; margin-bottom: 20px;
+    }
+    .hero-title {
+      font-size: 52px; font-weight: 900; line-height: 1.08; margin-bottom: 22px;
+      letter-spacing: -.01em;
+    }
+    .hero-title .accent { color: #60a5fa; }
+    .hero-sub { font-size: 18px; opacity: .8; max-width: 580px; margin: 0 auto 36px; line-height: 1.55; }
+    .hero-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+    .hero-pill {
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600;
+    }
+    .hero-pill.hi { background: rgba(96,165,250,.2); border-color: rgba(96,165,250,.4); color: #93c5fd; }
+    .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn {
+      height: 44px; padding: 0 22px; border-radius: 8px; font-size: 14px; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .cta-primary { background: #fff; color: var(--blue); }
+    .cta-primary:hover { opacity: .9; text-decoration: none; }
+    .cta-secondary { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); color: #fff; }
+    .cta-secondary:hover { background: rgba(255,255,255,.2); text-decoration: none; }
+
+    /* ── Web2 vs Web3 bar ── */
+    .compare-bar {
+      background: var(--ink); color: #fff; padding: 0 24px;
+    }
+    .compare-inner {
+      max-width: 1040px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch;
+    }
+    .compare-side { padding: 32px 24px; }
+    .compare-side.bad  { border-right: 1px solid rgba(255,255,255,.1); }
+    .compare-side.good { }
+    .compare-label {
+      font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em;
+      margin-bottom: 16px; opacity: .5;
+    }
+    .compare-label.bad  { color: #fca5a5; }
+    .compare-label.good { color: #6ee7b7; }
+    .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+    .compare-item { display: flex; align-items: flex-start; gap: 8px; }
+    .compare-item .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .dot-red   { background: #ef4444; }
+    .dot-green { background: #22c55e; }
+    .compare-divider {
+      display: flex; align-items: center; justify-content: center; padding: 0 16px;
+      font-size: 11px; font-weight: 800; color: rgba(255,255,255,.3); letter-spacing: .08em;
+    }
+    @media (max-width: 680px) {
+      .compare-inner { grid-template-columns: 1fr; }
+      .compare-side.bad { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+      .compare-divider { display: none; }
+    }
+
+    /* ── Section wrapper ── */
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 64px 0; }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .14em;
+      color: var(--blue); margin-bottom: 10px;
+    }
+    .section-title { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+    .section-sub { font-size: 16px; color: var(--muted); max-width: 580px; margin-bottom: 40px; }
+
+    /* ── Privacy cards ── */
+    .privacy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 760px) { .privacy-grid { grid-template-columns: 1fr; } }
+
+    .priv-card {
+      border-radius: 14px; padding: 28px; border: 1px solid;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .priv-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0;
+    }
+    .priv-card.seal   { background: var(--purple-bg); border-color: var(--purple-bd); }
+    .priv-card.seal::before   { background: linear-gradient(90deg, var(--purple), #8b5cf6); }
+    .priv-card.ct     { background: var(--green-bg);  border-color: var(--green-bd); }
+    .priv-card.ct::before     { background: linear-gradient(90deg, var(--green), #10b981); }
+    .priv-card.zk     { background: var(--amber-bg);  border-color: var(--amber-bd); }
+    .priv-card.zk::before     { background: linear-gradient(90deg, var(--amber), #f59e0b); }
+
+    .priv-icon  { font-size: 32px; margin-bottom: 14px; }
+    .priv-name  { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; opacity: .6; margin-bottom: 6px; }
+    .priv-title { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+    .priv-desc  { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.55; }
+    .priv-list  { list-style: none; padding: 0; }
+    .priv-list li { font-size: 12px; color: var(--muted); padding: 4px 0; border-top: 1px solid rgba(0,0,0,.05); display: flex; gap: 8px; align-items: flex-start; }
+    .priv-list li:first-child { border-top: none; }
+    .priv-list li::before { content: '→'; opacity: .4; flex-shrink: 0; font-size: 11px; margin-top: 1px; }
+    .priv-status {
+      display: inline-flex; align-items: center; gap: 5px; margin-top: 16px;
+      font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; border: 1px solid;
+    }
+    .priv-status.active { background: rgba(8,116,67,.08); color: var(--green); border-color: var(--green-bd); }
+    .priv-status.soon   { background: rgba(146,64,14,.08); color: var(--amber); border-color: var(--amber-bd); }
+    .priv-status .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    /* ── Stats ── */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 640px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+    .stat {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+      padding: 20px; text-align: center; box-shadow: var(--shadow);
+    }
+    .stat-num   { font-size: 28px; font-weight: 800; color: var(--blue); }
+    .stat-label { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 4px; }
+
+    /* ── Tool cards ── */
+    .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 680px) { .tools-grid { grid-template-columns: 1fr; } }
+    .tool-card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px;
+      box-shadow: var(--shadow); display: flex; flex-direction: column;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .tool-card:hover { border-color: var(--blue); box-shadow: 0 12px 32px rgba(26,79,255,.1); }
+    .tool-icon  { font-size: 26px; margin-bottom: 12px; }
+    .tool-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .tool-desc  { font-size: 13px; color: var(--muted); flex: 1; margin-bottom: 18px; line-height: 1.5; }
+    .tool-link  {
+      display: inline-block; background: var(--blue); color: #fff;
+      border-radius: 7px; padding: 8px 16px; font-size: 13px; font-weight: 600; text-align: center;
+    }
+    .tool-link:hover { opacity: .9; text-decoration: none; }
+    .tool-link.out { background: none; color: var(--blue); border: 1px solid var(--blue); }
+    .tool-link.out:hover { background: #eff4ff; }
+
+    /* ── Live container ── */
+    .live-box {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+      box-shadow: var(--shadow-lg); padding: 28px 32px;
+    }
+    .live-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 10px; }
+    .live-title { font-size: 17px; font-weight: 700; }
+    .live-badge { background: #fff3cd; color: #92400e; border: 1px solid var(--amber-bd); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; }
+    .live-grid  { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    @media (max-width: 600px) { .live-grid { grid-template-columns: 1fr 1fr; } }
+    .live-cell  { }
+    .live-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+    .live-val   { font-size: 14px; font-weight: 600; }
+    .live-actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+    .live-btn {
+      font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 7px;
+      border: 1px solid var(--line); background: var(--bg); color: var(--ink); text-decoration: none;
+    }
+    .live-btn:hover { background: #eff4ff; border-color: var(--blue); color: var(--blue); text-decoration: none; }
+    .live-btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .live-btn.primary:hover { opacity: .9; }
+
+    /* ── Sui Ecosystem ── */
+    .eco-section { background: var(--ink); color: #fff; padding: 72px 24px; }
+    .eco-inner   { max-width: 1040px; margin: 0 auto; }
+    .eco-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; color: #60a5fa; margin-bottom: 10px; }
+    .eco-title   { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 10px; }
+    .eco-sub     { font-size: 16px; opacity: .6; margin-bottom: 44px; max-width: 560px; }
+    .eco-grid    { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    @media (max-width: 900px) { .eco-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 580px) { .eco-grid { grid-template-columns: 1fr 1fr; } }
+    .eco-card {
+      border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 20px;
+      background: rgba(255,255,255,.04);
+      transition: border-color .15s, background .15s;
+    }
+    .eco-card:hover { border-color: rgba(96,165,250,.4); background: rgba(96,165,250,.06); }
+    .eco-icon   { font-size: 24px; margin-bottom: 12px; }
+    .eco-name   { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+    .eco-desc   { font-size: 12px; opacity: .55; line-height: 1.5; }
+    .eco-tag    { display: inline-block; margin-top: 10px; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+    .eco-tag.live   { background: rgba(34,197,94,.15); color: #4ade80; }
+    .eco-tag.testnet { background: rgba(96,165,250,.15); color: #93c5fd; }
+    .eco-line {
+      margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.08);
+      font-size: 13px; opacity: .5; max-width: 720px;
+    }
+
+    /* ── Modules ── */
+    .mods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    @media (max-width: 580px) { .mods-grid { grid-template-columns: 1fr 1fr; } }
+    .mod-card {
+      border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px;
+      background: var(--panel); font-size: 13px;
+    }
+    .mod-card strong { display: block; margin-bottom: 3px; }
+    .mod-card span   { color: var(--muted); font-size: 12px; }
+    .mod-card.live   { border-color: var(--green-bd); background: var(--green-bg); }
+    .mod-card.enc    { border-color: var(--purple-bd); background: var(--purple-bg); }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: var(--line); }
+
+    /* ── Footer ── */
+    footer { text-align: center; font-size: 12px; color: var(--muted); padding: 36px 24px 24px; }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="logo"><div class="logo-mark">T</div> TradeProof</div>
+    <nav class="hdr-nav">
+      <a href="/trade/" style="color:var(--blue);font-weight:700">Trade Portal</a>
+      <a href="/authority/">Authority Portal</a>
+      <a href="/track/">Track</a>
+      <a href="/verify/">Verify</a>
+      <a href="/dashboard/">Dashboard</a>
+      <a href="/pitch/">Pitch</a>
+    </nav>
+    <span class="hdr-badge">Sui Testnet · Live</span>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">EAC Corridor · Mombasa Port · Built on Sui + Walrus</div>
+    <h1 class="hero-title">
+      <span class="accent">Private.</span><br>
+      Verifiable.<br>
+      Immutable.
+    </h1>
+    <p class="hero-sub">TradeProof is a trade finance protocol built on the entire Sui ecosystem — Seal encryption, Confidential Transactions, zkLogin, Walrus storage, and Move smart contracts. No platform to trust. No single party in control.</p>
+    <div class="hero-pills">
+      <span class="hero-pill hi">Seal encrypted</span>
+      <span class="hero-pill hi">Confidential Transactions</span>
+      <span class="hero-pill hi">zkLogin</span>
+      <span class="hero-pill">13 Move modules</span>
+      <span class="hero-pill">30 tests passing</span>
+      <span class="hero-pill">DCSA eBL 3.0</span>
+      <span class="hero-pill">Open source</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="/trade/" class="cta-btn cta-primary">Open Trade Portal</a>
+      <a href="/authority/" class="cta-btn cta-secondary">Authority Portal</a>
+      <a href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" class="cta-btn cta-secondary">Track Live Container</a>
+    </div>
+  </div>
+</section>
+
+<!-- Web2 vs Web3 comparison -->
+<div class="compare-bar">
+  <div class="compare-inner">
+    <div class="compare-side bad">
+      <div class="compare-label bad">Web2 — How it works today (TradeLens / Contour model)</div>
+      <div class="compare-item"><div class="dot dot-red"></div><div>Platform owner controls the database — one party controls the truth</div></div>
+      <div class="compare-item" style="margin-top:8px"><div class="dot dot-red"></div><div>Competitors share the same ledger — Hapag-Lloyd refused to join Maersk's platform</div></div>
+      <div class="compare-item" style="margin-top:8px"><div class="dot dot-red"></div><div>Documents stored in plaintext — any consortium member reads your cargo details</div></div>
+      <div class="compare-item" style="margin-top:8px"><div class="dot dot-red"></div><div>$400–$1,000 per transaction fees · Vendor lock-in · Platform can shut down</div></div>
+    </div>
+    <div class="compare-divider">VS</div>
+    <div class="compare-side good">
+      <div class="compare-label good">Web3 — TradeProof on Sui</div>
+      <div class="compare-item"><div class="dot dot-green"></div><div>No one controls the network — Sui enforces rules, not TradeProof</div></div>
+      <div class="compare-item" style="margin-top:8px"><div class="dot dot-green"></div><div>Seal encryption — competitors see "encrypted blob exists" · nothing else</div></div>
+      <div class="compare-item" style="margin-top:8px"><div class="dot dot-green"></div><div>Confidential Transactions — payment amount private via homomorphic encryption</div></div>
+      <div class="compare-item" style="margin-top:8px"><div class="dot dot-green"></div><div>zkLogin — join with Google · no seed phrase · no blockchain expertise required</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy Section -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">Privacy Architecture</div>
+    <h2 class="section-title">Privacy was why TradeLens failed.<br>It's our first priority.</h2>
+    <p class="section-sub">TradeProof uses three separate Sui privacy technologies — each solving a distinct problem that ended every previous trade finance blockchain.</p>
+
+    <div class="privacy-grid">
+
+      <!-- Seal -->
+      <div class="priv-card seal">
+        <div class="priv-icon">🔐</div>
+        <div class="priv-name">Mysten Labs · Sui Testnet</div>
+        <div class="priv-title">Seal — Document Encryption</div>
+        <div class="priv-desc">Full BL documents are encrypted client-side with Sui's Seal threshold encryption before upload to Walrus. Only authorized parties (shipper, consignee, bank) hold key shares. The on-chain record stores only the hash.</div>
+        <ul class="priv-list">
+          <li>Competitor reads: "encrypted blob exists" — nothing more</li>
+          <li>BL number, cargo details, and trade routes stay private</li>
+          <li>Access managed on-chain via AllowList object</li>
+          <li>Bank added to AllowList when LC is presented; removed on surrender</li>
+        </ul>
+        <div class="priv-status active"><div class="dot"></div>Sui Testnet · Active</div>
+      </div>
+
+      <!-- Confidential Transactions -->
+      <div class="priv-card ct">
+        <div class="priv-icon">🛡️</div>
+        <div class="priv-name">Sui Protocol · Testnet</div>
+        <div class="priv-title">Confidential Transactions — Private Settlement</div>
+        <div class="priv-desc">Demurrage and settlement payments use Sui's Confidential Transactions — homomorphic encryption hides the amount. Both parties verify the settlement is correct without revealing the number to anyone else.</div>
+        <ul class="priv-list">
+          <li>Competitors see: "demurrage settled" — not the amount</li>
+          <li>Your negotiated rates with shipping lines stay private</li>
+          <li>Homomorphic encryption: math works on ciphertext</li>
+          <li>Settlement is final and verifiable without disclosure</li>
+        </ul>
+        <div class="priv-status active"><div class="dot"></div>Sui Testnet · Active</div>
+      </div>
+
+      <!-- zkLogin -->
+      <div class="priv-card zk">
+        <div class="priv-icon">🪪</div>
+        <div class="priv-name">Sui Protocol · Mainnet</div>
+        <div class="priv-title">zkLogin — Zero-friction Onboarding</div>
+        <div class="priv-desc">Any party — shipper, consignee, clearing agent, bank — can join with a Google account. Zero-knowledge proof maps their OAuth identity to a Sui address. No seed phrase, no wallet app, no blockchain expertise required.</div>
+        <ul class="priv-list">
+          <li>Login with Google, Facebook, or Microsoft</li>
+          <li>Your Google identity is never stored on-chain</li>
+          <li>ZK proof: verifier knows you own the account, not which account</li>
+          <li>Nairobi clearing agent onboards in 30 seconds</li>
+        </ul>
+        <div class="priv-status active"><div class="dot"></div>Sui Mainnet · Live</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Stats -->
+<section class="section">
+  <div class="wrap">
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">$20–30B</div><div class="stat-label">Disputed demurrage per year</div></div>
+      <div class="stat"><div class="stat-num">13</div><div class="stat-label">Open-source Move modules</div></div>
+      <div class="stat"><div class="stat-num">30</div><div class="stat-label">Tests passing</div></div>
+      <div class="stat"><div class="stat-num">0</div><div class="stat-label">Parties to trust</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Tools -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">Tools</div>
+    <h2 class="section-title">Open to anyone. No account required.</h2>
+    <p class="section-sub">Every TradeProof tool reads directly from the Sui blockchain. No login. No API key. No TradeProof server involved.</p>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon">📦</div>
+        <div class="tool-title">Container Track &amp; Trace</div>
+        <div class="tool-desc">Track any container by ISO ID or Sui object ID. On-chain event timeline. Live demurrage calculator with the same formula both parties use. Carrier tracking links for 12 shipping lines.</div>
+        <a href="/track/" class="tool-link">Open Tracker</a>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🔍</div>
+        <div class="tool-title">Object Verifier</div>
+        <div class="tool-desc">Verify any TradeProof object: Container Digital ID, Bill of Lading NFT, Shipment Proof, and more. Shows Seal encryption status, Walrus blob hash match, and full DCSA fields.</div>
+        <a href="/verify/" class="tool-link">Open Verifier</a>
+      </div>
+      <div class=”tool-card”>
+        <div class=”tool-icon”>📈</div>
+        <div class=”tool-title”>Sui Foundation Pitch</div>
+        <div class=”tool-desc”>10-slide investor pitch — the demurrage problem, TradeProof solution, live testnet proof, privacy architecture (Seal, zkLogin, Confidential Transactions), and the full 5-phase roadmap. Print to PDF.</div>
+        <a href=”/pitch/” class=”tool-link out”>View Pitch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Live Pilot -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">Live Pilot</div>
+    <h2 class="section-title">A real container on Sui Testnet. Right now.</h2>
+    <p class="section-sub">Not a mockup. A real blockchain object recorded at Mombasa Port.</p>
+
+    <div class="live-box">
+      <div class="live-head">
+        <div class="live-title">MSCU9876543 — Mombasa Port (KE MBA)</div>
+        <span class="live-badge">GATE_IN · Status 2</span>
+      </div>
+      <div class="live-grid">
+        <div class="live-cell">
+          <div class="live-label">Container ID</div>
+          <div class="live-val" style="font-family:monospace;font-size:12px">MSCU9876543</div>
+        </div>
+        <div class="live-cell">
+          <div class="live-label">Gate-in (on-chain)</div>
+          <div class="live-val" id="lp-gate-in">Loading from Sui…</div>
+        </div>
+        <div class="live-cell">
+          <div class="live-label">Free Days</div>
+          <div class="live-val">14 days</div>
+        </div>
+        <div class="live-cell">
+          <div class="live-label">Rate</div>
+          <div class="live-val">$150 / container / day</div>
+        </div>
+      </div>
+      <div class="live-actions">
+        <a href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" class="live-btn primary">Track Container</a>
+        <a href="/verify/?object=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" class="live-btn">Verify Object</a>
+        <a href="https://testnet.suivision.xyz/object/0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" target="_blank" rel="noopener" class="live-btn">Sui Explorer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sui Ecosystem -->
+<div class="eco-section">
+  <div class="eco-inner">
+    <div class="eco-eyebrow">The Sui Ecosystem</div>
+    <h2 class="eco-title">Not one product. The entire Sui stack.</h2>
+    <p class="eco-sub">TradeProof is designed to showcase what the Sui ecosystem can do for real-world trade finance. Every layer is a Sui product.</p>
+
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="eco-icon">⚡</div>
+        <div class="eco-name">Sui Move</div>
+        <div class="eco-desc">Smart contracts for 13 trade finance modules. Owned objects model enforces holder rights — only the BL holder can endorse or surrender.</div>
+        <span class="eco-tag live">Mainnet + Testnet</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🌊</div>
+        <div class="eco-name">Walrus</div>
+        <div class="eco-desc">Decentralised document storage. Full DCSA BL JSON blobs stored on Walrus. Erasure-coded across validators. 2-year retention.</div>
+        <span class="eco-tag testnet">Testnet</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🔐</div>
+        <div class="eco-name">Seal</div>
+        <div class="eco-desc">Threshold encryption for trade documents. Access policies managed as on-chain AllowList objects. Private by design.</div>
+        <span class="eco-tag testnet">Testnet</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🛡️</div>
+        <div class="eco-name">Confidential Txns</div>
+        <div class="eco-desc">Homomorphic encryption for payment amounts. Demurrage settled on-chain with the amount private to competitors.</div>
+        <span class="eco-tag testnet">Testnet</span>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🪪</div>
+        <div class="eco-name">zkLogin</div>
+        <div class="eco-desc">OAuth-to-Sui via zero-knowledge proofs. Any party joins with Google. No seed phrase. No wallet. Barrier-free.</div>
+        <span class="eco-tag live">Mainnet</span>
+      </div>
+    </div>
+
+    <div class="eco-line">
+      TradeProof is built to make Sui the de facto protocol for trade finance in the EAC corridor and beyond. Every transaction that clears through TradeProof is a transaction on the Sui network. Every document stored is a Walrus blob. Every party that joins uses Seal, zkLogin, or both. The ecosystem wins together.
+    </div>
+  </div>
+</div>
+
+<!-- Protocol Modules -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-eyebrow">Protocol Modules</div>
+    <h2 class="section-title">Open source. Anyone can deploy.</h2>
+    <p class="section-sub">13 trade finance modules live on Sui Testnet. Seal-encrypted where marked. All DCSA-aligned.</p>
+
+    <div class="mods-grid">
+      <div class="mod-card live enc">
+        <strong>Container Digital ID</strong>
+        <span>8-stage lifecycle · demurrage calculator · Seal-ready · LIVE</span>
+      </div>
+      <div class="mod-card live">
+        <strong>Shipment Proof</strong>
+        <span>Two-party delivery confirmation · LIVE</span>
+      </div>
+      <div class="mod-card enc">
+        <strong>Bill of Lading NFT</strong>
+        <span>DCSA eBL 3.0 · 23 fields · Seal encrypted · endorse + surrender</span>
+      </div>
+      <div class="mod-card enc">
+        <strong>Certificate of Origin</strong>
+        <span>Government countersign on-chain · Seal for doc privacy</span>
+      </div>
+      <div class="mod-card enc">
+        <strong>Commercial Invoice</strong>
+        <span>Buyer accepts / disputes / pays · Seal for pricing privacy</span>
+      </div>
+      <div class="mod-card">
+        <strong>Freight Rate Contract</strong>
+        <span>Carrier offers, shipper accepts, expiry enforced</span>
+      </div>
+      <div class="mod-card">
+        <strong>Air Waybill (AWB)</strong>
+        <span>MAWB / HAWB · 6-step lifecycle</span>
+      </div>
+      <div class="mod-card">
+        <strong>CMR Note</strong>
+        <span>Road freight · 3-party (CMR Convention)</span>
+      </div>
+      <div class="mod-card">
+        <strong>Seal Policy</strong>
+        <span>AllowList access control for Seal-encrypted docs · NEW</span>
+      </div>
+      <div class="mod-card live">
+        <strong>Payment Escrow</strong>
+        <span>Demurrage auto-settle · deposit + release · LIVE</span>
+      </div>
+      <div class="mod-card live">
+        <strong>BL Transfer</strong>
+        <span>DCSA-compliant endorsement · surrender flow · LIVE</span>
+      </div>
+      <div class="mod-card enc">
+        <strong>Phytosanitary Certificate</strong>
+        <span>KEPHIS / plant authority sign-off · Seal-ready</span>
+      </div>
+      <div class="mod-card">
+        <strong>LogiOracle</strong>
+        <span>Freight oracle · IoT / DePIN event anchor · on-chain price feeds</span>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;font-size:13px;color:var(--muted)">
+      Package:
+      <a href="https://testnet.suivision.xyz/package/0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697"
+         target="_blank" rel="noopener" style="font-family:monospace;font-size:12px">
+        0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697
+      </a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/milan2307/exp-sui-walrus" target="_blank" rel="noopener">github.com/milan2307/exp-sui-walrus</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(async () => {
+  try {
+    const r = await fetch('https://fullnode.testnet.sui.io:443', {
+      method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({jsonrpc:'2.0',id:1,method:'sui_getObject',
+        params:['0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0',{showContent:true}]})
+    });
+    const j = await r.json();
+    const ms = j?.result?.data?.content?.fields?.last_event_ms;
+    if (ms) {
+      const d = new Date(Number(ms));
+      document.getElementById('lp-gate-in').textContent =
+        d.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC'}) + ' UTC';
+    }
+  } catch {}
+})();
+</script>
+
+<footer>
+  TradeProof · Built on the Sui ecosystem (Sui Move · Walrus · Seal · Confidential Transactions · zkLogin)<br>
+  EAC Corridor Pilot · Mombasa Port · <a href="mailto:milan@speedexlogistics.com">milan@speedexlogistics.com</a>
+</footer>
+
+</body>
+</html>
