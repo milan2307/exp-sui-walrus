@@ -74,6 +74,29 @@ EMOJI_TABLE = [
     ('⚠', [0xe2,0x9a,0xa0]),
     ('✈', [0xe2,0x9c,0x88]),
     ('⚙', [0xe2,0x9a,0x99]),
+    # Arrows (U+2190-U+21FF and U+27F0-U+27FF)
+    ('→', [0xe2,0x86,0x92]),  # U+2192 right arrow
+    ('←', [0xe2,0x86,0x90]),  # U+2190 left arrow
+    ('↑', [0xe2,0x86,0x91]),  # U+2191 up arrow
+    ('↓', [0xe2,0x86,0x93]),  # U+2193 down arrow
+    ('↔', [0xe2,0x86,0x94]),  # U+2194 left-right arrow
+    ('⟷', [0xe2,0x9f,0xb7]),  # U+27F7 long left-right arrow
+    ('⟶', [0xe2,0x9f,0xb6]),  # U+27F6 long right arrow
+    ('⟵', [0xe2,0x9f,0xb5]),  # U+27F5 long left arrow
+    # Check marks / symbols
+    ('✓', [0xe2,0x9c,0x93]),  # U+2713 check mark
+    ('✔', [0xe2,0x9c,0x94]),  # U+2714 heavy check mark
+    ('✉', [0xe2,0x9c,0x89]),  # U+2709 envelope
+    ('⚡', [0xe2,0x9a,0xa1]),  # U+26A1 lightning bolt
+    ('★', [0xe2,0x98,0x85]),  # U+2605 star
+    ('☆', [0xe2,0x98,0x86]),  # U+2606 open star
+    ('©', [0xc2,0xa9]),        # U+00A9 copyright (2-byte)
+    ('®', [0xc2,0xae]),        # U+00AE registered (2-byte)
+    # Box-drawing (used in CSS/HTML comments as separators)
+    ('─', [0xe2,0x94,0x80]),  # U+2500 box drawing horizontal
+    ('━', [0xe2,0x94,0x81]),  # U+2501 heavy horizontal
+    ('│', [0xe2,0x94,0x82]),  # U+2502 vertical
+    ('┼', [0xe2,0x94,0xbc]),  # U+253C cross
 ]
 
 pairs = []

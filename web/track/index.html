@@ -38,7 +38,7 @@
     a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* â”€â”€ Header â”€â”€ */
+    /* ── Header ── */
     .hdr {
       background: var(--panel);
       border-bottom: 1px solid var(--line);
@@ -67,10 +67,10 @@
       border-radius: 20px; padding: 3px 10px;
     }
 
-    /* â”€â”€ Main â”€â”€ */
+    /* ── Main ── */
     .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
 
-    /* â”€â”€ Search â”€â”€ */
+    /* ── Search ── */
     .search-box {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -101,11 +101,11 @@
     .search-btn:hover { opacity: .9; }
     .search-hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
 
-    /* â”€â”€ Main grid â”€â”€ */
+    /* ── Main grid ── */
     .grid { display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
     @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
 
-    /* â”€â”€ Card â”€â”€ */
+    /* ── Card ── */
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -124,7 +124,7 @@
     }
     .card-body { padding: 20px; }
 
-    /* â”€â”€ Status banner â”€â”€ */
+    /* ── Status banner ── */
     .status-banner {
       border-radius: 12px;
       padding: 20px 24px;
@@ -148,7 +148,7 @@
     .banner-status.gate-out   { color: var(--green); }
     .banner-loc { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-    /* â”€â”€ Container info grid â”€â”€ */
+    /* ── Container info grid ── */
     .info-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -169,7 +169,7 @@
       .info-cell:nth-child(2n) { border-right: none; }
     }
 
-    /* â”€â”€ Timeline â”€â”€ */
+    /* ── Timeline ── */
     .timeline { list-style: none; padding: 0; position: relative; }
     .timeline::before {
       content: '';
@@ -200,7 +200,7 @@
     .tl-time  { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: monospace; }
     .tl-tx    { font-size: 11px; margin-top: 3px; }
 
-    /* â”€â”€ Demurrage box â”€â”€ */
+    /* ── Demurrage box ── */
     .dem-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
     .dem-row:last-child { border-bottom: none; }
     .dem-label { color: var(--muted); }
@@ -215,7 +215,7 @@
     .dem-status.accruing { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-bd); }
     .dem-status.clear    { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd); }
 
-    /* â”€â”€ Carrier link â”€â”€ */
+    /* ── Carrier link ── */
     .carrier-link {
       display: flex; align-items: center; gap: 10px;
       border: 1px solid var(--line); border-radius: 8px;
@@ -227,7 +227,7 @@
     .carrier-icon { font-size: 18px; }
     .carrier-sub  { font-size: 11px; font-weight: 400; color: var(--muted); }
 
-    /* â”€â”€ Explorer link â”€â”€ */
+    /* ── Explorer link ── */
     .explorer-btn {
       display: block; text-align: center;
       border: 1px solid var(--blue); color: var(--blue);
@@ -237,7 +237,7 @@
     }
     .explorer-btn:hover { background: #eff4ff; text-decoration: none; }
 
-    /* â”€â”€ Stage progress bar â”€â”€ */
+    /* ── Stage progress bar ── */
     .stages {
       display: flex; gap: 0;
       border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
@@ -253,7 +253,7 @@
     .stage.done    { background: var(--green-bg); color: var(--green); }
     .stage.current { background: var(--amber-bg); color: var(--amber); }
 
-    /* â”€â”€ Spinner â”€â”€ */
+    /* ── Spinner ── */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner {
       width: 20px; height: 20px;
@@ -264,7 +264,7 @@
 
     .hidden { display: none !important; }
 
-    /* â”€â”€ Footer â”€â”€ */
+    /* ── Footer ── */
     footer {
       text-align: center; font-size: 12px;
       color: var(--muted); padding: 40px 0 20px;
@@ -487,7 +487,7 @@ const PACKAGE  = '0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab
 const EXPLORER = 'https://testnet.suivision.xyz';
 const DAY_MS   = 86_400_000;
 
-// â”€â”€ Carrier map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Carrier map ──────────────────────────────────────────────────────────────
 
 const CARRIERS = {
   MSCU: { name: 'MSC',          url: id => `https://www.msc.com/en/search-a-schedule-and-a-tariff/tracking?trackingNumber=${id}` },
@@ -505,7 +505,7 @@ const CARRIERS = {
   TCKU: { name: 'Trident',      url: id => `https://www.track-trace.com/container#${id}` },
 };
 
-// â”€â”€ Status config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Status config ────────────────────────────────────────────────────────────
 
 const STATUS_NAMES  = ['EMPTY','STUFFED','GATE_IN','ON_VESSEL','DISCHARGED','CUSTOMS_CLEARED','GATE_OUT','RETURNED'];
 const STATUS_CLASS  = ['empty','stuffed','gate-in','on-vessel','discharged','cleared','gate-out','returned'];
@@ -530,7 +530,7 @@ const EVENT_TYPES = {
   ContainerReturned:      { cls: 'returned',   label: 'Returned Empty' },
 };
 
-// â”€â”€ RPC helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── RPC helpers ──────────────────────────────────────────────────────────────
 
 async function rpc(method, params) {
   const r = await fetch(SUI_RPC, {
@@ -556,7 +556,7 @@ async function getEvents(isoId) {
   return (result?.data ?? []).filter(e => e.parsedJson?.iso_id === isoId);
 }
 
-// â”€â”€ UI helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── UI helpers ───────────────────────────────────────────────────────────────
 
 const $  = id => document.getElementById(id);
 const tx = (id, val) => { const el = $(id); if (el) el.textContent = val ?? '—'; };
@@ -577,7 +577,7 @@ function fmtShort(ms) {
   });
 }
 
-// â”€â”€ Demurrage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Demurrage ────────────────────────────────────────────────────────────────
 
 function calcDemurrage(gateInMs, freeDays, ratePerDay, currentMs) {
   const freePeriodMs = freeDays * DAY_MS;
@@ -620,7 +620,7 @@ function renderDemurrage(gateInMs) {
   $('demCard').style.display = '';
 }
 
-// â”€â”€ Stage bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Stage bar ────────────────────────────────────────────────────────────────
 
 function renderStages(statusCode) {
   for (let i = 0; i <= 7; i++) {
@@ -630,7 +630,7 @@ function renderStages(statusCode) {
   }
 }
 
-// â”€â”€ Timeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Timeline ─────────────────────────────────────────────────────────────────
 
 function renderTimeline(events) {
   const tl = $('timeline');
@@ -665,7 +665,7 @@ function renderTimeline(events) {
   }).join('');
 }
 
-// â”€â”€ Carrier link â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Carrier link ─────────────────────────────────────────────────────────────
 
 function renderCarrier(isoId) {
   const prefix = (isoId ?? '').slice(0, 4).toUpperCase();
@@ -680,7 +680,7 @@ function renderCarrier(isoId) {
   el.style.display = '';
 }
 
-// â”€â”€ Main track function â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Main track function ───────────────────────────────────────────────────────
 
 function showNotRegistered(isoId) {
   hide('results');
@@ -825,7 +825,7 @@ async function track(input) {
   }
 }
 
-// â”€â”€ Entry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Entry ────────────────────────────────────────────────────────────────────
 
 window.doTrack = () => {
   const val = $('trackInput').value.trim();

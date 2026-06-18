@@ -36,7 +36,7 @@
     a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* â”€â”€ Header â”€â”€ */
+    /* ── Header ── */
     .hdr { background: var(--panel); border-bottom: 1px solid var(--line); padding: 14px 0; position: sticky; top: 0; z-index: 100; }
     .hdr-inner {
       max-width: 1040px; margin: 0 auto; padding: 0 24px;
@@ -58,7 +58,7 @@
       border: 1px solid var(--green-bd); border-radius: 20px; padding: 3px 10px;
     }
 
-    /* â”€â”€ Hero â”€â”€ */
+    /* ── Hero ── */
     .hero {
       background: linear-gradient(155deg, #060b1f 0%, #0a1442 40%, #1a4fff 100%);
       color: #fff; padding: 80px 24px 72px; position: relative; overflow: hidden;
@@ -95,7 +95,7 @@
     .cta-secondary { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); color: #fff; }
     .cta-secondary:hover { background: rgba(255,255,255,.2); text-decoration: none; }
 
-    /* â”€â”€ Web2 vs Web3 bar â”€â”€ */
+    /* ── Web2 vs Web3 bar ── */
     .compare-bar {
       background: var(--ink); color: #fff; padding: 0 24px;
     }
@@ -127,7 +127,7 @@
       .compare-divider { display: none; }
     }
 
-    /* â”€â”€ Section wrapper â”€â”€ */
+    /* ── Section wrapper ── */
     .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
     .section { padding: 64px 0; }
     .section-eyebrow {
@@ -137,7 +137,7 @@
     .section-title { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
     .section-sub { font-size: 16px; color: var(--muted); max-width: 580px; margin-bottom: 40px; }
 
-    /* â”€â”€ Privacy cards â”€â”€ */
+    /* ── Privacy cards ── */
     .privacy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     @media (max-width: 760px) { .privacy-grid { grid-template-columns: 1fr; } }
 
@@ -162,7 +162,7 @@
     .priv-list  { list-style: none; padding: 0; }
     .priv-list li { font-size: 12px; color: var(--muted); padding: 4px 0; border-top: 1px solid rgba(0,0,0,.05); display: flex; gap: 8px; align-items: flex-start; }
     .priv-list li:first-child { border-top: none; }
-    .priv-list li::before { content: 'â†’'; opacity: .4; flex-shrink: 0; font-size: 11px; margin-top: 1px; }
+    .priv-list li::before { content: '→'; opacity: .4; flex-shrink: 0; font-size: 11px; margin-top: 1px; }
     .priv-status {
       display: inline-flex; align-items: center; gap: 5px; margin-top: 16px;
       font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; border: 1px solid;
@@ -171,7 +171,7 @@
     .priv-status.soon   { background: rgba(146,64,14,.08); color: var(--amber); border-color: var(--amber-bd); }
     .priv-status .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
-    /* â”€â”€ Stats â”€â”€ */
+    /* ── Stats ── */
     .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     @media (max-width: 640px) { .stats-row { grid-template-columns: 1fr 1fr; } }
     .stat {
@@ -181,7 +181,7 @@
     .stat-num   { font-size: 28px; font-weight: 800; color: var(--blue); }
     .stat-label { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 4px; }
 
-    /* â”€â”€ Tool cards â”€â”€ */
+    /* ── Tool cards ── */
     .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     @media (max-width: 680px) { .tools-grid { grid-template-columns: 1fr; } }
     .tool-card {
@@ -201,7 +201,7 @@
     .tool-link.out { background: none; color: var(--blue); border: 1px solid var(--blue); }
     .tool-link.out:hover { background: #eff4ff; }
 
-    /* â”€â”€ Live container â”€â”€ */
+    /* ── Live container ── */
     .live-box {
       background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
       box-shadow: var(--shadow-lg); padding: 28px 32px;
@@ -223,7 +223,7 @@
     .live-btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
     .live-btn.primary:hover { opacity: .9; }
 
-    /* â”€â”€ Sui Ecosystem â”€â”€ */
+    /* ── Sui Ecosystem ── */
     .eco-section { background: var(--ink); color: #fff; padding: 72px 24px; }
     .eco-inner   { max-width: 1040px; margin: 0 auto; }
     .eco-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; color: #60a5fa; margin-bottom: 10px; }
@@ -249,7 +249,7 @@
       font-size: 13px; opacity: .5; max-width: 720px;
     }
 
-    /* â”€â”€ Modules â”€â”€ */
+    /* ── Modules ── */
     .mods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     @media (max-width: 580px) { .mods-grid { grid-template-columns: 1fr 1fr; } }
     .mod-card {
@@ -261,10 +261,10 @@
     .mod-card.live   { border-color: var(--green-bd); background: var(--green-bg); }
     .mod-card.enc    { border-color: var(--purple-bd); background: var(--purple-bg); }
 
-    /* â”€â”€ Divider â”€â”€ */
+    /* ── Divider ── */
     .divider { height: 1px; background: var(--line); }
 
-    /* â”€â”€ Footer â”€â”€ */
+    /* ── Footer ── */
     footer { text-align: center; font-size: 12px; color: var(--muted); padding: 36px 24px 24px; }
     footer a { color: var(--muted); }
   </style>
@@ -488,7 +488,7 @@
 
     <div class="eco-grid">
       <div class="eco-card">
-        <div class="eco-icon">âš¡</div>
+        <div class="eco-icon">⚡</div>
         <div class="eco-name">Sui Move</div>
         <div class="eco-desc">Smart contracts for 13 trade finance modules. Owned objects model enforces holder rights — only the BL holder can endorse or surrender.</div>
         <span class="eco-tag live">Mainnet + Testnet</span>

@@ -33,7 +33,7 @@
     a:hover { text-decoration: underline; }
     code { font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 12px; }
 
-    /* â”€â”€ Nav â”€â”€ */
+    /* ── Nav ── */
     .nav {
       background: var(--panel); border-bottom: 1px solid var(--line);
       padding: 14px 24px; position: sticky; top: 0; z-index: 100;
@@ -57,10 +57,10 @@
       border: 1px solid rgba(16,185,129,0.3); border-radius: 20px; padding: 3px 10px;
     }
 
-    /* â”€â”€ Layout â”€â”€ */
+    /* ── Layout ── */
     .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* â”€â”€ Hero â”€â”€ */
+    /* ── Hero ── */
     .hero {
       background: linear-gradient(135deg, #0d1117 0%, #0f1f3d 50%, #1a2d6b 100%);
       border-bottom: 1px solid var(--line); padding: 56px 24px 48px;
@@ -87,14 +87,14 @@
     .chip-purple { background: var(--purple-bg); color: var(--purple); border-color: rgba(139,92,246,.25); }
     .chip-gray   { background: var(--gray-bg);   color: var(--muted);  border-color: var(--line); }
 
-    /* â”€â”€ Stat row â”€â”€ */
+    /* ── Stat row ── */
     .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px;
       background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .stat { background: var(--panel); padding: 22px 24px; }
     .stat-val { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
     .stat-label { font-size: 12px; color: var(--muted); font-weight: 600; }
 
-    /* â”€â”€ Section â”€â”€ */
+    /* ── Section ── */
     .section { padding: 52px 0; border-bottom: 1px solid var(--line); }
     .section-head { margin-bottom: 32px; }
     .section-eyebrow {
@@ -104,7 +104,7 @@
     .section-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
     .section-sub { font-size: 14px; color: var(--muted); max-width: 600px; line-height: 1.6; }
 
-    /* â”€â”€ Cards â”€â”€ */
+    /* ── Cards ── */
     .card {
       background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
       padding: 24px;
@@ -112,16 +112,16 @@
     .card-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
     .card-body  { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
-    /* â”€â”€ Grid layouts â”€â”€ */
+    /* ── Grid layouts ── */
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
 
-    /* â”€â”€ Problem cards â”€â”€ */
+    /* ── Problem cards ── */
     .problem-num { font-size: 32px; font-weight: 900; color: var(--red); margin-bottom: 8px; }
     .problem-label { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
     .problem-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-    /* â”€â”€ Architecture â”€â”€ */
+    /* ── Architecture ── */
     .arch { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; align-items: center; }
     .arch-portal {
       background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px;
@@ -148,7 +148,7 @@
     .arch-pill.live { color: var(--green); background: var(--green-bg); border-color: rgba(16,185,129,.2); }
     .arch-pill.building { color: var(--amber); background: var(--amber-bg); border-color: rgba(245,158,11,.2); }
 
-    /* â”€â”€ Phase progress â”€â”€ */
+    /* ── Phase progress ── */
     .phase { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
       padding: 22px 24px; margin-bottom: 12px; display: grid;
       grid-template-columns: 1fr auto; align-items: start; gap: 16px; }
@@ -177,7 +177,7 @@
     .phase-pct.active { color: var(--blue); }
     .phase-pct.plan   { color: var(--muted); }
 
-    /* â”€â”€ Live box â”€â”€ */
+    /* ── Live box ── */
     .live-box {
       background: #050a14; border: 1px solid rgba(59,130,246,.2); border-radius: 12px;
       padding: 28px; font-family: 'Fira Code', 'Cascadia Code', monospace;
@@ -191,7 +191,7 @@
     .live-val { color: var(--text); word-break: break-all; }
     .live-link { color: var(--blue); font-size: 11px; margin-left: 8px; }
 
-    /* â”€â”€ Module directory â”€â”€ */
+    /* ── Module directory ── */
     .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
     .module-card {
       background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
@@ -211,7 +211,7 @@
     .module-type { font-size: 10px; font-weight: 700; color: var(--purple); margin-top: 8px;
       text-transform: uppercase; letter-spacing: .1em; }
 
-    /* â”€â”€ Trade journey â”€â”€ */
+    /* ── Trade journey ── */
     .journey { position: relative; }
     .journey-step {
       display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 16px 0;
@@ -238,7 +238,7 @@
     .step-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px;
       background: rgba(245,158,11,.1); color: var(--amber); display: inline-block; margin-left: 6px; }
 
-    /* â”€â”€ Web3 primitives â”€â”€ */
+    /* ── Web3 primitives ── */
     .prim-card {
       background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px;
     }
@@ -249,7 +249,7 @@
     .prim-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
     .prim-example { margin-top: 10px; font-size: 12px; color: var(--blue); font-style: italic; }
 
-    /* â”€â”€ Comparison table â”€â”€ */
+    /* ── Comparison table ── */
     .cmp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .cmp-table th {
       background: var(--panel2); padding: 12px 16px; text-align: left;
@@ -263,7 +263,7 @@
     .cmp-no  { color: var(--red);   font-weight: 700; }
     .cmp-hl  { font-weight: 700; color: var(--text); }
 
-    /* â”€â”€ Feedback â”€â”€ */
+    /* ── Feedback ── */
     .feedback-box {
       background: linear-gradient(135deg, rgba(59,130,246,.06) 0%, rgba(139,92,246,.06) 100%);
       border: 1px solid rgba(59,130,246,.2); border-radius: 16px; padding: 40px;
@@ -282,7 +282,7 @@
     .feedback-btn:hover { opacity: .85; text-decoration: none; }
     .feedback-note { margin-top: 16px; font-size: 12px; color: var(--muted); }
 
-    /* â”€â”€ Roadmap â”€â”€ */
+    /* ── Roadmap ── */
     .roadmap { display: flex; flex-direction: column; gap: 0; }
     .roadmap-item {
       display: grid; grid-template-columns: 120px 20px 1fr; gap: 16px; align-items: flex-start;
@@ -305,7 +305,7 @@
     .roadmap-detail { font-size: 12px; color: var(--muted); }
     .roadmap-line { position: relative; }
 
-    /* â”€â”€ Responsive â”€â”€ */
+    /* ── Responsive ── */
     @media (max-width: 700px) {
       .arch { grid-template-columns: 1fr; }
       .arch-arrow { display: none; }
@@ -316,7 +316,7 @@
 </head>
 <body>
 
-<!-- â”€â”€ Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── Nav ──────────────────────────────────────────────────────────────────── -->
 <nav class="nav">
   <div class="nav-brand">
     <div class="nav-mark">T</div>
@@ -333,7 +333,7 @@
   <span class="nav-badge">Sui Testnet</span>
 </nav>
 
-<!-- â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">
@@ -360,7 +360,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ Stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── Stats ─────────────────────────────────────────────────────────────────── -->
 <div class="stats">
   <div class="stat">
     <div class="stat-val" style="color:var(--green)">13</div>
@@ -388,7 +388,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ THE PROBLEM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── THE PROBLEM ───────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -433,7 +433,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ ARCHITECTURE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── ARCHITECTURE ──────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -455,11 +455,11 @@
         <div class="arch-user">Clearing Agents</div>
         <div class="arch-user">Banks &amp; Trade Finance</div>
         <div style="margin-top:12px;font-size:12px;color:var(--muted)">
-          Login via Google (zkLogin â†’ Sui address). No seed phrase. No new account.
+          Login via Google (zkLogin → Sui address). No seed phrase. No new account.
           See your BLs, track your containers, pay demurrage, apply for financing.
         </div>
       </div>
-      <div class="arch-arrow">âŸ·</div>
+      <div class="arch-arrow">⟷</div>
       <div class="arch-portal auth">
         <div class="arch-portal-title" style="color:var(--purple)">Authority Portal</div>
         <div class="card-body" style="margin-bottom:12px">For the institutions that control physical movement</div>
@@ -506,7 +506,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ BUILD PROGRESS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── BUILD PROGRESS ────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -569,7 +569,7 @@
           <span class="phase-item done">Demurrage escrow UI</span>
           <span class="phase-item done">BL endorsement UI</span>
           <span class="phase-item done">Mandatory/Optional docs</span>
-          <span class="phase-item plan">zkLogin (Google â†’ Sui)</span>
+          <span class="phase-item plan">zkLogin (Google → Sui)</span>
           <span class="phase-item plan">First real shipper onboarded</span>
         </div>
         <div class="progress-bar"><div class="progress-fill fill-blue" style="width:75%"></div></div>
@@ -658,7 +658,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ LIVE ON TESTNET â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── LIVE ON TESTNET ────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -675,7 +675,7 @@
         <span class="live-key">Package</span>
         <span class="live-val">
           0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697
-          <a class="live-link" href="https://testnet.suivision.xyz/package/0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697" target="_blank" rel="noopener">â†’ Explorer</a>
+          <a class="live-link" href="https://testnet.suivision.xyz/package/0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697" target="_blank" rel="noopener">→ Explorer</a>
         </span>
       </div>
       <div class="live-row">
@@ -690,8 +690,8 @@
         <span class="live-key">Container MSCU9876543</span>
         <span class="live-val">
           0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0
-          <a class="live-link" href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0">â†’ Track</a>
-          <a class="live-link" href="/verify/?object=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0">â†’ Verify</a>
+          <a class="live-link" href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0">→ Track</a>
+          <a class="live-link" href="/verify/?object=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0">→ Verify</a>
         </span>
       </div>
       <div class="live-row">
@@ -702,7 +702,7 @@
         <span class="live-key">Bill of Lading BL-SPX-2026-001</span>
         <span class="live-val">
           0x9d567a4e89094f8a4efed5b087d259e844d313e7562fb5928f1f067d65e89e51
-          <a class="live-link" href="/verify/?object=0x9d567a4e89094f8a4efed5b087d259e844d313e7562fb5928f1f067d65e89e51">â†’ Verify</a>
+          <a class="live-link" href="/verify/?object=0x9d567a4e89094f8a4efed5b087d259e844d313e7562fb5928f1f067d65e89e51">→ Verify</a>
         </span>
       </div>
       <div class="live-row">
@@ -717,7 +717,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ MODULE DIRECTORY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── MODULE DIRECTORY ───────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -733,13 +733,13 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">container</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Container Digital ID</div>
         <div class="module-desc">
           Every physical shipping container gets a unique, immutable Sui object.
-          8-status lifecycle: EMPTY â†’ STUFFED â†’ GATE_IN â†’ ON_VESSEL â†’ DISCHARGED
-          â†’ CUSTOMS_CLEARED â†’ GATE_OUT â†’ RETURNED. Every transition is timestamped by
+          8-status lifecycle: EMPTY → STUFFED → GATE_IN → ON_VESSEL → DISCHARGED
+          → CUSTOMS_CLEARED → GATE_OUT → RETURNED. Every transition is timestamped by
           Sui validators — nobody can alter it after the fact.
         </div>
         <div class="module-type">DePIN</div>
@@ -748,7 +748,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">bill_of_lading</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Electronic Bill of Lading — DCSA eBL 3.0</div>
         <div class="module-desc">
@@ -763,7 +763,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">seal_policy</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Privacy Layer — Seal Threshold Encryption</div>
         <div class="module-desc">
@@ -779,7 +779,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">commercial_invoice</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Commercial Invoice</div>
         <div class="module-desc">
@@ -794,7 +794,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">certificate_of_origin</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Certificate of Origin</div>
         <div class="module-desc">
@@ -808,7 +808,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">air_waybill</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Air Waybill</div>
         <div class="module-desc">
@@ -822,7 +822,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">freight_rate</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Freight Rate Oracle</div>
         <div class="module-desc">
@@ -837,13 +837,13 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">cmr_note</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">CMR Note — Road Transport</div>
         <div class="module-desc">
           The road transport equivalent of the BL, used across Europe and Africa
           for cross-border trucking under the CMR Convention.
-          Critical for EAC corridor: Mombasa â†’ Nairobi â†’ Kampala â†’ Kigali.
+          Critical for EAC corridor: Mombasa → Nairobi → Kampala → Kigali.
           Same on-chain immutability as ocean documents.
         </div>
         <div class="module-type">RWA · Road Freight</div>
@@ -852,7 +852,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">phytosanitary</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Phytosanitary Certificate</div>
         <div class="module-desc">
@@ -867,7 +867,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">shipment</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Shipment Record</div>
         <div class="module-desc">
@@ -882,7 +882,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">logioracle</span>
-          <span class="module-badge badge-live">Live âœ“</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Protocol Core &amp; Oracle</div>
         <div class="module-desc">
@@ -897,7 +897,7 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">payment_escrow</span>
-          <span class="module-badge badge-live">Live âœ"</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">Demurrage Payment Escrow</div>
         <div class="module-desc">
@@ -912,13 +912,13 @@
       <div class="module-card live">
         <div class="module-header">
           <span class="module-name">bl_transfer</span>
-          <span class="module-badge badge-live">Live âœ"</span>
+          <span class="module-badge badge-live">Live ✓</span>
         </div>
         <div class="module-title">BL Title Transfer &amp; Endorsement Records</div>
         <div class="module-desc">
           Creates permanent on-chain endorsement records each time a BL changes hands.
           Straight BLs (non-negotiable) are blocked from transfer.
-          Order BLs create a full audit trail: shipper â†’ bank â†’ importer.
+          Order BLs create a full audit trail: shipper → bank → importer.
           Any party can prove chain of title in seconds. No paper chase.
         </div>
         <div class="module-type">RWA · NFT Transfer</div>
@@ -989,7 +989,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ TRADE JOURNEY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── TRADE JOURNEY ──────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -1017,7 +1017,7 @@
         <div>
           <div class="step-title">BL Issued — Cargo Title Goes On-Chain</div>
           <div class="step-desc">Shipping line issues the Bill of Lading as a Sui NFT via <code>bill_of_lading.move</code>. 23 DCSA fields. Consignee becomes first holder. Seal encryption optional for sensitive cargo details.</div>
-          <div class="step-role">Shipping Line â†’ Consignee</div>
+          <div class="step-role">Shipping Line → Consignee</div>
           <span class="step-portal portal-auth">Authority Portal</span>
         </div>
       </div>
@@ -1131,7 +1131,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ WEB3 PRIMITIVES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── WEB3 PRIMITIVES ────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -1153,11 +1153,11 @@
           Tokenizing it as a Sui NFT means title transfer is instant, auditable, and
           enforceable without a bank intermediary or paper courier.
         </div>
-        <div class="prim-example">"The consignee endorsed the BL to the bank" â†’ one on-chain function call, permanent record</div>
+        <div class="prim-example">"The consignee endorsed the BL to the bank" → one on-chain function call, permanent record</div>
       </div>
 
       <div class="prim-card">
-        <div class="prim-icon">âš¡</div>
+        <div class="prim-icon">⚡</div>
         <div class="prim-name">DeFi — Decentralised Finance</div>
         <div class="prim-tag">payment_escrow · letter_of_credit · freight_rate</div>
         <div class="prim-body">
@@ -1178,7 +1178,7 @@
           journey and its digital record are one and the same — not a summary created
           by a human after the fact.
         </div>
-        <div class="prim-example">"Gate camera reads container number â†’ gate_in() called â†’ immutable timestamp created"</div>
+        <div class="prim-example">"Gate camera reads container number → gate_in() called → immutable timestamp created"</div>
       </div>
 
       <div class="prim-card">
@@ -1191,7 +1191,7 @@
           on-chain. Their decisions are enforced by smart contracts, not by courts.
           No company controls the rules.
         </div>
-        <div class="prim-example">"Demurrage dispute raised â†’ DAO votes â†’ result enforced automatically â†’ no legal fees"</div>
+        <div class="prim-example">"Demurrage dispute raised → DAO votes → result enforced automatically → no legal fees"</div>
       </div>
 
       <div class="prim-card">
@@ -1218,14 +1218,14 @@
           No seed phrase. No new account. Institutions can use their existing
           credential infrastructure — just add Sui as the settlement layer.
         </div>
-        <div class="prim-example">"KPA officer logs in with KPA credentials â†’ Sui address â†’ can only call port functions"</div>
+        <div class="prim-example">"KPA officer logs in with KPA credentials → Sui address → can only call port functions"</div>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- â”€â”€ WHY OTHERS FAILED â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── WHY OTHERS FAILED ──────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -1283,7 +1283,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ ROADMAP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── ROADMAP ────────────────────────────────────────────────────────────────── -->
 <div class="section">
   <div class="wrap">
     <div class="section-head">
@@ -1335,7 +1335,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ FEEDBACK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── FEEDBACK ───────────────────────────────────────────────────────────────── -->
 <div class="section" style="border-bottom:none">
   <div class="wrap">
     <div class="feedback-box">
@@ -1357,7 +1357,7 @@
         <span class="role-pill">Logistics Tech</span>
       </div>
       <a href="mailto:milan@speedexlogistics.com?subject=TradeProof Feedback" class="feedback-btn">
-        âœ‰ Send Feedback — milan@speedexlogistics.com
+        ✉ Send Feedback — milan@speedexlogistics.com
       </a>
       <div class="feedback-note">
         Also: if your port, shipping line, or authority wants to be the first to write
@@ -1368,7 +1368,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── Footer ─────────────────────────────────────────────────────────────────── -->
 <div style="background:var(--panel);border-top:1px solid var(--line);padding:24px;text-align:center">
   <div style="font-size:12px;color:var(--muted)">
     TradeProof Protocol — Open source Move contracts on Sui Testnet ·
