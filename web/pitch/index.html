@@ -720,7 +720,7 @@
           <div class="list-dot dot-green">✓</div>
           <div>
             <div class="list-title" style="color:var(--green)">Phase 1 — Foundation (Complete)</div>
-            <div class="list-body">9 Move modules, 26 tests, container digital ID, BL NFT, Seal policy, DCSA eBL 3.0, Walrus storage integration, testnet deployment.</div>
+            <div class="list-body">13 Move modules, 30 tests, container digital ID, BL NFT, Seal policy, DCSA eBL 3.0, Walrus storage integration, payment_escrow, bl_transfer, testnet deployment. Both portals live.</div>
           </div>
         </div>
         <div class="list-item" style="border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.04)">
@@ -730,11 +730,11 @@
             <div class="list-body">payment_escrow.move, bl_transfer.move, Trade Portal with role selector, Authority Portal, real wallet connect, escrow PTB builder. 13 modules, 30 tests. Deployed.</div>
           </div>
         </div>
-        <div class="list-item">
-          <div class="list-dot dot-amber">3</div>
+        <div class="list-item" style="border-color:rgba(96,165,250,.2);background:rgba(96,165,250,.03)">
+          <div class="list-dot dot-blue" style="opacity:.7">◎</div>
           <div>
-            <div class="list-title">Phase 3 — Privacy & zkLogin (Next)</div>
-            <div class="list-body">Full Seal encrypted BL upload to Walrus from browser, zkLogin for Trade Portal (Google → Sui address), institutional Authority Portal login, Confidential Transactions for escrow amounts, pilot with a real Mombasa importer.</div>
+            <div class="list-title" style="color:var(--sky);opacity:.8">Phase 3 — Authority Portal + zkLogin (Active)</div>
+            <div class="list-body">Institutional interface for shipping lines, port authorities, and customs. Gate-In / Gate-Out UI. Issue BL form. Full Seal encrypted BL upload, zkLogin (Google → Sui). Confidential Transactions for escrow amounts. Pilot with a real Mombasa importer.</div>
           </div>
         </div>
       </div>
@@ -803,7 +803,9 @@
 
 <!-- Print button (hidden when printing) -->
 <div class="print-bar screen-only">
-  <button class="print-btn sec" onclick="window.open('/dashboard/', '_blank')">View Dashboard ↗</button>
+  <button class="print-btn sec" onclick="location.href='/'">← Home</button>
+  <button class="print-btn sec" onclick="window.open('/dashboard/', '_blank')">Dashboard ↗</button>
+  <button class="print-btn sec" onclick="window.open('/trade/', '_blank')">Trade Portal ↗</button>
   <button class="print-btn" onclick="window.print()">Save as PDF</button>
 </div>
 

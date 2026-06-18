@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TradeProof â€” Build Dashboard Â· Building in Public</title>
+  <title>TradeProof — Build Dashboard · Building in Public</title>
   <style>
     :root {
       --bg:       #0d1117;
@@ -324,6 +324,8 @@
   </div>
   <div class="nav-links">
     <a href="/">Home</a>
+    <a href="/trade/">Trade Portal</a>
+    <a href="/authority/">Authority Portal</a>
     <a href="/track/">Track</a>
     <a href="/verify/">Verify</a>
     <a href="/dashboard/" class="active">Build Dashboard</a>
@@ -336,7 +338,7 @@
   <div class="hero-inner">
     <div class="hero-eyebrow">
       <span class="pulse"></span>
-      Building in Public â€” TradeProof Protocol
+      Building in Public — TradeProof Protocol
     </div>
     <h1 class="hero-title">
       The open protocol for<br>
@@ -345,14 +347,15 @@
     <p class="hero-sub">
       Two portals. One blockchain backend. Every event immutable, every party equal.
       This dashboard tracks the build in real-time and explains what each piece does
-      â€” share it with anyone in trade, logistics, or finance.
+      — share it with anyone in trade, logistics, or finance.
     </p>
     <div class="hero-meta">
-      <span class="hero-chip chip-blue">Phase 2 of 5 â€” Active Build</span>
-      <span class="hero-chip chip-green">13 Modules Live on Sui Testnet</span>
-      <span class="hero-chip chip-amber">Trade Portal in Progress</span>
-      <span class="hero-chip chip-purple">30 Tests Passing</span>
-      <span class="hero-chip chip-gray">Updated June 2026</span>
+      <span class=”hero-chip chip-blue”>Phase 2 of 5 — Active Build</span>
+      <span class=”hero-chip chip-green”>13 Modules Live on Sui Testnet</span>
+      <span class=”hero-chip chip-green”>Trade Portal MVP Live</span>
+      <span class=”hero-chip chip-amber”>Authority Portal Beta</span>
+      <span class=”hero-chip chip-purple”>30 Tests Passing</span>
+      <span class=”hero-chip chip-gray”>Updated June 2026</span>
     </div>
   </div>
 </div>
@@ -380,7 +383,7 @@
     <div class="stat-label">Target Corridor</div>
   </div>
   <div class="stat">
-    <div class="stat-val" style="color:var(--text)" id="live-status">â€”</div>
+    <div class="stat-val" style="color:var(--text)" id="live-status">—</div>
     <div class="stat-label">Live Container Status</div>
   </div>
 </div>
@@ -390,7 +393,7 @@
   <div class="wrap">
     <div class="section-head">
       <div class="section-eyebrow">The Problem</div>
-      <div class="section-title">Trade finance is broken â€” and everyone knows it</div>
+      <div class="section-title">Trade finance is broken — and everyone knows it</div>
       <div class="section-sub">
         $20 trillion in global trade moves annually. The paperwork underneath it
         is still fax machines, PDF attachments, and 90-day settlement windows.
@@ -403,7 +406,7 @@
         <div class="problem-body">
           Processing, courier, authentication, manual checks at each transfer point.
           Multiply by 45 million BLs issued per year. That's $6.75 billion in
-          document handling costs â€” before a single dispute.
+          document handling costs — before a single dispute.
         </div>
       </div>
       <div class="card">
@@ -439,7 +442,7 @@
       <div class="section-sub">
         The key insight: different parties need different interfaces, but they must
         all read and write to the same immutable source of truth.
-        Nobody controls the backend â€” Sui validators do.
+        Nobody controls the backend — Sui validators do.
       </div>
     </div>
     <div class="arch">
@@ -473,7 +476,7 @@
       </div>
     </div>
     <div class="arch-protocol">
-      <div class="arch-protocol-title">TradeProof Protocol â€” Move Contracts on Sui Blockchain</div>
+      <div class="arch-protocol-title">TradeProof Protocol — Move Contracts on Sui Blockchain</div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:12px">
         Open source. Neutral. No single party controls it. Sui validators enforce the rules.
       </div>
@@ -489,8 +492,8 @@
         <span class="arch-pill live">cmr_note</span>
         <span class="arch-pill live">phytosanitary</span>
         <span class="arch-pill live">logioracle</span>
-        <span class="arch-pill building">payment_escrow</span>
-        <span class="arch-pill building">bl_transfer</span>
+        <span class="arch-pill live">payment_escrow</span>
+        <span class="arch-pill live">bl_transfer</span>
         <span class="arch-pill">customs_clearance</span>
         <span class="arch-pill">depin_oracle</span>
         <span class="arch-pill">letter_of_credit</span>
@@ -560,42 +563,46 @@
           Trade Portal web app for shippers, forwarders, importers. zkLogin integration.
         </div>
         <div class="phase-items">
-          <span class="phase-item now">payment_escrow.move</span>
-          <span class="phase-item now">bl_transfer.move</span>
-          <span class="phase-item plan">Trade Portal web app</span>
+          <span class="phase-item done">payment_escrow.move</span>
+          <span class="phase-item done">bl_transfer.move</span>
+          <span class="phase-item done">Trade Portal web app</span>
+          <span class="phase-item done">Demurrage escrow UI</span>
+          <span class="phase-item done">BL endorsement UI</span>
+          <span class="phase-item done">Mandatory/Optional docs</span>
           <span class="phase-item plan">zkLogin (Google â†’ Sui)</span>
-          <span class="phase-item plan">Demurrage escrow UI</span>
-          <span class="phase-item plan">BL endorsement UI</span>
+          <span class="phase-item plan">First real shipper onboarded</span>
         </div>
-        <div class="progress-bar"><div class="progress-fill fill-blue" style="width:15%"></div></div>
+        <div class="progress-bar"><div class="progress-fill fill-blue" style="width:75%"></div></div>
       </div>
-      <div class="phase-pct active">15%</div>
+      <div class="phase-pct active">75%</div>
     </div>
 
     <!-- Phase 3 -->
     <div class="phase">
       <div>
-        <div class="phase-header">
-          <div class="phase-num plan">3</div>
-          <div class="phase-name">Authority Portal</div>
-          <span class="hero-chip chip-gray" style="font-size:11px;padding:2px 8px">Planned</span>
+        <div class=”phase-header”>
+          <div class=”phase-num active”>3</div>
+          <div class=”phase-name”>Authority Portal</div>
+          <span class=”hero-chip chip-amber” style=”font-size:11px;padding:2px 8px”>Active Build</span>
         </div>
-        <div class="phase-desc">
+        <div class=”phase-desc”>
           Shipping lines and port authorities register events directly.
           Customs clearance workflow. DePIN: IoT sensors write to chain.
-          Role-based access â€” port authority can only write port events.
+          Role-based access — port authority can only write port events.
         </div>
-        <div class="phase-items">
-          <span class="phase-item plan">customs_clearance.move</span>
-          <span class="phase-item plan">depin_oracle.move</span>
-          <span class="phase-item plan">Authority Portal web app</span>
-          <span class="phase-item plan">Role-based zkLogin</span>
-          <span class="phase-item plan">Port gate integration API</span>
-          <span class="phase-item plan">IoT sensor anchor</span>
+        <div class=”phase-items”>
+          <span class=”phase-item done”>Authority Portal web app</span>
+          <span class=”phase-item done”>Gate-In / Gate-Out UI</span>
+          <span class=”phase-item done”>Issue BL form</span>
+          <span class=”phase-item now”>customs_clearance.move</span>
+          <span class=”phase-item plan”>Role-based zkLogin</span>
+          <span class=”phase-item plan”>depin_oracle.move</span>
+          <span class=”phase-item plan”>Port gate integration API</span>
+          <span class=”phase-item plan”>IoT sensor anchor</span>
         </div>
-        <div class="progress-bar"><div class="progress-fill fill-gray" style="width:0%"></div></div>
+        <div class=”progress-bar”><div class=”progress-fill fill-blue” style=”width:30%”></div></div>
       </div>
-      <div class="phase-pct plan">0%</div>
+      <div class=”phase-pct active”>30%</div>
     </div>
 
     <!-- Phase 4 -->
@@ -663,7 +670,7 @@
       </div>
     </div>
     <div class="live-box">
-      <div class="live-header"><span class="pulse"></span> Sui Testnet â€” Chain ID: 4c78adac</div>
+      <div class="live-header"><span class="pulse"></span> Sui Testnet — Chain ID: 4c78adac</div>
       <div class="live-row">
         <span class="live-key">Package</span>
         <span class="live-val">
@@ -689,7 +696,7 @@
       </div>
       <div class="live-row">
         <span class="live-key">Container Status</span>
-        <span class="live-val" id="live-container-status" style="color:var(--amber)">Loading from chainâ€¦</span>
+        <span class="live-val" id="live-container-status" style="color:var(--amber)">Loading from chain…</span>
       </div>
       <div class="live-row">
         <span class="live-key">Bill of Lading BL-SPX-2026-001</span>
@@ -700,7 +707,7 @@
       </div>
       <div class="live-row">
         <span class="live-key">Privacy (Seal)</span>
-        <span class="live-val" style="color:var(--purple)">seal_policy module live â€” AllowList-based threshold encryption</span>
+        <span class="live-val" style="color:var(--purple)">seal_policy module live — AllowList-based threshold encryption</span>
       </div>
       <div class="live-row">
         <span class="live-key">DCSA eBL 3.0</span>
@@ -715,7 +722,7 @@
   <div class="wrap">
     <div class="section-head">
       <div class="section-eyebrow">Module Directory</div>
-      <div class="section-title">What each smart contract does â€” in plain English</div>
+      <div class="section-title">What each smart contract does — in plain English</div>
       <div class="section-sub">
         Each module is an independent piece of the protocol. They work together on-chain
         but can also be used standalone by any Sui application.
@@ -733,7 +740,7 @@
           Every physical shipping container gets a unique, immutable Sui object.
           8-status lifecycle: EMPTY â†’ STUFFED â†’ GATE_IN â†’ ON_VESSEL â†’ DISCHARGED
           â†’ CUSTOMS_CLEARED â†’ GATE_OUT â†’ RETURNED. Every transition is timestamped by
-          Sui validators â€” nobody can alter it after the fact.
+          Sui validators — nobody can alter it after the fact.
         </div>
         <div class="module-type">DePIN</div>
       </div>
@@ -743,14 +750,14 @@
           <span class="module-name">bill_of_lading</span>
           <span class="module-badge badge-live">Live âœ“</span>
         </div>
-        <div class="module-title">Electronic Bill of Lading â€” DCSA eBL 3.0</div>
+        <div class="module-title">Electronic Bill of Lading — DCSA eBL 3.0</div>
         <div class="module-desc">
-          The BL is the cargo title deed â€” whoever holds it owns the goods.
+          The BL is the cargo title deed — whoever holds it owns the goods.
           On-chain it's a Sui NFT: transferable, endorsable, surrenderable.
           23 DCSA-compliant fields. Seal encryption supported.
-          Only the holder can endorse it to a new party â€” Sui ownership enforces this.
+          Only the holder can endorse it to a new party — Sui ownership enforces this.
         </div>
-        <div class="module-type">RWA Â· NFT</div>
+        <div class="module-type">RWA · NFT</div>
       </div>
 
       <div class="module-card live">
@@ -758,15 +765,15 @@
           <span class="module-name">seal_policy</span>
           <span class="module-badge badge-live">Live âœ“</span>
         </div>
-        <div class="module-title">Privacy Layer â€” Seal Threshold Encryption</div>
+        <div class="module-title">Privacy Layer — Seal Threshold Encryption</div>
         <div class="module-desc">
           BL documents are encrypted client-side before upload to Walrus storage.
           Only parties in the AllowList can request decryption key shares.
-          Competing shipping lines cannot read your cargo details â€” even though
+          Competing shipping lines cannot read your cargo details — even though
           the record is on a public blockchain. This is why TradeLens failed and
           TradeProof will succeed.
         </div>
-        <div class="module-type">Privacy Â· Seal</div>
+        <div class="module-type">Privacy · Seal</div>
       </div>
 
       <div class="module-card live">
@@ -781,7 +788,7 @@
           Customs authorities can verify the invoice was not altered after the
           declaration was made.
         </div>
-        <div class="module-type">RWA Â· Customs</div>
+        <div class="module-type">RWA · Customs</div>
       </div>
 
       <div class="module-card live">
@@ -791,11 +798,11 @@
         </div>
         <div class="module-title">Certificate of Origin</div>
         <div class="module-desc">
-          Proves where goods were manufactured â€” critical for preferential tariff rates
+          Proves where goods were manufactured — critical for preferential tariff rates
           under trade agreements (COMESA, AfCFTA, EAC). On-chain: the issuing chamber
           of commerce signs the record. Cannot be forged or backdated.
         </div>
-        <div class="module-type">RWA Â· Compliance</div>
+        <div class="module-type">RWA · Compliance</div>
       </div>
 
       <div class="module-card live">
@@ -805,11 +812,11 @@
         </div>
         <div class="module-title">Air Waybill</div>
         <div class="module-desc">
-          Air freight equivalent of the Bill of Lading. Used for cargo on aircraft â€”
+          Air freight equivalent of the Bill of Lading. Used for cargo on aircraft —
           perishables, high-value goods, pharmaceutical shipments.
           Same immutable timestamping as ocean freight. Protocol extends across all modes.
         </div>
-        <div class="module-type">RWA Â· Air Freight</div>
+        <div class="module-type">RWA · Air Freight</div>
       </div>
 
       <div class="module-card live">
@@ -824,7 +831,7 @@
           neither party can claim the rate was different. Eliminates a common source
           of disputes in bulk commodity shipping.
         </div>
-        <div class="module-type">DeFi Â· Oracle</div>
+        <div class="module-type">DeFi · Oracle</div>
       </div>
 
       <div class="module-card live">
@@ -832,14 +839,14 @@
           <span class="module-name">cmr_note</span>
           <span class="module-badge badge-live">Live âœ“</span>
         </div>
-        <div class="module-title">CMR Note â€” Road Transport</div>
+        <div class="module-title">CMR Note — Road Transport</div>
         <div class="module-desc">
           The road transport equivalent of the BL, used across Europe and Africa
           for cross-border trucking under the CMR Convention.
           Critical for EAC corridor: Mombasa â†’ Nairobi â†’ Kampala â†’ Kigali.
           Same on-chain immutability as ocean documents.
         </div>
-        <div class="module-type">RWA Â· Road Freight</div>
+        <div class="module-type">RWA · Road Freight</div>
       </div>
 
       <div class="module-card live">
@@ -849,12 +856,12 @@
         </div>
         <div class="module-title">Phytosanitary Certificate</div>
         <div class="module-desc">
-          Required for agricultural exports â€” coffee, tea, flowers, fresh produce.
+          Required for agricultural exports — coffee, tea, flowers, fresh produce.
           Issued by the national plant protection authority. On-chain:
           the issuing authority's signature is immutable. Cannot be forged for
           export consignments. Critical for EAC's $12B agricultural export sector.
         </div>
-        <div class="module-type">RWA Â· AgriTrade</div>
+        <div class="module-type">RWA · AgriTrade</div>
       </div>
 
       <div class="module-card live">
@@ -881,16 +888,16 @@
         <div class="module-desc">
           The main entry point and oracle for all TradeProof data.
           Coordinates cross-module operations and provides the demurrage
-          calculation function â€” both parties call the same on-chain formula
+          calculation function — both parties call the same on-chain formula
           on the same immutable timestamp. Same input. Same output. No dispute possible.
         </div>
-        <div class="module-type">Protocol Core Â· Oracle</div>
+        <div class="module-type">Protocol Core · Oracle</div>
       </div>
 
-      <div class="module-card building">
+      <div class="module-card live">
         <div class="module-header">
           <span class="module-name">payment_escrow</span>
-          <span class="module-badge badge-building">Building</span>
+          <span class="module-badge badge-live">Live âœ"</span>
         </div>
         <div class="module-title">Demurrage Payment Escrow</div>
         <div class="module-desc">
@@ -899,13 +906,13 @@
           to the port/shipping line. Remaining balance returns to importer.
           No invoice. No dispute. No 60-day wait. Settlement in seconds.
         </div>
-        <div class="module-type">DeFi Â· Escrow</div>
+        <div class="module-type">DeFi · Escrow</div>
       </div>
 
-      <div class="module-card building">
+      <div class="module-card live">
         <div class="module-header">
           <span class="module-name">bl_transfer</span>
-          <span class="module-badge badge-building">Building</span>
+          <span class="module-badge badge-live">Live âœ"</span>
         </div>
         <div class="module-title">BL Title Transfer &amp; Endorsement Records</div>
         <div class="module-desc">
@@ -914,7 +921,7 @@
           Order BLs create a full audit trail: shipper â†’ bank â†’ importer.
           Any party can prove chain of title in seconds. No paper chase.
         </div>
-        <div class="module-type">RWA Â· NFT Transfer</div>
+        <div class="module-type">RWA · NFT Transfer</div>
       </div>
 
       <div class="module-card planned">
@@ -925,11 +932,11 @@
         <div class="module-title">Customs Workflow</div>
         <div class="module-desc">
           Customs officer signs the clearance on-chain. Both portal users see it
-          the instant it happens â€” no phone calls, no waiting for paper stamps.
+          the instant it happens — no phone calls, no waiting for paper stamps.
           Integrates with existing customs systems via API bridge.
-          Authority Portal exclusive â€” only government-credentialed accounts can call it.
+          Authority Portal exclusive — only government-credentialed accounts can call it.
         </div>
-        <div class="module-type">Authority Â· Compliance</div>
+        <div class="module-type">Authority · Compliance</div>
       </div>
 
       <div class="module-card planned">
@@ -945,7 +952,7 @@
           Cargo condition at any point in the journey is provable and immutable.
           The physical world and the blockchain world synchronized.
         </div>
-        <div class="module-type">DePIN Â· IoT</div>
+        <div class="module-type">DePIN · IoT</div>
       </div>
 
       <div class="module-card planned">
@@ -960,7 +967,7 @@
           TradeProof LC: smart contract triggers, USDC settles, done in minutes.
           Banks become oracles, not gatekeepers.
         </div>
-        <div class="module-type">DeFi Â· Trade Finance</div>
+        <div class="module-type">DeFi · Trade Finance</div>
       </div>
 
       <div class="module-card planned">
@@ -971,11 +978,11 @@
         <div class="module-title">Arbitration DAO</div>
         <div class="module-desc">
           When a demurrage or freight dispute is raised, industry arbitrators vote on it.
-          The DAO's decision is enforced by the smart contract â€” no party can ignore it.
+          The DAO's decision is enforced by the smart contract — no party can ignore it.
           Governance also controls protocol upgrades. The industry governs itself,
           not a company. This is how TradeLens should have been built.
         </div>
-        <div class="module-type">DAO Â· Governance</div>
+        <div class="module-type">DAO · Governance</div>
       </div>
 
     </div>
@@ -999,8 +1006,8 @@
         <div class="step-num step-live">1</div>
         <div>
           <div class="step-title">Booking &amp; Freight Rate Lock</div>
-          <div class="step-desc">Exporter books with freight forwarder. Agreed freight rate written to chain via <code>freight_rate.move</code>. Rate is now immutable â€” invoice 90 days later cannot differ.</div>
-          <div class="step-role">Exporter Â· Freight Forwarder</div>
+          <div class="step-desc">Exporter books with freight forwarder. Agreed freight rate written to chain via <code>freight_rate.move</code>. Rate is now immutable — invoice 90 days later cannot differ.</div>
+          <div class="step-role">Exporter · Freight Forwarder</div>
           <span class="step-portal portal-trade">Trade Portal</span>
         </div>
       </div>
@@ -1008,7 +1015,7 @@
       <div class="journey-step">
         <div class="step-num step-live">2</div>
         <div>
-          <div class="step-title">BL Issued â€” Cargo Title Goes On-Chain</div>
+          <div class="step-title">BL Issued — Cargo Title Goes On-Chain</div>
           <div class="step-desc">Shipping line issues the Bill of Lading as a Sui NFT via <code>bill_of_lading.move</code>. 23 DCSA fields. Consignee becomes first holder. Seal encryption optional for sensitive cargo details.</div>
           <div class="step-role">Shipping Line â†’ Consignee</div>
           <span class="step-portal portal-auth">Authority Portal</span>
@@ -1020,7 +1027,7 @@
         <div>
           <div class="step-title">Container Assigned &amp; Digital ID Created</div>
           <div class="step-desc">Container gets its unique Sui object via <code>container.move</code>. Status: EMPTY. ISO ID (e.g. MSCU9876543) linked to the BL. DePIN sensor optional: container seal number anchored on-chain.</div>
-          <div class="step-role">Shipping Line Â· Terminal Operator</div>
+          <div class="step-role">Shipping Line · Terminal Operator</div>
           <span class="step-portal portal-auth">Authority Portal</span>
         </div>
       </div>
@@ -1028,9 +1035,9 @@
       <div class="journey-step">
         <div class="step-num step-live">4</div>
         <div>
-          <div class="step-title">Cargo Stuffed â€” STUFFED status</div>
+          <div class="step-title">Cargo Stuffed — STUFFED status</div>
           <div class="step-desc">Exporter's warehouse stuffs cargo. Container status updated to STUFFED. Commercial invoice and packing list uploaded to Walrus, hashed on-chain. Contents are immutable from this point.</div>
-          <div class="step-role">Exporter Â· Stuffing Facility</div>
+          <div class="step-role">Exporter · Stuffing Facility</div>
           <span class="step-portal portal-trade">Trade Portal</span>
         </div>
       </div>
@@ -1038,7 +1045,7 @@
       <div class="journey-step">
         <div class="step-num step-live">5</div>
         <div>
-          <div class="step-title">Gate-In at Port of Loading â€” GATE_IN timestamp</div>
+          <div class="step-title">Gate-In at Port of Loading — GATE_IN timestamp</div>
           <div class="step-desc">Port authority records gate-in via <code>container.gate_in()</code>. This timestamp is now immutable. Demurrage clock starts from this exact Sui-validator-confirmed moment. Nobody can dispute it.</div>
           <div class="step-role">Port Authority</div>
           <span class="step-portal portal-auth">Authority Portal</span>
@@ -1051,7 +1058,7 @@
         <div>
           <div class="step-title">Demurrage Escrow Funded</div>
           <div class="step-desc">Importer optionally funds a <code>payment_escrow</code> with max potential demurrage in SUI. Smart contract holds it. If gate-out happens within free days, full amount returns. If overdue, exact formula auto-pays.</div>
-          <div class="step-role">Importer Â· Consignee</div>
+          <div class="step-role">Importer · Consignee</div>
           <span class="step-portal portal-trade">Trade Portal</span>
           <span class="step-tag">DeFi</span>
         </div>
@@ -1060,8 +1067,8 @@
       <div class="journey-step">
         <div class="step-num step-live">7</div>
         <div>
-          <div class="step-title">Loaded on Vessel â€” ON_VESSEL status</div>
-          <div class="step-desc">Shipping line confirms loading via <code>load_on_vessel()</code>. Container status: ON_VESSEL. BL becomes "Shipped on Board" â€” the legally critical moment. Timestamp immutable.</div>
+          <div class="step-title">Loaded on Vessel — ON_VESSEL status</div>
+          <div class="step-desc">Shipping line confirms loading via <code>load_on_vessel()</code>. Container status: ON_VESSEL. BL becomes "Shipped on Board" — the legally critical moment. Timestamp immutable.</div>
           <div class="step-role">Shipping Line</div>
           <span class="step-portal portal-auth">Authority Portal</span>
         </div>
@@ -1072,14 +1079,14 @@
         <div>
           <div class="step-title">LC Payment Triggered (Phase 4)</div>
           <div class="step-desc">Letter of Credit smart contract detects ON_VESSEL event. Payment auto-releases to exporter in USDC. Bank is notified as an oracle, not as a gatekeeper. Settlement: minutes, not days.</div>
-          <div class="step-role">Bank Â· Exporter</div>
+          <div class="step-role">Bank · Exporter</div>
           <span class="step-portal portal-both">Both Portals</span>
-          <span class="step-tag">DeFi Â· Phase 4</span>
+          <span class="step-tag">DeFi · Phase 4</span>
         </div>
       </div>
 
       <div class="journey-step">
-        <div class="step-num step-live">13</div>
+        <div class="step-num step-live">9</div>
         <div>
           <div class="step-title">Discharged at Destination Port</div>
           <div class="step-desc">Destination port authority calls <code>discharged()</code>. Container status: DISCHARGED. Both shipper and consignee see this instantly through their respective portals.</div>
@@ -1102,9 +1109,9 @@
       <div class="journey-step">
         <div class="step-num step-live">11</div>
         <div>
-          <div class="step-title">Gate-Out â€” GATE_OUT timestamp</div>
+          <div class="step-title">Gate-Out — GATE_OUT timestamp</div>
           <div class="step-desc">Clearing agent submits BL. Port records gate-out. Demurrage escrow auto-calculates: (days at port âˆ’ free days) Ã— rate. Exact amount pays to beneficiary. Remainder returns to importer. Zero dispute.</div>
-          <div class="step-role">Port Authority Â· Clearing Agent</div>
+          <div class="step-role">Port Authority · Clearing Agent</div>
           <span class="step-portal portal-both">Both Portals</span>
           <span class="step-tag">Demurrage settles</span>
         </div>
@@ -1113,7 +1120,7 @@
       <div class="journey-step">
         <div class="step-num step-live">12</div>
         <div>
-          <div class="step-title">BL Surrendered â€” Container Returned</div>
+          <div class="step-title">BL Surrendered — Container Returned</div>
           <div class="step-desc">Importer surrenders the BL NFT (burns it, just like handing in paper). Container status: RETURNED. Full lifecycle complete on-chain. Immutable record of every event, every party, every timestamp.</div>
           <div class="step-role">Importer</div>
           <span class="step-portal portal-trade">Trade Portal</span>
@@ -1138,11 +1145,11 @@
     <div class="grid-3">
 
       <div class="prim-card">
-        <div class="prim-icon">ðŸ›</div>
-        <div class="prim-name">RWA â€” Real World Assets</div>
-        <div class="prim-tag">bill_of_lading Â· freight_rate Â· cmr_note</div>
+        <div class="prim-icon">🏛</div>
+        <div class="prim-name">RWA — Real World Assets</div>
+        <div class="prim-tag">bill_of_lading · freight_rate · cmr_note</div>
         <div class="prim-body">
-          A Bill of Lading is already a financial instrument â€” whoever holds it owns the cargo.
+          A Bill of Lading is already a financial instrument — whoever holds it owns the cargo.
           Tokenizing it as a Sui NFT means title transfer is instant, auditable, and
           enforceable without a bank intermediary or paper courier.
         </div>
@@ -1151,8 +1158,8 @@
 
       <div class="prim-card">
         <div class="prim-icon">âš¡</div>
-        <div class="prim-name">DeFi â€” Decentralised Finance</div>
-        <div class="prim-tag">payment_escrow Â· letter_of_credit Â· freight_rate</div>
+        <div class="prim-name">DeFi — Decentralised Finance</div>
+        <div class="prim-tag">payment_escrow · letter_of_credit · freight_rate</div>
         <div class="prim-body">
           Demurrage escrow replaces the 60-day dispute cycle with automatic settlement.
           Letters of Credit auto-trigger when cargo loads (on-chain event), eliminating
@@ -1162,25 +1169,25 @@
       </div>
 
       <div class="prim-card">
-        <div class="prim-icon">ðŸ“¡</div>
-        <div class="prim-name">DePIN â€” Decentralised Physical Infrastructure</div>
-        <div class="prim-tag">container Â· depin_oracle</div>
+        <div class="prim-icon">📡</div>
+        <div class="prim-name">DePIN — Decentralised Physical Infrastructure</div>
+        <div class="prim-tag">container · depin_oracle</div>
         <div class="prim-body">
           IoT sensors at port gates, container seals, and refrigerated units write
           physical-world events directly to the blockchain. The container's physical
-          journey and its digital record are one and the same â€” not a summary created
+          journey and its digital record are one and the same — not a summary created
           by a human after the fact.
         </div>
         <div class="prim-example">"Gate camera reads container number â†’ gate_in() called â†’ immutable timestamp created"</div>
       </div>
 
       <div class="prim-card">
-        <div class="prim-icon">ðŸ—³</div>
-        <div class="prim-name">DAO â€” Decentralised Autonomous Organisation</div>
+        <div class="prim-icon">🗳</div>
+        <div class="prim-name">DAO — Decentralised Autonomous Organisation</div>
         <div class="prim-tag">dispute_dao</div>
         <div class="prim-body">
           Protocol governance and dispute arbitration is handled by a DAO of industry
-          participants â€” freight forwarders, port operators, banks. Their votes are
+          participants — freight forwarders, port operators, banks. Their votes are
           on-chain. Their decisions are enforced by smart contracts, not by courts.
           No company controls the rules.
         </div>
@@ -1188,28 +1195,28 @@
       </div>
 
       <div class="prim-card">
-        <div class="prim-icon">ðŸ”</div>
-        <div class="prim-name">Privacy â€” Seal + Walrus</div>
-        <div class="prim-tag">seal_policy Â· walrus_blob_id</div>
+        <div class="prim-icon">🔐</div>
+        <div class="prim-name">Privacy — Seal + Walrus</div>
+        <div class="prim-tag">seal_policy · walrus_blob_id</div>
         <div class="prim-body">
           This is the reason TradeLens failed. Competitors refused to share data
           on a platform controlled by Maersk. TradeProof encrypts BL documents
           client-side with Sui's Seal service before Walrus storage. Only named
-          parties decrypt. Competitors see a hash â€” nothing else.
+          parties decrypt. Competitors see a hash — nothing else.
         </div>
         <div class="prim-example">"MSC can verify this BL exists. They cannot read Speedex's cargo details."</div>
       </div>
 
       <div class="prim-card">
-        <div class="prim-icon">ðŸ”‘</div>
-        <div class="prim-name">zkLogin â€” Zero-Knowledge Identity</div>
-        <div class="prim-tag">Trade Portal Â· Authority Portal</div>
+        <div class="prim-icon">🔑</div>
+        <div class="prim-name">zkLogin — Zero-Knowledge Identity</div>
+        <div class="prim-tag">Trade Portal · Authority Portal</div>
         <div class="prim-body">
           A customs official logs in with their government email.
           A freight forwarder logs in with Google.
           Zero-knowledge proof converts their existing identity into a Sui address.
           No seed phrase. No new account. Institutions can use their existing
-          credential infrastructure â€” just add Sui as the settlement layer.
+          credential infrastructure — just add Sui as the settlement layer.
         </div>
         <div class="prim-example">"KPA officer logs in with KPA credentials â†’ Sui address â†’ can only call port functions"</div>
       </div>
@@ -1223,7 +1230,7 @@
   <div class="wrap">
     <div class="section-head">
       <div class="section-eyebrow">Why Others Failed</div>
-      <div class="section-title">TradeLens, Contour, we.trade, Marco Polo â€” all shut down 2022-2023</div>
+      <div class="section-title">TradeLens, Contour, we.trade, Marco Polo — all shut down 2022-2023</div>
       <div class="section-sub">
         Four fully-funded blockchain trade platforms failed within 18 months of each other.
         All cited the same reasons. TradeProof is built to solve every one of them.
@@ -1241,31 +1248,31 @@
         </thead>
         <tbody>
           <tr>
-            <td>Privacy â€” competitors refused to share data with a rival-controlled platform</td>
-            <td class="cmp-no">Failed â€” Maersk/IBM controlled it</td>
-            <td class="cmp-no">Failed â€” consortium still visible to all</td>
+            <td>Privacy — competitors refused to share data with a rival-controlled platform</td>
+            <td class="cmp-no">Failed — Maersk/IBM controlled it</td>
+            <td class="cmp-no">Failed — consortium still visible to all</td>
             <td class="cmp-yes">Seal encryption. Competitors see a hash, not cargo details.</td>
           </tr>
           <tr>
-            <td>Platform control â€” one company set the rules and owned the data</td>
+            <td>Platform control — one company set the rules and owned the data</td>
             <td class="cmp-no">Maersk owned it</td>
             <td class="cmp-no">Consortium governance failed</td>
             <td class="cmp-yes">Open Move contracts on Sui. Nobody owns the protocol.</td>
           </tr>
           <tr>
-            <td>Cold start â€” every participant needed to join before any value</td>
+            <td>Cold start — every participant needed to join before any value</td>
             <td class="cmp-no">Required carrier buy-in</td>
             <td class="cmp-no">Required bank buy-in</td>
             <td class="cmp-yes">Any party can register a container or BL independently.</td>
           </tr>
           <tr>
-            <td>Neutral trust â€” competitors would not trust a rival's platform</td>
+            <td>Neutral trust — competitors would not trust a rival's platform</td>
             <td class="cmp-no">Maersk's platform</td>
             <td class="cmp-no">HSBC/Citi consortium</td>
             <td class="cmp-yes">Sui validators are neutral. No company is the arbiter.</td>
           </tr>
           <tr>
-            <td>Immutability â€” timestamps could be altered by the platform operator</td>
+            <td>Immutability — timestamps could be altered by the platform operator</td>
             <td class="cmp-no">Database-backed</td>
             <td class="cmp-no">Database-backed</td>
             <td class="cmp-yes">Sui blockchain. Once written, no admin key can change it.</td>
@@ -1288,7 +1295,7 @@
         <div class="roadmap-date">Jun 2026</div>
         <div class="roadmap-line"><div class="roadmap-dot done"></div></div>
         <div class="roadmap-content">
-          <div class="roadmap-phase" style="color:var(--green)">Phase 1 Complete â€” Protocol Foundation</div>
+          <div class="roadmap-phase" style="color:var(--green)">Phase 1 Complete — Protocol Foundation</div>
           <div class="roadmap-detail">13 Move modules live on Sui Testnet. 30 tests passing. DCSA eBL 3.0 aligned. Seal privacy integrated. Demo BL and container on-chain.</div>
         </div>
       </div>
@@ -1296,7 +1303,7 @@
         <div class="roadmap-date">Jul 2026</div>
         <div class="roadmap-line"><div class="roadmap-dot active"></div></div>
         <div class="roadmap-content">
-          <div class="roadmap-phase" style="color:var(--blue)">Phase 2 â€” Trade Portal MVP</div>
+          <div class="roadmap-phase" style="color:var(--blue)">Phase 2 — Trade Portal MVP</div>
           <div class="roadmap-detail">payment_escrow + bl_transfer modules. Trade Portal web app. zkLogin. Demurrage escrow live. First real shipper/forwarder onboarded.</div>
         </div>
       </div>
@@ -1304,7 +1311,7 @@
         <div class="roadmap-date">Q3 2026</div>
         <div class="roadmap-line"><div class="roadmap-dot plan"></div></div>
         <div class="roadmap-content">
-          <div class="roadmap-phase">Phase 3 â€” Authority Portal</div>
+          <div class="roadmap-phase">Phase 3 — Authority Portal</div>
           <div class="roadmap-detail">Shipping line + port authority interface. Customs clearance module. DePIN IoT anchor. Role-based zkLogin for institutional accounts.</div>
         </div>
       </div>
@@ -1312,7 +1319,7 @@
         <div class="roadmap-date">Q4 2026</div>
         <div class="roadmap-line"><div class="roadmap-dot plan"></div></div>
         <div class="roadmap-content">
-          <div class="roadmap-phase">Phase 4 â€” DeFi + DAO</div>
+          <div class="roadmap-phase">Phase 4 — DeFi + DAO</div>
           <div class="roadmap-detail">Programmable Letters of Credit. BL-backed invoice financing. Dispute DAO. USDC settlement. Bank partner integrations.</div>
         </div>
       </div>
@@ -1320,8 +1327,8 @@
         <div class="roadmap-date">2027</div>
         <div class="roadmap-line"><div class="roadmap-dot plan"></div></div>
         <div class="roadmap-content">
-          <div class="roadmap-phase">Phase 5 â€” EAC Corridor Go-Live</div>
-          <div class="roadmap-detail">Kenya Ports Authority, Tanzania Ports Authority, Djibouti â€” first institutional partners. Live cargo. Real BLs. Real demurrage settled on-chain. DCSA eBL 3.0 certification.</div>
+          <div class="roadmap-phase">Phase 5 — EAC Corridor Go-Live</div>
+          <div class="roadmap-detail">Kenya Ports Authority, Tanzania Ports Authority, Djibouti — first institutional partners. Live cargo. Real BLs. Real demurrage settled on-chain. DCSA eBL 3.0 certification.</div>
         </div>
       </div>
     </div>
@@ -1332,7 +1339,7 @@
 <div class="section" style="border-bottom:none">
   <div class="wrap">
     <div class="feedback-box">
-      <div class="feedback-title">Building this in public â€” I want your feedback</div>
+      <div class="feedback-title">Building this in public — I want your feedback</div>
       <div class="feedback-sub">
         I'm Milan, building TradeProof from a background in freight logistics (Speedex Logistics).
         This is a real problem I've lived. If you work in any of these roles,
@@ -1350,11 +1357,11 @@
         <span class="role-pill">Logistics Tech</span>
       </div>
       <a href="mailto:milan@speedexlogistics.com?subject=TradeProof Feedback" class="feedback-btn">
-        âœ‰ Send Feedback â€” milan@speedexlogistics.com
+        âœ‰ Send Feedback — milan@speedexlogistics.com
       </a>
       <div class="feedback-note">
         Also: if your port, shipping line, or authority wants to be the first to write
-        a real event on-chain â€” reach out. No fee. No commitment. Just a demonstration
+        a real event on-chain — reach out. No fee. No commitment. Just a demonstration
         of what immutable trade records look like.
       </div>
     </div>
@@ -1364,9 +1371,9 @@
 <!-- â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 <div style="background:var(--panel);border-top:1px solid var(--line);padding:24px;text-align:center">
   <div style="font-size:12px;color:var(--muted)">
-    TradeProof Protocol â€” Open source Move contracts on Sui Testnet Â·
-    <a href="https://testnet.suivision.xyz/package/0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697" target="_blank" rel="noopener">View Package on Explorer</a> Â·
-    <a href="/">Home</a> Â· <a href="/track/">Track</a> Â· <a href="/verify/">Verify</a>
+    TradeProof Protocol — Open source Move contracts on Sui Testnet ·
+    <a href="https://testnet.suivision.xyz/package/0xbf5d2104cdc531abff9f307b035df214793314ee92a661d190bc90b580ab1697" target="_blank" rel="noopener">View Package on Explorer</a> ·
+    <a href="/">Home</a> · <a href="/track/">Track</a> · <a href="/verify/">Verify</a>
   </div>
 </div>
 
@@ -1409,18 +1416,18 @@
       if (statusCode === 2) {
         const daysAtPort = Number(elapsed);
         if (overdue > 0n) {
-          el.textContent = `GATE_IN Â· ${daysAtPort}d at port Â· $${owed} demurrage accruing`;
+          el.textContent = `GATE_IN · ${daysAtPort}d at port · $${owed} demurrage accruing`;
           el.style.color = 'var(--red)';
         } else {
-          el.textContent = `GATE_IN Â· ${daysAtPort}d at port Â· ${Number(freeDays - elapsed)}d free days remaining`;
+          el.textContent = `GATE_IN · ${daysAtPort}d at port · ${Number(freeDays - elapsed)}d free days remaining`;
           el.style.color = 'var(--green)';
         }
       } else {
-        el.textContent = statusName + ' Â· ' + new Date(Number(gateInMs)).toUTCString();
+        el.textContent = statusName + ' · ' + new Date(Number(gateInMs)).toUTCString();
         el.style.color = 'var(--green)';
       }
     } catch {
-      document.getElementById('live-container-status').textContent = 'RPC unavailable â€” check testnet.suivision.xyz';
+      document.getElementById('live-container-status').textContent = 'RPC unavailable — check testnet.suivision.xyz';
       document.getElementById('live-container-status').style.color = 'var(--muted)';
     }
   }

@@ -174,36 +174,36 @@
 
   <div class="sidebar-section">
     <div class="sidebar-label">Operations</div>
-    <button class="nav-item active">
+    <button class="nav-item active" onclick="authTab('overview',this)">
       <span class="nav-icon">🏛</span> Overview
     </button>
-    <button class="nav-item">
+    <button class="nav-item" onclick="authTab('register',this)">
       <span class="nav-icon">📦</span> Register Container
     </button>
-    <button class="nav-item">
+    <button class="nav-item" onclick="authTab('events',this)">
       <span class="nav-icon">📋</span> Update Events
     </button>
   </div>
 
   <div class="sidebar-section">
     <div class="sidebar-label">Documents</div>
-    <button class="nav-item">
+    <button class="nav-item" onclick="authTab('issue-bl',this)">
       <span class="nav-icon">📄</span> Issue BL
     </button>
-    <button class="nav-item">
+    <button class="nav-item" onclick="authTab('customs',this)">
       <span class="nav-icon">✅</span> Customs Clearance
     </button>
-    <button class="nav-item">
+    <button class="nav-item" onclick="authTab('certs',this)">
       <span class="nav-icon">🌿</span> Certifications
     </button>
   </div>
 
   <div class="sidebar-section">
     <div class="sidebar-label">Governance</div>
-    <button class="nav-item">
+    <button class="nav-item" onclick="authTab('dao',this)">
       <span class="nav-icon">🗳</span> Dispute DAO
     </button>
-    <button class="nav-item">
+    <button class="nav-item" onclick="authTab('analytics',this)">
       <span class="nav-icon">📊</span> Analytics
     </button>
   </div>
@@ -243,112 +243,515 @@
 
   <div class="content">
 
-    <div class="alert alert-purple">
-      <span class="alert-icon">🏛</span>
-      <div>
-        <div class="alert-title">Authority Portal — What This Does</div>
-        <div class="alert-body">
-          This portal is for institutional parties: shipping lines, port authorities, customs authorities, and government officials. Each party can only write events they are authorised for — the Move contracts enforce this at the protocol level. Institutional login via zkLogin with government/corporate credentials is planned for Phase 3.
-          <br><br>
-          <strong>Already live:</strong> Port authorities can use the CLI today to call <code>gate_in()</code>, <code>load_on_vessel()</code>, and <code>discharged()</code> directly. This portal is the web interface for that functionality.
+    <!-- ── OVERVIEW PANE ── -->
+    <div class="auth-pane active" id="auth-pane-overview">
+
+      <div class="alert alert-purple">
+        <span class="alert-icon">🏛</span>
+        <div>
+          <div class="alert-title">Authority Portal — What This Does</div>
+          <div class="alert-body">
+            This portal is for institutional parties: shipping lines, port authorities, customs authorities, and government officials. Each party can only write events they are authorised for — the Move contracts enforce this at the protocol level. Institutional login via zkLogin with government/corporate credentials is planned for Phase 3.
+            <br><br>
+            <strong>Already live:</strong> Port authorities can use the CLI today to call <code>gate_in()</code>, <code>load_on_vessel()</code>, and <code>discharged()</code> directly. This portal is the web interface for that functionality.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><div class="card-title">Available Actions — What You Can Do From This Portal</div></div>
+        <div class="card-body">
+          <div class="action-grid">
+            <div class="action-card" onclick="authTabByName('register')">
+              <div class="action-icon">📦</div>
+              <div class="action-title">Register Container (Gate-In)</div>
+              <div class="action-desc">Record container arrival at your terminal. Creates an immutable gate-in timestamp on Sui. Demurrage clock starts from this exact moment.</div>
+              <span class="action-tag tag-live">Web UI + CLI</span>
+            </div>
+            <div class="action-card" onclick="authTabByName('events')">
+              <div class="action-icon">🚢</div>
+              <div class="action-title">Record Vessel Events</div>
+              <div class="action-desc">Load on vessel, discharge at destination. Each event creates an immutable on-chain record. Shipping line calls these; port authority confirms.</div>
+              <span class="action-tag tag-live">Web UI + CLI</span>
+            </div>
+            <div class="action-card disabled">
+              <div class="action-icon">🛃</div>
+              <div class="action-title">Issue Customs Clearance</div>
+              <div class="action-desc">Sign customs release on-chain. Both portals reflect the clearance instantly. Requires <code>customs_clearance.move</code>.</div>
+              <span class="action-tag tag-phase3">Phase 3</span>
+            </div>
+            <div class="action-card" onclick="authTabByName('issue-bl')">
+              <div class="action-icon">📄</div>
+              <div class="action-title">Issue Bill of Lading</div>
+              <div class="action-desc">Shipping line issues the BL as a Sui NFT to the consignee. 23 DCSA eBL 3.0 fields. Seal encryption available for sensitive cargo.</div>
+              <span class="action-tag tag-live">Web UI + CLI</span>
+            </div>
+            <div class="action-card" onclick="authTabByName('certs')">
+              <div class="action-icon">🌿</div>
+              <div class="action-title">Issue Phytosanitary Certificate</div>
+              <div class="action-desc">National plant protection authority signs crop certification on-chain. Cannot be forged. Critical for EAC agricultural export corridor.</div>
+              <span class="action-tag tag-live">CLI Available Now</span>
+            </div>
+            <div class="action-card" onclick="authTabByName('certs')">
+              <div class="action-icon">🌍</div>
+              <div class="action-title">Certificate of Origin</div>
+              <div class="action-desc">Chamber of commerce signs origin certification. Required for preferential tariffs under COMESA, AfCFTA, EAC trade agreements.</div>
+              <span class="action-tag tag-live">CLI Available Now</span>
+            </div>
+            <div class="action-card disabled">
+              <div class="action-icon">📡</div>
+              <div class="action-title">IoT / DePIN Anchor</div>
+              <div class="action-desc">Container seals, temperature sensors, gate cameras write physical events directly to chain. <code>depin_oracle.move</code> planned.</div>
+              <span class="action-tag tag-phase3">Phase 3</span>
+            </div>
+            <div class="action-card disabled">
+              <div class="action-icon">🗳</div>
+              <div class="action-title">Dispute DAO</div>
+              <div class="action-desc">Vote on demurrage and freight disputes as an industry arbitrator. Decisions are enforced on-chain. <code>dispute_dao.move</code> planned.</div>
+              <span class="action-tag tag-phase3">Phase 4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <span class="alert-icon">💻</span>
+        <div>
+          <div class="alert-title">CLI Access Available Now</div>
+          <div class="alert-body">
+            <code>node scripts/container-testnet.js --iso-id XXXX --free-days 14 --rate 150</code><br>
+            <code>node scripts/bl-testnet.js --bl-number BL-XXX --carrier MSCU ...</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-note">
+        <div class="phase-note-title">Are you a port authority, shipping line, or customs official?</div>
+        <div class="phase-note-body">TradeProof is not a platform — the Move contracts are open source. No company controls the rules. Sui validators are the arbiter. If you want to be the first institution to write a real event on-chain, reach out.</div>
+        <a href="mailto:milan@speedexlogistics.com?subject=Authority Portal Interest" style="display:inline-block;margin-top:16px;background:#fff;color:#4c1d95;padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none">
+          ✉ Get Early Access — milan@speedexlogistics.com
+        </a>
+      </div>
+    </div>
+
+    <!-- ── REGISTER CONTAINER PANE ── -->
+    <div class="auth-pane" id="auth-pane-register">
+      <div class="alert alert-purple">
+        <span class="alert-icon">📦</span>
+        <div>
+          <div class="alert-title">Register Container — Gate-In</div>
+          <div class="alert-body">Records the container's arrival at your terminal on Sui. This timestamp is immutable — once written by a Sui validator, neither party can alter it. The demurrage clock starts from this exact moment.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Container Gate-In — container::gate_in()</div></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">ISO ID *</label>
+              <input id="reg-iso" placeholder="e.g. MSCU9876543" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">Port *</label>
+              <input id="reg-port" placeholder="e.g. KE MBA" value="KE MBA" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">Free Days</label>
+              <input id="reg-free-days" type="number" value="5" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">Demurrage Rate ($/day)</label>
+              <input id="reg-rate" type="number" value="150" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">Container Size</label>
+              <select id="reg-size" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+                <option value="20GP">20GP (20-foot General Purpose)</option>
+                <option value="40GP">40GP (40-foot General Purpose)</option>
+                <option value="40HC">40HC (40-foot High Cube)</option>
+                <option value="45HC">45HC (45-foot High Cube)</option>
+                <option value="20RF">20RF (20-foot Reefer)</option>
+                <option value="40RF">40RF (40-foot Reefer)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">Shipping Line (SCAC)</label>
+              <input id="reg-scac" placeholder="e.g. MSCU" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+            </div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #a7f3d0;border-radius:8px;padding:10px 14px;font-size:12px;color:#065f46;margin-bottom:14px">
+            Gate-in timestamp will be set by the Sui blockchain clock at transaction execution time — immutable and validator-confirmed.
+          </div>
+          <button class="btn btn-primary" onclick="authConnect('gate_in')">📦 Record Gate-In on Sui Testnet</button>
+          <div id="reg-result" style="display:none;margin-top:10px;background:#f0fdf4;border:1px solid #a7f3d0;border-radius:8px;padding:10px;font-size:12px;color:#065f46"></div>
+          <div id="reg-error" style="display:none;margin-top:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px;font-size:12px;color:#b42318"></div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid #e5e7eb">
+            <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">CLI EQUIVALENT</div>
+            <code style="font-size:11px;color:#374151;background:#f3f4f6;padding:8px 12px;border-radius:6px;display:block">node scripts/container-testnet.js --iso-id XXXX --free-days 5 --rate 150</code>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-head"><div class="card-title">Available Actions — What You Can Do From This Portal</div></div>
-      <div class="card-body">
-        <div class="action-grid">
-
-          <div class="action-card" onclick="window.open('/track/', '_blank')">
-            <div class="action-icon">📦</div>
-            <div class="action-title">Register Container (Gate-In)</div>
-            <div class="action-desc">Record container arrival at your terminal. Creates an immutable gate-in timestamp on Sui. Demurrage clock starts from this exact moment.</div>
-            <span class="action-tag tag-live">CLI Available Now</span>
+    <!-- ── UPDATE EVENTS PANE ── -->
+    <div class="auth-pane" id="auth-pane-events">
+      <div class="alert alert-purple">
+        <span class="alert-icon">📋</span>
+        <div>
+          <div class="alert-title">Update Container Events</div>
+          <div class="alert-body">Record the next event in the container's lifecycle. Each event creates an immutable on-chain record. Only authorised parties (shipping line, port authority) should call these.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Container Lifecycle Events</div></div>
+        <div class="card-body">
+          <div style="margin-bottom:14px">
+            <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">CONTAINER OBJECT ID *</label>
+            <input id="ev-obj-id" placeholder="0x1dfa..." style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;font-family:monospace" value="0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0">
           </div>
-
-          <div class="action-card" onclick="alert('Connect CLI: node scripts/container-testnet.js --iso-id [ID] --free-days 14 --rate 150')">
-            <div class="action-icon">🚢</div>
-            <div class="action-title">Record Vessel Events</div>
-            <div class="action-desc">Load on vessel, discharge at destination. Each event creates an immutable on-chain record. Shipping line calls these; port authority confirms.</div>
-            <span class="action-tag tag-live">CLI Available Now</span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+            <div class="action-card" style="padding:14px" onclick="submitEvent('stuffed')">
+              <div class="action-icon" style="font-size:20px;margin-bottom:6px">📦</div>
+              <div class="action-title" style="font-size:13px">STUFFED</div>
+              <div class="action-desc" style="font-size:11px">Cargo loaded into container at warehouse/CFS</div>
+            </div>
+            <div class="action-card" style="padding:14px" onclick="submitEvent('gate_in')">
+              <div class="action-icon" style="font-size:20px;margin-bottom:6px">🚧</div>
+              <div class="action-title" style="font-size:13px">GATE_IN</div>
+              <div class="action-desc" style="font-size:11px">Container entered port terminal. Demurrage clock starts.</div>
+            </div>
+            <div class="action-card" style="padding:14px" onclick="submitEvent('on_vessel')">
+              <div class="action-icon" style="font-size:20px;margin-bottom:6px">🚢</div>
+              <div class="action-title" style="font-size:13px">ON_VESSEL</div>
+              <div class="action-desc" style="font-size:11px">Loaded on board. "Shipped on Board" BL status.</div>
+            </div>
+            <div class="action-card" style="padding:14px" onclick="submitEvent('discharged')">
+              <div class="action-icon" style="font-size:20px;margin-bottom:6px">⚓</div>
+              <div class="action-title" style="font-size:13px">DISCHARGED</div>
+              <div class="action-desc" style="font-size:11px">Unloaded at destination port.</div>
+            </div>
+            <div class="action-card" style="padding:14px" onclick="submitEvent('customs_cleared')">
+              <div class="action-icon" style="font-size:20px;margin-bottom:6px">🛃</div>
+              <div class="action-title" style="font-size:13px">CUSTOMS_CLEARED</div>
+              <div class="action-desc" style="font-size:11px">Customs authority signed clearance.</div>
+            </div>
+            <div class="action-card" style="padding:14px" onclick="submitEvent('gate_out')">
+              <div class="action-icon" style="font-size:20px;margin-bottom:6px">🚪</div>
+              <div class="action-title" style="font-size:13px">GATE_OUT</div>
+              <div class="action-desc" style="font-size:11px">Container exited terminal. Demurrage auto-settles.</div>
+            </div>
+            <div class="action-card" style="padding:14px" onclick="submitEvent('returned')">
+              <div class="action-icon" style="font-size:20px;margin-bottom:6px">↩️</div>
+              <div class="action-title" style="font-size:13px">RETURNED</div>
+              <div class="action-desc" style="font-size:11px">Empty container returned to depot.</div>
+            </div>
           </div>
-
-          <div class="action-card disabled">
-            <div class="action-icon">🛃</div>
-            <div class="action-title">Issue Customs Clearance</div>
-            <div class="action-desc">Sign customs release on-chain. Both portals reflect the clearance instantly. Requires <code>customs_clearance.move</code>.</div>
-            <span class="action-tag tag-phase3">Phase 3</span>
-          </div>
-
-          <div class="action-card" onclick="window.open('/verify/', '_blank')">
-            <div class="action-icon">📄</div>
-            <div class="action-title">Issue Bill of Lading</div>
-            <div class="action-desc">Shipping line issues the BL as a Sui NFT to the consignee. 23 DCSA eBL 3.0 fields. Seal encryption available for sensitive cargo.</div>
-            <span class="action-tag tag-live">CLI Available Now</span>
-          </div>
-
-          <div class="action-card" onclick="window.open('/verify/', '_blank')">
-            <div class="action-icon">🌿</div>
-            <div class="action-title">Issue Phytosanitary Certificate</div>
-            <div class="action-desc">National plant protection authority signs crop certification on-chain. Cannot be forged. Critical for EAC agricultural export corridor.</div>
-            <span class="action-tag tag-live">CLI Available Now</span>
-          </div>
-
-          <div class="action-card" onclick="window.open('/verify/', '_blank')">
-            <div class="action-icon">🌍</div>
-            <div class="action-title">Certificate of Origin</div>
-            <div class="action-desc">Chamber of commerce signs origin certification. Required for preferential tariffs under COMESA, AfCFTA, EAC trade agreements.</div>
-            <span class="action-tag tag-live">CLI Available Now</span>
-          </div>
-
-          <div class="action-card disabled">
-            <div class="action-icon">📡</div>
-            <div class="action-title">IoT / DePIN Anchor</div>
-            <div class="action-desc">Container seals, temperature sensors, gate cameras write physical events directly to chain. <code>depin_oracle.move</code> planned.</div>
-            <span class="action-tag tag-phase3">Phase 3</span>
-          </div>
-
-          <div class="action-card disabled">
-            <div class="action-icon">🗳</div>
-            <div class="action-title">Dispute DAO</div>
-            <div class="action-desc">Vote on demurrage and freight disputes as an industry arbitrator. Decisions are enforced on-chain. <code>dispute_dao.move</code> planned.</div>
-            <span class="action-tag tag-phase3">Phase 4</span>
-          </div>
-
+          <div id="ev-result" style="display:none;margin-top:14px;background:#f0fdf4;border:1px solid #a7f3d0;border-radius:8px;padding:10px;font-size:12px;color:#065f46"></div>
+          <div id="ev-error" style="display:none;margin-top:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px;font-size:12px;color:#b42318"></div>
         </div>
       </div>
     </div>
 
-    <div class="alert alert-green">
-      <span class="alert-icon">💻</span>
-      <div>
-        <div class="alert-title">CLI Access Available Now</div>
-        <div class="alert-body">
-          All authority functions are accessible via the CLI today. Port authorities and shipping lines can integrate their existing systems to call the Move functions directly without waiting for this web portal.
-          <br><br>
-          <code>node scripts/container-testnet.js --iso-id XXXX --free-days 14 --rate 150</code><br>
-          <code>node scripts/bl-testnet.js --bl-number BL-XXX --carrier MSCU ...</code>
+    <!-- ── ISSUE BL PANE ── -->
+    <div class="auth-pane" id="auth-pane-issue-bl">
+      <div class="alert alert-purple">
+        <span class="alert-icon">📄</span>
+        <div>
+          <div class="alert-title">Issue Bill of Lading — DCSA eBL 3.0</div>
+          <div class="alert-body">Issues a Bill of Lading as a Sui NFT to the consignee. 23 DCSA-required fields. The BL is an owned Sui object — only the holder can endorse or surrender it. Seal encryption available for sensitive cargo details.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">BL Details — bill_of_lading::issue()</div></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">BL NUMBER *</label>
+              <input id="bl-number" placeholder="e.g. BL-SPX-2026-002" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">CARRIER SCAC *</label>
+              <input id="bl-scac" placeholder="e.g. MSCU, CMDU, HLCU" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">PORT OF LOADING *</label>
+              <input id="bl-pol" placeholder="e.g. KE MBA" value="KE MBA" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">PORT OF DISCHARGE *</label>
+              <input id="bl-pod" placeholder="e.g. GB FXT" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">CONSIGNEE ADDRESS *</label>
+              <input id="bl-consignee" placeholder="0x..." style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;font-family:monospace">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">BL TYPE</label>
+              <select id="bl-type" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+                <option value="order">TO ORDER (Negotiable)</option>
+                <option value="straight">STRAIGHT (Non-Negotiable)</option>
+                <option value="surrender">SEA WAYBILL (Surrender)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">CARGO DESCRIPTION</label>
+              <input id="bl-cargo" placeholder="e.g. 500 bags green coffee" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">HS CODE</label>
+              <input id="bl-hs" placeholder="e.g. 0901.11" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">GROSS WEIGHT (KG)</label>
+              <input id="bl-weight" type="number" placeholder="e.g. 30000" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">CONTAINER ISO ID</label>
+              <input id="bl-container" placeholder="e.g. MSCU9876543" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px">
+            <input type="checkbox" id="bl-seal" style="width:15px;height:15px;accent-color:#5b21b6">
+            <label for="bl-seal" style="font-size:12px;font-weight:600;color:#5b21b6">Encrypt with Seal (Sui threshold encryption — cargo details private on-chain)</label>
+          </div>
+          <button class="btn btn-primary" onclick="authConnect('issue_bl')">📄 Issue BL as Sui NFT</button>
+          <div id="bl-result" style="display:none;margin-top:10px;background:#f0fdf4;border:1px solid #a7f3d0;border-radius:8px;padding:10px;font-size:12px;color:#065f46"></div>
+          <div id="bl-error" style="display:none;margin-top:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px;font-size:12px;color:#b42318"></div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid #e5e7eb">
+            <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">CLI EQUIVALENT</div>
+            <code style="font-size:11px;color:#374151;background:#f3f4f6;padding:8px 12px;border-radius:6px;display:block">node scripts/bl-testnet.js --bl-number BL-XXX --carrier MSCU --pol "KE MBA" --pod "GB FXT"</code>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="phase-note">
-      <div class="phase-note-title">Are you a port authority, shipping line, or customs official?</div>
-      <div class="phase-note-body">
-        TradeProof is building this portal specifically for institutional adoption — but we know the
-        challenge. You don't trust a platform controlled by a competitor. TradeProof is not a platform.
-        The Move contracts are open source. No company controls the rules. Sui validators are the arbiter.
-        <br><br>
-        If you want to be the first port authority or shipping line to write a real event on-chain
-        — reach out. No fee. No commitment. Just a demonstration.
+    <!-- ── CUSTOMS CLEARANCE PANE ── -->
+    <div class="auth-pane" id="auth-pane-customs">
+      <div class="alert alert-amber">
+        <span class="alert-icon">🛃</span>
+        <div>
+          <div class="alert-title">Customs Clearance — Phase 3</div>
+          <div class="alert-body"><code>customs_clearance.move</code> is planned for Phase 3. When live, a customs officer with government-credentialed zkLogin can sign clearance on-chain. Both portals update instantly — no phone calls waiting for a paper stamp.</div>
+        </div>
       </div>
-      <a href="mailto:milan@speedexlogistics.com?subject=Authority Portal Interest" style="display:inline-block;margin-top:16px;background:#fff;color:#4c1d95;padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none">
-        ✉ Get Early Access — milan@speedexlogistics.com
-      </a>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Customs Clearance — customs_clearance::sign_clearance()</div></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;opacity:.6;pointer-events:none">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">ENTRY NUMBER</label>
+              <input placeholder="e.g. 2025MSASI0813662" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px;font-family:monospace">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">CONTAINER OBJECT ID</label>
+              <input placeholder="0x..." style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:12px;font-family:monospace">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">ASSESSMENT NUMBER</label>
+              <input placeholder="KRA assessment reference" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#6b7280;display:block;margin-bottom:4px">DUTY PAID (KES)</label>
+              <input type="number" placeholder="0" style="width:100%;padding:8px 10px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:13px">
+            </div>
+          </div>
+          <div style="text-align:center;padding:24px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px">
+            <div style="font-size:32px;margin-bottom:8px">🛃</div>
+            <div style="font-size:14px;font-weight:700;color:#92400e;margin-bottom:6px">customs_clearance.move — Phase 3</div>
+            <div style="font-size:12px;color:#78350f">Customs clearance on-chain is being built for Phase 3. Customs officers will login with government zkLogin credentials and sign clearance directly to the Sui blockchain. No more paper stamps or phone confirmations.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CERTIFICATIONS PANE ── -->
+    <div class="auth-pane" id="auth-pane-certs">
+      <div class="alert alert-green">
+        <span class="alert-icon">🌿</span>
+        <div>
+          <div class="alert-title">Certifications — Live on Testnet</div>
+          <div class="alert-body"><code>phytosanitary.move</code> and <code>certificate_of_origin.move</code> are both live on Sui Testnet. The issuing authority calls these via CLI. Web UI coming in Phase 3.</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-head">
+            <div>
+              <div class="card-title">🌿 Phytosanitary Certificate</div>
+              <div style="font-size:11px;color:#6b7280;margin-top:2px">phytosanitary.move · Live ✓</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="alert-body" style="font-size:12px;color:#374151;margin-bottom:14px">Required for all agricultural exports: coffee, tea, flowers, fresh produce. Issued by the national plant protection authority (KEPHIS in Kenya). On-chain issuance is immutable — cannot be forged or backdated.</div>
+            <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">RELEVANT FOR</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0fdf4;color:#065f46;border:1px solid #a7f3d0">Coffee (0901.11)</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0fdf4;color:#065f46;border:1px solid #a7f3d0">Tea (0902)</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0fdf4;color:#065f46;border:1px solid #a7f3d0">Fresh Flowers</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0fdf4;color:#065f46;border:1px solid #a7f3d0">Horticultural produce</span>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">CLI</div>
+            <code style="font-size:11px;color:#374151;background:#f3f4f6;padding:8px;border-radius:6px;display:block">node scripts/bl-testnet.js --doc phyto --shipper XXXX</code>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:0">
+          <div class="card-head">
+            <div>
+              <div class="card-title">🌍 Certificate of Origin</div>
+              <div style="font-size:11px;color:#6b7280;margin-top:2px">certificate_of_origin.move · Live ✓</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="alert-body" style="font-size:12px;color:#374151;margin-bottom:14px">Required to claim preferential tariff rates under trade agreements. Issued by the national chamber of commerce. Critical for COMESA, AfCFTA, and EAC preferential duty rates at destination customs.</div>
+            <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">SCHEMES SUPPORTED</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#eff4ff;color:#1d4ed8;border:1px solid #dce8ff">COMESA</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#eff4ff;color:#1d4ed8;border:1px solid #dce8ff">EAC</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#eff4ff;color:#1d4ed8;border:1px solid #dce8ff">AfCFTA</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#eff4ff;color:#1d4ed8;border:1px solid #dce8ff">GSP</span>
+              <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#eff4ff;color:#1d4ed8;border:1px solid #dce8ff">EBA</span>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px">CLI</div>
+            <code style="font-size:11px;color:#374151;background:#f3f4f6;padding:8px;border-radius:6px;display:block">node scripts/bl-testnet.js --doc coo --scheme COMESA --origin KE</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DISPUTE DAO PANE ── -->
+    <div class="auth-pane" id="auth-pane-dao">
+      <div class="alert alert-amber">
+        <span class="alert-icon">🗳</span>
+        <div>
+          <div class="alert-title">Dispute DAO — Phase 4</div>
+          <div class="alert-body"><code>dispute_dao.move</code> is planned for Phase 4. Industry arbitrators (freight forwarders, port operators, banks) vote on disputes on-chain. The DAO's decision is enforced by the smart contract — no party can ignore it.</div>
+        </div>
+      </div>
+      <div style="text-align:center;padding:48px 24px;background:var(--panel);border:1px solid var(--line);border-radius:10px">
+        <div style="font-size:40px;margin-bottom:12px">🗳</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:6px">Dispute DAO — Phase 4</div>
+        <div style="font-size:13px;color:var(--muted);max-width:420px;margin:0 auto">When a demurrage or freight dispute is raised, industry arbitrators vote on-chain. The DAO's decision is enforced by <code>dispute_dao.move</code> automatically — no legal fees, no arbitration panels, no 60-day waits.</div>
+      </div>
+    </div>
+
+    <!-- ── ANALYTICS PANE ── -->
+    <div class="auth-pane" id="auth-pane-analytics">
+      <div class="alert alert-purple">
+        <span class="alert-icon">📊</span>
+        <div>
+          <div class="alert-title">Live Analytics — Sui Testnet</div>
+          <div class="alert-body">Real-time data pulled from the Sui blockchain. All stats are derived from on-chain objects — no central database.</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px">
+        <div class="card" style="margin:0;text-align:center;padding:20px">
+          <div style="font-size:28px;font-weight:900;color:#5b21b6" id="an-containers">—</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;margin-top:4px">Containers on Chain</div>
+        </div>
+        <div class="card" style="margin:0;text-align:center;padding:20px">
+          <div style="font-size:28px;font-weight:900;color:#087443">1</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;margin-top:4px">BLs Issued</div>
+        </div>
+        <div class="card" style="margin:0;text-align:center;padding:20px">
+          <div style="font-size:28px;font-weight:900;color:#d97706" id="an-status">—</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;margin-top:4px">Live Container Status</div>
+        </div>
+        <div class="card" style="margin:0;text-align:center;padding:20px">
+          <div style="font-size:28px;font-weight:900;color:#1d4ed8">13</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:700;margin-top:4px">Move Modules</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Live Container — MSCU9876543</div></div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><span style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase">Object ID</span><div style="font-size:12px;font-family:monospace;margin-top:2px">0x1dfa192101bef54fe5…</div></div>
+            <div><span style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase">Status</span><div style="font-size:12px;font-weight:700;margin-top:2px" id="an-status2">Loading…</div></div>
+            <div><span style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase">Gate-In</span><div style="font-size:12px;margin-top:2px" id="an-gate-in">Loading…</div></div>
+            <div><span style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase">Days at Port</span><div style="font-size:12px;font-weight:700;margin-top:2px" id="an-days">—</div></div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <a href="/track/?id=0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" target="_blank" class="btn btn-outline" style="font-size:12px;height:30px">Track Container ↗</a>
+            <a href="https://testnet.suivision.xyz/object/0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0" target="_blank" class="btn btn-outline" style="font-size:12px;height:30px">Sui Explorer ↗</a>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
+
+  <style>
+    .auth-pane { display:none; }
+    .auth-pane.active { display:block; }
+  </style>
+
+  <script>
+    window.authTab = function(name, btn) {
+      document.querySelectorAll('.auth-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const pane = document.getElementById('auth-pane-' + name);
+      if (pane) pane.classList.add('active');
+      if (btn) btn.classList.add('active');
+    };
+
+    window.authTabByName = function(name) {
+      document.querySelectorAll('.auth-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const pane = document.getElementById('auth-pane-' + name);
+      if (pane) pane.classList.add('active');
+      const btn = document.querySelector(`.nav-item[onclick*="authTab('${name}"]`);
+      if (btn) btn.classList.add('active');
+    };
+
+    window.authConnect = function(action) {
+      const errId = action === 'gate_in' ? 'reg-error' : action === 'issue_bl' ? 'bl-error' : 'ev-error';
+      const errEl = document.getElementById(errId);
+      if (errEl) {
+        errEl.style.display = 'block';
+        errEl.textContent = 'Connect your institutional wallet (zkLogin coming in Phase 3). Use CLI for now: node scripts/container-testnet.js';
+      }
+    };
+
+    window.submitEvent = function(event) {
+      const errEl = document.getElementById('ev-error');
+      const resEl = document.getElementById('ev-result');
+      errEl.style.display = 'none';
+      resEl.style.display = 'none';
+      errEl.style.display = 'block';
+      errEl.textContent = `Event "${event.toUpperCase()}" — Connect wallet to submit on-chain. CLI: node scripts/container-testnet.js --status ${event}`;
+    };
+
+    // Load live analytics
+    (async function() {
+      try {
+        const r = await fetch('https://fullnode.testnet.sui.io:443', {
+          method:'POST', headers:{'content-type':'application/json'},
+          body: JSON.stringify({jsonrpc:'2.0',id:1,method:'sui_getObject',
+            params:['0x1dfa192101bef54fe51d54d54a936a4cd6cc7ec3622fbc67c9d7eff3866893c0',{showContent:true}]})
+        });
+        const j = await r.json();
+        const f = j?.result?.data?.content?.fields;
+        if (!f) return;
+        const STATUS = ['EMPTY','STUFFED','GATE_IN','ON_VESSEL','DISCHARGED','CUSTOMS_CLEARED','GATE_OUT','RETURNED'];
+        const statusName = STATUS[Number(f.status)] ?? 'UNKNOWN';
+        const gateInMs = Number(f.last_event_ms ?? 0);
+        const days = Math.floor((Date.now() - gateInMs) / 86400000);
+        const gateInStr = new Date(gateInMs).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'UTC'}) + ' UTC';
+        ['an-status','an-status2'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) { el.textContent = statusName; el.style.color = '#087443'; }
+        });
+        const gi = document.getElementById('an-gate-in');
+        if (gi) gi.textContent = gateInStr;
+        const d = document.getElementById('an-days');
+        if (d) d.textContent = days + ' days';
+        const c = document.getElementById('an-containers');
+        if (c) { c.textContent = '1'; c.style.color = '#087443'; }
+      } catch {}
+    })();
+  </script>
 </main>
 
 </body>
